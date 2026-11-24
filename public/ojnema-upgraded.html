@@ -1,0 +1,3789 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="dark"/>
+<title>اوج‌نما — موزهٔ مقیاس‌پذیر و سامانهٔ تحلیلی پهپادها</title>
+<style>
+@import url('https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css');
+
+:root {
+  --brass: #d4a349;
+  --brass2: #f2dfb3;
+  --cyan: #06b6d4;
+  --cyan2: #67e8f9;
+  --bone: #f1efe9;
+  --mute: #9499a3;
+  --ink: #090b10;
+  --glass: rgba(16, 19, 27, 0.72);
+  --line: rgba(255, 255, 255, 0.09);
+  --good: #34d399;
+  --bad: #fb7185;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+body {
+  min-height: 100%;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: 'Vazirmatn', Vazir, 'Segoe UI', Tahoma, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: rgba(212, 163, 73, 0.32); }
+:focus-visible { outline: 1px solid var(--brass); outline-offset: 2px; border-radius: 8px; }
+img, video { display: block; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+input, select { font: inherit; color: inherit; }
+.latin { direction: ltr; unicode-bidi: plaintext; }
+.tabular { font-variant-numeric: tabular-nums; }
+.noscroll { scrollbar-width: none; }
+.noscroll::-webkit-scrollbar { display: none; }
+.sep { width: 3px; height: 3px; border-radius: 99px; background: rgba(255,255,255,.25); flex: none; display: inline-block; }
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  border: 1px solid var(--line);
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(212, 163, 73, 0.5);
+  color: var(--brass2);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 99px;
+  white-space: nowrap;
+  line-height: 1.5;
+  background: rgba(10, 12, 18, 0.72);
+}
+.chip2 { border-color: rgba(255, 255, 255, 0.18); color: #d1d5db; }
+.fl { animation: fl .45s ease; }
+@keyframes fl { from { opacity: .2; } }
+
+/* ── لایهٔ محیطی پویا ── */
+#env { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.bgimg {
+  position: absolute;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  filter: blur(50px) brightness(.26) saturate(1.05);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+#spot {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 62% 50% at 42% 40%, var(--spot-color, rgba(212,163,73,.09)), transparent 72%);
+  transition: background 0.8s ease;
+}
+#grain {
+  position: absolute;
+  inset: 0;
+  opacity: .04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+/* ── شبکهٔ اصلی ضدتداخل (۱۰۰٪ در یک صفحهٔ ۱۶:۹ بدون اسکرول در دسکتاپ) ── */
+#app {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 100vh;
+  min-height: 100dvh;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "hd" "stage" "hud" "tl";
+  padding-bottom: max(6px, env(safe-area-inset-bottom));
+}
+@media (min-width: 1080px) {
+  #app {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    max-width: 1660px;
+    margin: 0 auto;
+    grid-template-columns: minmax(0, 1fr) 412px;
+    grid-template-rows: 52px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "hd hd"
+      "stage hud"
+      "tl tl";
+    padding: 4px 20px 8px;
+    column-gap: 18px;
+    row-gap: 6px;
+  }
+}
+
+/* ── نوار بالای تک‌خطی یکپارچه (راست: تیتر | وسط: دسته‌بندی‌ها | چپ: جست‌وجو، کشور و آرشیو) ── */
+header {
+  grid-area: hd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 14px;
+  flex-wrap: wrap;
+}
+@media (min-width: 1080px) {
+  header {
+    padding: 0 4px;
+    flex-wrap: nowrap;
+    height: 52px;
+  }
+}
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; flex: none; }
+.brand svg { flex: none; }
+.brand h1 { margin: 0; font-size: 18px; font-weight: 900; line-height: 1.1; letter-spacing: -0.2px; display: flex; align-items: center; gap: 8px; }
+.brand .subCount {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--brass2);
+  background: rgba(212, 163, 73, 0.12);
+  border: 1px solid rgba(212, 163, 73, 0.35);
+  border-radius: 99px;
+  padding: 1px 8px;
+}
+.brand p { margin: 1px 0 0; font-size: 10px; color: var(--mute); white-space: nowrap; }
+@media (max-width: 1260px) and (min-width: 1080px) { .brand p { display: none; } }
+
+/* وسط نوار بالا: گزینه‌های دسته‌بندی */
+#chips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  overflow-x: auto;
+  padding: 2px 0;
+  order: 3;
+  width: 100%;
+}
+@media (min-width: 1080px) {
+  #chips {
+    order: 2;
+    width: auto;
+    flex: 1;
+    overflow: visible;
+  }
+}
+.chipBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 11px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+  color: var(--mute);
+  font-size: 11px;
+  backdrop-filter: blur(10px);
+  transition: .2s;
+  white-space: nowrap;
+  flex: none;
+}
+.chipBtn i { font-style: normal; font-size: 9.5px; opacity: .65; }
+.chipBtn:hover { color: var(--bone); border-color: rgba(255,255,255,.25); }
+.chipBtn.on {
+  border-color: rgba(212,163,73,.65);
+  color: var(--brass2);
+  background: rgba(212,163,73,.12);
+  font-weight: 600;
+}
+
+/* سمت چپ نوار بالا: جست‌وجو + آیکون کشور + دکمهٔ تک‌کلمه‌ای آرشیو */
+.hLeftTools {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  order: 2;
+}
+@media (min-width: 1080px) { .hLeftTools { order: 3; } }
+
+#qwrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  border-radius: 99px;
+  padding: 0 11px;
+  width: 190px;
+  transition: width .2s, border-color .2s;
+}
+#qwrap:focus-within { width: 225px; border-color: rgba(212,163,73,.55); }
+@media (max-width: 640px) { #qwrap { width: 145px; } }
+#qwrap svg { width: 14px; height: 14px; color: var(--mute); flex: none; }
+#q { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--bone); font-size: 11.5px; }
+#q::placeholder { color: rgba(148,153,163,.7); }
+#qClear { color: var(--mute); display: flex; font-size: 11px; }
+#qClear:hover { color: var(--bone); }
+
+/* دکمه/منوی فشردهٔ فیلتر کشور با آیکون کره زمین کنار جست‌وجو */
+.countryPill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  border-radius: 99px;
+  padding: 0 10px;
+  gap: 5px;
+  color: var(--mute);
+  transition: .2s;
+}
+.countryPill:hover, .countryPill.activeFilter {
+  color: var(--brass2);
+  border-color: rgba(212,163,73,.5);
+}
+.countryPill svg { width: 14px; height: 14px; flex: none; pointer-events: none; }
+#countryFilter {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: inherit;
+  outline: none;
+  cursor: pointer;
+  padding-inline-end: 2px;
+  max-width: 96px;
+  text-overflow: ellipsis;
+}
+#countryFilter option { background: #12151e; color: var(--bone); }
+
+.iconbtn {
+  height: 34px;
+  padding: 0 13px;
+  border-radius: 99px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--brass2);
+  border-color: rgba(212,163,73,.4);
+  transition: .2s;
+}
+.iconbtn:hover { background: rgba(212,163,73,.14); border-color: var(--brass); }
+.iconbtn svg { width: 14px; height: 14px; flex: none; }
+
+/* ── صحنهٔ نمایش اثر (کالیبره‌شده برای ۱۶:۹ با گالری عمودی در سمت چپ و حداکثر فضای تصویر اصلی) ── */
+#stage {
+  grid-area: stage;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  min-height: 0;
+  min-width: 0;
+}
+.stageInner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+@media (min-width: 1080px) {
+  .stageInner {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+/* بخش قاب عکس اصلی + فلش‌های چپ و راست در مرکز عمودی */
+.plateRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+.navC {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 99px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: #d8d8d0;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  background: var(--glass);
+  transition: .22s;
+}
+.navC:hover {
+  border-color: rgba(212,163,73,.65);
+  color: var(--brass2);
+  transform: scale(1.06);
+}
+.navC svg { width: 18px; height: 18px; }
+@media (min-width: 1080px) { .navC { display: flex; } }
+
+#plate {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 16 / 9.5;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #0e1015;
+  border: 1px solid var(--line);
+  user-select: none;
+  box-shadow: 0 24px 64px -20px rgba(0,0,0,.85);
+  --rx: 0deg; --ry: 0deg; --pz: 1;
+  transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--pz));
+  transition: transform .25s ease-out, border-color .2s;
+}
+@media (min-width: 1080px) {
+  #plate {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
+#plate.dragover { border: 2px dashed var(--cyan); }
+#plate .zoomer { position: absolute; inset: 0; transition: transform .5s ease; overflow: hidden; }
+#plate:hover .zoomer:not(.playingVideo) { transform: scale(1.025); }
+#plate #plateAmbBg {
+  position: absolute;
+  inset: -16px;
+  width: calc(100% + 32px);
+  height: calc(100% + 32px);
+  object-fit: cover;
+  filter: blur(22px) brightness(0.32) saturate(1.15);
+  transform: scale(1.08);
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: 0;
+}
+#plate .zoomer img.fg Hero,
+#plate #fgA,
+#plate #fgB {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0;
+  transition: opacity .75s ease, transform .5s ease;
+  z-index: 1;
+}
+#plate.containMode #fgA,
+#plate.containMode #fgB {
+  object-fit: contain;
+  padding: 18px 24px 48px;
+  filter: drop-shadow(0 16px 36px rgba(0,0,0,.78));
+}
+#plate #mainVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+  z-index: 4;
+  display: none;
+}
+#plate #mainVideo.active { display: block; }
+.kb { animation: kb 26s ease-in-out infinite alternate; }
+@keyframes kb { from { transform: scale(1.015); } to { transform: scale(1.06); } }
+.pvig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(8,10,16,.58) 0%, transparent 24%, transparent 70%, rgba(8,10,16,.82) 100%);
+  box-shadow: inset 0 0 90px rgba(0,0,0,.45);
+}
+
+/* پلاک عنوان وسط‌چین و بولد بالای تصویر اصلی */
+#plateCenterTitle {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4px 18px 5px;
+  border-radius: 12px;
+  background: rgba(9, 11, 17, 0.76);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 163, 73, 0.38);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  max-width: 52%;
+}
+#plateHeroName {
+  font-size: 16.5px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.25;
+  letter-spacing: -0.2px;
+  text-shadow: 0 2px 14px rgba(212, 163, 73, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+#plateHeroLatin {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--brass2);
+  opacity: 0.92;
+  line-height: 1.15;
+  margin-top: 1px;
+}
+@media (max-width: 820px) {
+  #plateCenterTitle { display: none; }
+}
+
+.pTop {
+  position: absolute;
+  top: 12px;
+  inset-inline-start: 12px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  max-width: 34%;
+}
+#galCap {
+  display: none;
+  font-size: 10px;
+  color: #e2e8f0;
+  background: rgba(10, 12, 18, 0.72);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 99px;
+  padding: 2px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (min-width: 1360px) { #galCap { display: inline-block; } }
+
+.persistPill {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--good);
+  background: rgba(10, 14, 18, 0.78);
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  border-radius: 99px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+.persistPill.show { display: inline-flex; }
+
+#imgNo {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+  z-index: 5;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--bone);
+  background: rgba(10,12,18,.68);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 3px 10px;
+  pointer-events: none;
+}
+
+/* کنترل‌های پایینِ داخل قاب عکس اصلی (تنها محل آپلود رسانه لوکال + اتصال پوشه + بزرگ‌نمایی + حالت نمایش) */
+.plateActions {
+  position: absolute;
+  bottom: 12px;
+  inset-inline-start: 12px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pActBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #e8e4da;
+  background: rgba(12, 14, 20, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 99px;
+  padding: 5px 11px;
+  transition: .2s;
+}
+.pActBtn:hover {
+  border-color: var(--brass);
+  color: var(--brass2);
+  background: rgba(18, 21, 30, 0.92);
+}
+.pActBtn.activeFit {
+  border-color: rgba(212, 163, 73, 0.65);
+  color: var(--brass2);
+  background: rgba(212, 163, 73, 0.16);
+}
+.pActBtn.upload {
+  border-color: rgba(6, 182, 212, 0.5);
+  color: var(--cyan2);
+}
+.pActBtn.upload:hover {
+  background: rgba(6, 182, 212, 0.18);
+  border-color: var(--cyan);
+}
+.pActBtn.folder {
+  border-color: rgba(212, 163, 73, 0.45);
+  color: var(--brass2);
+}
+.pActBtn.folder:hover {
+  background: rgba(212, 163, 73, 0.16);
+  border-color: var(--brass);
+}
+.pActBtn.del {
+  border-color: rgba(251, 113, 133, 0.5);
+  color: var(--bad);
+}
+.pActBtn.del:hover { background: rgba(251, 113, 133, 0.2); }
+.pActBtn svg { width: 13px; height: 13px; flex: none; }
+
+/* پلاک شیشه‌ای منتقل‌شده به گوشهٔ پایین-چپِ داخل خود تصویر */
+#plateHudMeta {
+  position: absolute;
+  bottom: 12px;
+  inset-inline-end: 12px;
+  z-index: 5;
+  display: none;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  color: #d1d5db;
+  background: rgba(10, 12, 18, 0.78);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 99px;
+  padding: 5px 12px;
+  pointer-events: none;
+}
+#plateHudMeta .plat { color: var(--brass2); font-weight: 700; }
+@media (min-width: 1080px) { #plateHudMeta { display: inline-flex; } }
+
+.mNav {
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  inset-inline-end: 10px;
+  gap: 6px;
+  z-index: 6;
+}
+.mNav button {
+  width: 32px;
+  height: 32px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.16);
+  color: #e8e4da;
+  background: rgba(12,14,20,.72);
+  backdrop-filter: blur(8px);
+}
+.mNav svg { width: 15px; height: 15px; }
+@media (min-width: 1080px) { .mNav { display: none; } }
+
+/* ── ستون گالری بندانگشتی در سمت چپ تصویر اصلی (از بالا به پایین در دسکتاپ) ── */
+.galWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 16px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+}
+@media (min-width: 1080px) {
+  .galWrap {
+    width: 142px;
+    flex: none;
+    height: 100%;
+    min-height: 0;
+  }
+}
+.galHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--mute);
+  min-width: 0;
+  padding: 0 2px;
+}
+.galHint {
+  font-size: 9px;
+  color: rgba(242,223,179,.8);
+  text-align: center;
+  background: rgba(212,163,73,.08);
+  border: 1px solid rgba(212,163,73,.22);
+  border-radius: 6px;
+  padding: 2px 4px;
+  line-height: 1.35;
+}
+#galIdx { color: var(--brass2); font-weight: 700; white-space: nowrap; }
+#galRetry {
+  width: 22px;
+  height: 22px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mute);
+  border: 1px solid var(--line);
+  transition: .2s;
+  flex: none;
+}
+#galRetry:hover { color: var(--brass2); border-color: rgba(212,163,73,.5); }
+#galRetry svg { width: 11px; height: 11px; }
+
+.galRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+  min-height: 0;
+}
+@media (min-width: 1080px) {
+  .galRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+#galStrip {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: x proximity;
+  padding: 2px;
+  border-radius: 10px;
+}
+@media (min-width: 1080px) {
+  #galStrip {
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y proximity;
+  }
+}
+.thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 96px;
+  aspect-ratio: 16 / 10;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #0d1017;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: .2s;
+}
+@media (min-width: 1080px) {
+  .thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+}
+/* افکت دولایه و تیره‌شونده روی بندانگشتی‌ها برای پوشش عکس‌های کوچک یا خارج از مرکز */
+.thumb .tBg {
+  position: absolute;
+  inset: -6px;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  object-fit: cover;
+  filter: blur(8px) brightness(0.32);
+  transform: scale(1.1);
+  pointer-events: none;
+}
+.thumb .tFg, .thumb video {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform .25s ease, filter .25s ease;
+  filter: brightness(0.84);
+}
+.thumb:hover .tFg, .thumb:hover video {
+  transform: scale(1.05);
+  filter: brightness(0.68);
+}
+.thumb.on { border-color: var(--brass); box-shadow: 0 0 0 2px rgba(212,163,73,.35); }
+.thumb.on .tFg, .thumb.on video { filter: brightness(0.95); }
+.tOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(6,8,14,0.22) 0%, rgba(6,8,14,0.45) 55%, rgba(6,8,14,0.88) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 5px 3px;
+  text-align: center;
+  pointer-events: none;
+  transition: background .22s ease;
+}
+.thumb:hover .tOverlay {
+  background: linear-gradient(180deg, rgba(6,8,14,0.48) 0%, rgba(6,8,14,0.72) 55%, rgba(6,8,14,0.94) 100%);
+}
+.tName {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  text-shadow: 0 1px 6px rgba(0,0,0,.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.tno {
+  position: absolute;
+  bottom: 3px;
+  inset-inline-start: 4px;
+  z-index: 3;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--brass2);
+  background: rgba(0,0,0,.75);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+.tBadge {
+  position: absolute;
+  top: 3px;
+  inset-inline-end: 4px;
+  z-index: 3;
+  font-size: 7.5px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(6,182,212,.88);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+.tBadge.vid { background: rgba(244,63,94,.88); }
+.tStar {
+  position: absolute;
+  top: 3px;
+  inset-inline-start: 4px;
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  background: rgba(0,0,0,.68);
+  color: rgba(255,255,255,.45);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .18s;
+  z-index: 3;
+}
+.thumb:hover .tStar { color: var(--brass2); background: rgba(0,0,0,.85); }
+.tStar.isCover {
+  color: #fbbf24;
+  background: rgba(20, 16, 8, 0.9);
+  border: 1px solid rgba(251, 191, 36, 0.55);
+}
+.galBtn {
+  width: 26px;
+  height: 44px;
+  border-radius: 8px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  color: var(--mute);
+  transition: .2s;
+  background: rgba(16,19,27,.55);
+}
+@media (min-width: 1080px) {
+  .galBtn {
+    width: 100%;
+    height: 22px;
+  }
+  .galBtn svg { transform: rotate(90deg); }
+}
+.galBtn:hover { color: var(--brass2); border-color: rgba(212,163,73,.5); }
+.galBtn svg { width: 13px; height: 13px; }
+
+/* حالت نمای خلوت روی قاب عکس اصلی (مخفی‌سازی موقت برچسب‌های شناور روی عکس) */
+#plate #plateCenterTitle,
+#plate .pTop,
+#plate #imgNo,
+#plate #plateHudMeta {
+  transition: opacity .25s ease, transform .25s ease;
+}
+#plate.cleanView #plateCenterTitle,
+#plate.cleanView .pTop,
+#plate.cleanView #imgNo,
+#plate.cleanView #plateHudMeta {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+}
+
+/* ── پنل سایدبار تله‌متری (۳ تب برجسته و آیکون‌دار + نشانگر هوشمند اسکرول) ── */
+#hud {
+  grid-area: hud;
+  margin: 6px 14px;
+  border-radius: 18px;
+  padding: 11px 14px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.55);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+@media (min-width: 1080px) {
+  #hud {
+    margin: 0;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+.hTop { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
+.hChips { display: flex; gap: 6px; min-width: 0; }
+#hIdx { font-size: 10.5px; color: var(--mute); white-space: nowrap; }
+
+/* باکس تیتر بولد و وسط‌چینِ نام پهپاد در بالای سایدبار */
+.hTitleBanner {
+  background: linear-gradient(180deg, rgba(212, 163, 73, 0.11) 0%, rgba(15, 18, 26, 0.65) 100%);
+  border: 1px solid rgba(212, 163, 73, 0.34);
+  border-radius: 12px;
+  padding: 6px 12px 7px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+#hName {
+  margin: 0;
+  font-size: 21.5px;
+  font-weight: 900;
+  line-height: 1.26;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: -0.2px;
+  text-shadow: 0 2px 16px rgba(212, 163, 73, 0.38);
+}
+#hLatin {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brass2);
+  margin-top: 2px;
+  text-align: center;
+  letter-spacing: 0.4px;
+}
+#hDesc {
+  margin: 4px 0 0;
+  font-size: 10.8px;
+  line-height: 1.62;
+  color: rgba(241,239,233,.82);
+  border-inline-start: 2px solid var(--brass);
+  padding-inline-start: 9px;
+}
+
+/* نوار تب‌های ۳گانه سایدبار (طراحی دکمه‌های برجسته، آیکون‌دار و کاملاً مشخص برای کلیک) */
+.hudTabsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: none;
+  background: rgba(13, 16, 24, 0.72);
+  border: 1px solid rgba(212, 163, 73, 0.28);
+  border-radius: 13px;
+  padding: 6px 7px 7px;
+}
+.hudTabsHint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: #cbd5e1;
+  padding: 0 3px;
+}
+.hudTabsHint span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.hudTabsHint b {
+  color: var(--brass2);
+  font-weight: 800;
+  background: rgba(212, 163, 73, 0.14);
+  border: 1px solid rgba(212, 163, 73, 0.35);
+  border-radius: 99px;
+  padding: 1px 7px;
+}
+.hudTabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.hudTabBtn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 7px 5px 8px;
+  border-radius: 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #dbeafe;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(30, 37, 54, 0.95) 0%, rgba(16, 20, 30, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+  white-space: nowrap;
+}
+.hudTabBtn::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  width: 18px;
+  height: 2px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.18);
+  transition: width .2s ease, background .2s ease;
+}
+.hudTabBtn:hover {
+  color: #ffffff;
+  border-color: rgba(212, 163, 73, 0.68);
+  background: linear-gradient(180deg, rgba(40, 49, 70, 0.98) 0%, rgba(22, 27, 40, 1) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 16px rgba(0, 0, 0, 0.52), 0 0 0 1px rgba(212, 163, 73, 0.28);
+}
+.hudTabBtn:hover::after {
+  width: 28px;
+  background: var(--cyan2);
+}
+.hudTabBtn .tTopRow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.hudTabBtn .tNumBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--cyan2);
+  border: 1px solid rgba(6, 182, 212, 0.38);
+  transition: .18s;
+}
+.hudTabBtn .tIcon {
+  width: 14px;
+  height: 14px;
+  color: var(--cyan2);
+  opacity: 0.9;
+  transition: .18s;
+}
+.hudTabBtn .tTitleTxt {
+  font-size: 10.5px;
+  line-height: 1.25;
+  padding-bottom: 2px;
+}
+.hudTabBtn.active {
+  background: linear-gradient(180deg, rgba(212, 163, 73, 0.34) 0%, rgba(212, 163, 73, 0.14) 100%);
+  color: #ffffff;
+  border: 1.5px solid var(--brass);
+  box-shadow: 0 6px 18px rgba(212, 163, 73, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+.hudTabBtn.active::after {
+  width: 36px;
+  height: 2.5px;
+  background: var(--brass2);
+  box-shadow: 0 0 8px var(--brass);
+}
+.hudTabBtn.active .tNumBadge {
+  background: var(--brass);
+  color: #090b10;
+  border-color: var(--brass2);
+}
+.hudTabBtn.active .tIcon {
+  color: var(--brass2);
+  opacity: 1;
+}
+
+/* محفظهٔ اسکرول‌پذیر تب‌ها + سایهٔ محوشوندهٔ پایین + دکمهٔ متحرک «اسکرول به پایین» */
+.hudPanesBox {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.hudPane {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,163,73,.45) transparent;
+  padding-left: 2px;
+  padding-bottom: 32px;
+}
+.hudPane.active { display: flex; flex-direction: column; gap: 8px; animation: fl .3s ease; }
+
+/* افکت سایهٔ محوشونده و دکمهٔ شناور متحرک برای بخش‌های اسکرول‌پذیر */
+.scrollCueWrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: linear-gradient(180deg, rgba(11, 13, 19, 0) 0%, rgba(11, 13, 19, 0.88) 52%, rgba(11, 13, 19, 0.98) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 5px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .25s ease, transform .25s ease;
+  z-index: 14;
+}
+.scrollCueWrap.show,
+.scrollCueWrap.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.scrollCueBtn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--brass2);
+  background: rgba(18, 22, 32, 0.96);
+  border: 1px solid rgba(212, 163, 73, 0.65);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.72), 0 0 12px rgba(212, 163, 73, 0.2);
+  cursor: pointer;
+  animation: cueBounce 1.7s ease-in-out infinite;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.scrollCueBtn:hover {
+  background: rgba(212, 163, 73, 0.25);
+  border-color: var(--brass);
+  color: #fff;
+}
+.scrollCueBtn svg {
+  width: 13px;
+  height: 13px;
+}
+@keyframes cueBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* ── باکس دو ردیفهٔ تفکیک‌شدهٔ کشور سازنده در برابر کشورهای استفاده‌کننده ── */
+.countrySplitBox {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.cTier {
+  border-radius: 11px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.cTier.producer {
+  background: rgba(212, 163, 73, 0.08);
+  border: 1px solid rgba(212, 163, 73, 0.38);
+}
+.cTier.operator {
+  background: rgba(6, 182, 212, 0.07);
+  border: 1px solid rgba(6, 182, 212, 0.32);
+}
+.cTierHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 700;
+}
+.cTier.producer .cTierHead { color: var(--brass2); }
+.cTier.operator .cTierHead { color: var(--cyan2); }
+.flagGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.cBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 7px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  background: rgba(10, 12, 18, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--bone);
+}
+.cBadge.sup {
+  border-style: dashed;
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #fde68a;
+}
+.cFlag {
+  width: 16px;
+  height: 11px;
+  border-radius: 2px;
+  overflow: hidden;
+  display: inline-flex;
+  flex: none;
+  box-shadow: 0 0 2px rgba(0,0,0,.7);
+}
+
+/* مشخصات فنی در تب ۱ */
+.specs {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+  list-style: none;
+}
+.specs li {
+  background: rgba(255,255,255,.025);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 6px 9px;
+  min-width: 0;
+}
+.specs .lbl { display: block; font-size: 9px; color: var(--mute); margin-bottom: 1px; }
+.specs .num { font-weight: 800; font-size: 14px; color: var(--bone); }
+.specs .txt { font-weight: 600; font-size: 11px; line-height: 1.45; display: block; }
+.specs .unit { font-style: normal; font-size: 9px; color: var(--mute); }
+.specs .wide { grid-column: 1 / -1; }
+
+/* تب ۲: نمودار راداری ۶محوره + نوارهای مقیاس + مقایسه درجا */
+.radarCard {
+  background: rgba(255,255,255,.02);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.compareSelectRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10.5px;
+  color: var(--mute);
+}
+#compareSelect {
+  flex: 1;
+  height: 30px;
+  border-radius: 7px;
+  background: #12151e;
+  border: 1px solid var(--line);
+  color: var(--cyan2);
+  font-size: 11px;
+  padding: 0 8px;
+  outline: none;
+}
+.barsList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.barItem {
+  background: rgba(255,255,255,.02);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.barTop { display: flex; justify-content: space-between; font-size: 10.5px; margin-bottom: 4px; }
+.barTrack { height: 6px; border-radius: 99px; background: rgba(255,255,255,.07); overflow: hidden; position: relative; }
+.barFill { height: 100%; border-radius: 99px; transition: width .5s ease; }
+
+/* تب ۳: تحلیل عملیاتی */
+.ana { display: flex; flex-direction: column; gap: 9px; }
+.ab {
+  background: rgba(255,255,255,.02);
+  border: 1px solid var(--line);
+  border-inline-start: 3px solid;
+  border-radius: 9px;
+  padding: 8px 11px;
+}
+.abH { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+.abC { border-inline-start-color: var(--brass); } .abC .abH { color: var(--brass2); }
+.abP { border-inline-start-color: var(--good); } .abP .abH { color: var(--good); }
+.abM { border-inline-start-color: var(--bad); } .abM .abH { color: var(--bad); }
+.ab ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.ab li { position: relative; padding-inline-start: 14px; font-size: 11px; line-height: 1.7; color: rgba(241,239,233,.85); }
+.ab li::before { position: absolute; inset-inline-start: 0; top: 0; font-size: 9.5px; }
+.abC li::before { content: '▪'; color: var(--brass); }
+.abP li::before { content: '✓'; color: var(--good); }
+.abM li::before { content: '✕'; color: var(--bad); }
+
+/* ── تایم‌لاین مقیاس (پایین صفحه — بازطراحی ضدتداخل و تفکیک‌شده + کارت پیش‌نمایش شناور) ── */
+#timeline {
+  grid-area: tl;
+  position: relative;
+  margin: 4px 14px 4px;
+  border-radius: 16px;
+  padding: 6px 18px calc(8px + env(safe-area-inset-bottom));
+}
+@media (min-width: 1080px) {
+  #timeline { margin: 2px 0 0; padding: 6px 22px 8px; }
+}
+.tlTop { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 10px; color: var(--mute); margin-bottom: 2px; }
+#tlCount { color: var(--brass2); font-weight: 700; }
+#bar { position: relative; height: 50px; margin: 2px 26px 0; }
+#track {
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  right: -10px;
+  height: 2px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, rgba(6,182,212,.35), rgba(212,163,73,.45), rgba(255,255,255,.2));
+}
+#ticks { position: absolute; inset: 0; }
+.tick {
+  position: absolute;
+  top: 6px;
+  width: 24px;
+  margin-right: -12px;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+.tick:hover { z-index: 30; }
+.tick.active { z-index: 15; }
+.tdot {
+  width: 9px;
+  height: 9px;
+  border-radius: 99px;
+  background: #232733;
+  border: 1.5px solid rgba(255,255,255,.4);
+  transition: .22s;
+  position: relative;
+  z-index: 2;
+}
+.tick:hover .tdot { transform: scale(1.38); background: var(--cyan); border-color: #fff; }
+.tick.active .tdot { background: var(--brass); border-color: #fff; box-shadow: 0 0 0 4px rgba(212,163,73,.25); transform: scale(1.25); }
+
+/* خط عمودی اتصال نقطه به برچسب برای خوانایی دقیق در تراکم بالا */
+.tstem {
+  display: none;
+  position: absolute;
+  top: 9px;
+  width: 1px;
+  height: 8px;
+  background: rgba(255,255,255,.15);
+  pointer-events: none;
+}
+.tick.rB .tstem { height: 29px; }
+.tick.active .tstem, .tick:hover .tstem { background: var(--brass); width: 1.5px; }
+
+.tlab {
+  display: none;
+  position: absolute;
+  top: 16px;
+  right: 50%;
+  transform: translateX(50%);
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  line-height: 1.25;
+  color: rgba(241,239,233,.75);
+  background: rgba(11, 13, 19, 0.82);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 6px;
+  padding: 2px 6px;
+  pointer-events: none;
+  transition: .2s;
+}
+.tlab b { font-weight: 700; font-size: 9.5px; }
+.tlab i { font-style: normal; font-size: 8px; color: var(--mute); }
+.tick:hover .tlab {
+  color: #fff;
+  border-color: rgba(6,182,212,.55);
+  background: rgba(12, 16, 24, 0.96);
+  transform: translateX(50%) scale(1.05);
+}
+.tick.active .tlab {
+  display: inline-flex;
+  color: var(--brass2);
+  border-color: rgba(212,163,73,.65);
+  background: rgba(24, 20, 12, 0.95);
+  box-shadow: 0 4px 12px rgba(0,0,0,.5);
+}
+
+/* کارت پیش‌نمایش شناور هنگام هاور روی نقاط تایم‌لاین */
+#tlHoverCard {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 50%;
+  transform: translateX(50%) translateY(6px);
+  width: 196px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(12, 15, 22, 0.96);
+  border: 1px solid rgba(212, 163, 73, 0.55);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.75);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease, transform .18s ease;
+  z-index: 50;
+}
+#tlHoverCard.show {
+  opacity: 1;
+  transform: translateX(50%) translateY(0);
+}
+.tlHcHero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9.2;
+  background: #090b10;
+  overflow: hidden;
+}
+.tlHcHero .hcBg {
+  position: absolute;
+  inset: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  object-fit: cover;
+  filter: blur(10px) brightness(0.32);
+}
+.tlHcHero .hcFg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+.tlHcOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(6,8,14,0.32) 0%, rgba(6,8,14,0.88) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 6px;
+  text-align: center;
+}
+.tlHcName {
+  font-size: 12.5px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,.95);
+}
+.tlHcSub {
+  font-size: 9.5px;
+  color: var(--brass2);
+  margin-top: 2px;
+}
+
+#cursor {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 20px;
+  background: var(--brass);
+  margin-right: -1px;
+  z-index: 4;
+  transition: right .65s cubic-bezier(.65,.02,.18,1);
+}
+#cursor::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 6px;
+  height: 6px;
+  background: var(--brass);
+  border-radius: 1px;
+}
+.noT { transition: none !important; }
+@media (min-width: 1080px) {
+  #bar { height: 60px; }
+  .tstem { display: block; }
+  .tlab { display: inline-flex; }
+  .tick.rB .tlab { top: 37px; }
+  #cursor { height: 21px; top: 0; }
+}
+
+/* ── مدال فهرست موزه (آرشیو با دکمه دانلود کد HTML آفلاین + مرتب‌سازی + نشانگر اسکرول) و لایت‌باکس ── */
+#catModal, #lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(5, 6, 9, 0.84);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+#catModal.open, #lightbox.open { opacity: 1; pointer-events: auto; }
+.catHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.catHeadActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.catSortSelect {
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(16, 20, 30, 0.9);
+  border: 1px solid var(--line);
+  color: var(--bone);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 0 10px;
+  outline: none;
+  cursor: pointer;
+}
+.catSortSelect:hover, .catSortSelect:focus {
+  border-color: rgba(212, 163, 73, 0.55);
+}
+.dlHtmlBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 13px;
+  border-radius: 9px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #090b10;
+  background: linear-gradient(135deg, #f2dfb3 0%, #d4a349 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 16px rgba(212, 163, 73, 0.32);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.dlHtmlBtn:hover {
+  transform: translateY(-1.5px);
+  filter: brightness(1.06);
+  box-shadow: 0 6px 22px rgba(212, 163, 73, 0.48);
+}
+.dlHtmlBtn svg {
+  width: 15px;
+  height: 15px;
+}
+.catGridWrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.catGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+  gap: 14px;
+  padding: 16px 16px 38px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+.catCard {
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  overflow: hidden;
+  background: #10131c;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+.catCard:hover {
+  border-color: rgba(212, 163, 73, 0.72);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.65);
+}
+/* قاب عکس آرشیو: لایهٔ بلور تیره در پس‌زمینه + تصویر کامل در مرکز + لایهٔ تیره و نام بولد وسط‌چین روی خود عکس */
+.catHero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9.6;
+  background: #080a0f;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.catHero .catBg {
+  position: absolute;
+  inset: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  object-fit: cover;
+  filter: blur(14px) brightness(0.28) saturate(1.15);
+  transform: scale(1.16);
+  pointer-events: none;
+}
+.catHero .catFg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  padding: 8px 10px;
+  filter: brightness(0.76) contrast(1.04) drop-shadow(0 10px 22px rgba(0,0,0,.75));
+  transition: transform .35s ease, filter .35s ease;
+}
+.catCard:hover .catHero .catFg {
+  transform: scale(1.06);
+  filter: brightness(0.54) contrast(1.08) drop-shadow(0 12px 26px rgba(0,0,0,.9));
+}
+.catOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(circle at center, rgba(6, 8, 14, 0.42) 0%, rgba(6, 8, 14, 0.74) 70%, rgba(6, 8, 14, 0.90) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  transition: background .28s ease;
+}
+.catCard:hover .catOverlay {
+  background: radial-gradient(circle at center, rgba(6, 8, 14, 0.58) 0%, rgba(6, 8, 14, 0.84) 70%, rgba(6, 8, 14, 0.95) 100%);
+}
+.catOverlayBadge {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--brass2);
+  background: rgba(10, 12, 18, 0.82);
+  border: 1px solid rgba(212, 163, 73, 0.42);
+  border-radius: 99px;
+  padding: 2px 9px;
+}
+.catOverlaySize {
+  position: absolute;
+  top: 8px;
+  inset-inline-start: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #cbd5e1;
+  background: rgba(10, 12, 18, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 99px;
+  padding: 2px 8px;
+}
+.catOverlayTitle {
+  font-size: 17.5px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.3;
+  text-align: center;
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.98), 0 0 24px rgba(212, 163, 73, 0.35);
+  margin: 6px 0 2px;
+}
+.catOverlayLatin {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--brass2);
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+  letter-spacing: 0.3px;
+}
+.catBody {
+  padding: 10px 12px;
+  background: rgba(13, 16, 24, 0.95);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#lbImg, #lbVideo { max-width: 92vw; max-height: 76vh; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 30px 100px rgba(0,0,0,.8); }
+.lbFig { display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 92vw; margin: 0; }
+.lbCap { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--mute); }
+.lbNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: rgba(17,19,26,.7);
+  color: #e2e8f0;
+}
+#lbPrev { right: 20px; }
+#lbNext { left: 20px; }
+#lbClose {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 99px;
+  border: 1px solid rgba(255,255,255,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+</head>
+<body>
+
+<div id="env" aria-hidden="true">
+  <img id="bgA" class="bgimg" alt=""><img id="bgB" class="bgimg" alt="">
+  <div id="spot"></div><div id="grain"></div>
+</div>
+
+<!-- ورودی‌های مخفی برای انتخاب عکس/ویدیو یا پوشه از روی کامپیوتر کاربر (مختص پهپاد فعلی) -->
+<input id="localMediaInput" type="file" accept="image/*,video/*" multiple style="display:none"/>
+<input id="localFolderInput" type="file" webkitdirectory directory multiple style="display:none"/>
+
+<div id="app">
+  <!-- نوار بالای تک‌خطی یکپارچه: راست = تیتر | وسط = گزینه‌ها | چپ = جست‌وجو، کشور و آرشیو -->
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 40 40" width="32" height="32" fill="none" stroke="#d4a349" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+        <circle cx="20" cy="20" r="3.2"/><path d="M20 16.8V9.6M20 23.2v7.2M16.8 20H9.6M23.2 20h7.2"/>
+        <circle cx="20" cy="7" r="2.6"/><circle cx="20" cy="33" r="2.6"/><circle cx="7" cy="20" r="2.6"/><circle cx="33" cy="20" r="2.6"/>
+      </svg>
+      <div>
+        <h1>اوج‌نما <span id="hCount" class="subCount tabular">—</span></h1>
+        <p>موزهٔ مقیاس‌پذیر و تحلیلی پهپادها</p>
+      </div>
+    </div>
+
+    <!-- وسط نوار بالا: دسته‌بندی‌ها -->
+    <div id="chips" class="noscroll" role="tablist" aria-label="دسته‌بندی پهپادها"></div>
+
+    <!-- سمت چپ نوار بالا: جست‌وجو + آیکون فیلتر کشور + دکمهٔ تک‌کلمه‌ای آرشیو -->
+    <div class="hLeftTools">
+      <div id="qwrap" class="glass">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-3.8-3.8"/></svg>
+        <input id="q" type="text" placeholder="جست‌وجوی پهپاد…" autocomplete="off"/>
+        <button id="qClear" style="display:none" aria-label="پاک‌کردن">✕</button>
+      </div>
+
+      <label id="countryPillWrap" class="countryPill glass" title="فیلتر بر اساس کشور سازنده یا بهره‌بردار">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 000 18M12 3a14.5 14.5 0 010 18"/></svg>
+        <select id="countryFilter" aria-label="فیلتر بر اساس کشور">
+          <option value="all">همهٔ کشورها</option>
+        </select>
+      </label>
+
+      <button id="catBtn" class="iconbtn glass" title="مشاهدهٔ آرشیو کامل پهپادها و دانلود کد HTML (کلید G)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>
+        <span>آرشیو</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- صحنهٔ اصلی نمایش (با تراز عمودی دقیق فلش‌ها نسبت به قاب تصویر اصلی) -->
+  <main id="stage">
+    <div class="stageInner">
+      <!-- ردیف عکس اصلی: فلش‌های راست و چپ دقیقاً در وسط عمودی عکس قرار می‌گیرند -->
+      <div class="plateRow">
+        <button id="prevBtn" class="navC" aria-label="پهپاد قبلی" title="پهپاد قبلی">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+
+        <div id="plate" class="containMode" role="button" tabindex="0" aria-label="قاب نمایش پهپاد">
+          <div class="zoomer" id="zoomerBox">
+            <img id="plateAmbBg" alt="" aria-hidden="true">
+            <img id="fgA" alt="">
+            <img id="fgB" alt="">
+            <video id="mainVideo" controls playsinline></video>
+          </div>
+          <div class="pvig" aria-hidden="true"></div>
+
+          <!-- عنوان بولد و وسط‌چین پهپاد در بالای قاب اصلی -->
+          <div id="plateCenterTitle">
+            <div id="plateHeroName">—</div>
+            <div id="plateHeroLatin" class="latin">—</div>
+          </div>
+
+          <div class="pTop">
+            <span id="pCat" class="chip">—</span>
+            <span id="pCls" class="chip chip2">—</span>
+            <span id="persistBadge" class="persistPill" title="رسانه‌های لوکال این پهپاد در حافظهٔ دائمی مرورگر و مسیر سیستم ثبت شده‌اند">✓ ذخیرهٔ دائمی</span>
+            <span id="galCap">—</span>
+          </div>
+          <span id="imgNo" class="tabular">—</span>
+
+          <!-- تنها محل دکمهٔ آپلود رسانه لوکال + اتصال پوشه سیستم + حالت کادر + نمای خلوت + بزرگ‌نمایی داخل خود عکس اصلی -->
+          <div class="plateActions">
+            <button id="plateZoomBtn" class="pActBtn" title="بزرگ‌نمایی تمام‌صفحه">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/></svg>
+              بزرگ‌نمایی
+            </button>
+            <button id="plateFitBtn" class="pActBtn activeFit" title="تغییر حالت نمایش عکس (نمای کامل بدون برش برای عکس‌های کوچک/نامتقارن یا پر کردن کل کادر)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+              <span id="plateFitTxt">نمای کامل (بدون برش)</span>
+            </button>
+            <button id="plateCleanBtn" class="pActBtn" title="نمای خلوت: مخفی‌سازی یا نمایش برچسب‌های روی تصویر (کلید H)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span id="plateCleanTxt">نمای خلوت</span>
+            </button>
+            <button id="plateUploadBtn" class="pActBtn upload" title="انتخاب عکس یا ویدیو از سیستم (ذخیرهٔ دائمی در IndexedDB + ثبت مسیر فایل برای همین پهپاد)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              + عکس/ویدیو لوکال
+            </button>
+            <button id="plateFolderBtn" class="pActBtn folder" title="اتصال مستقیم به پوشهٔ تصاویر روی سیستم شما (File System API)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              پوشهٔ سیستم
+            </button>
+            <button id="plateDeleteBtn" class="pActBtn del" style="display:none" title="حذف این رسانهٔ لوکال از گالری این پهپاد">
+              حذف
+            </button>
+          </div>
+
+          <!-- اطلاعات پلاک منتقل‌شده به گوشهٔ داخل تصویر برای آزادسازی ارتفاع ۱۶:۹ -->
+          <div id="plateHudMeta">
+            <span id="plLatin" class="latin plat">—</span>
+            <span class="sep"></span>
+            <span id="plSize" class="tabular">—</span>
+            <span class="sep"></span>
+            <span id="plDod">—</span>
+          </div>
+
+          <div class="mNav">
+            <button id="mPrev" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+            <button id="mNext" aria-label="بعدی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+          </div>
+        </div>
+
+        <button id="nextBtn" class="navC" aria-label="پهپاد بعدی" title="پهپاد بعدی">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+      </div>
+
+      <!-- ستون عمودی بندانگشتی تصاویر و ویدیوها در سمت چپ (از بالا به پایین) -->
+      <div class="galWrap">
+        <div class="galHead">
+          <span>گالری</span>
+          <b id="galIdx" class="tabular">—</b>
+          <button id="galRetry" title="بازخوانی تصاویر آرشیوی" aria-label="بازخوانی تصاویر">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 11a8 8 0 10.4 4M20 4v7h-7"/></svg>
+          </button>
+        </div>
+        <div class="galHint">★ یا کلیک‌راست = کاور</div>
+        <div class="galRow" style="position:relative">
+          <button id="galPrev" class="galBtn" aria-label="اسکرول گالری به بالا/عقب">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <div id="galStrip" class="noscroll" aria-label="تصاویر و ویدیوهای این پهپاد"></div>
+          <button id="galNext" class="galBtn" aria-label="اسکرول گالری به پایین/جلو">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- پنل سایدبار تله‌متری (۳ تب برجسته و آیکون‌دار + نشانگر اسکرول به پایین) -->
+  <aside id="hud" class="glass">
+    <div>
+      <div class="hTop">
+        <div class="hChips"><span id="hCat" class="chip">—</span><span id="hCls" class="chip chip2">—</span></div>
+        <span id="hIdx" class="tabular">—</span>
+      </div>
+      <div class="hTitleBanner">
+        <h2 id="hName">—</h2>
+        <div id="hLatin" class="latin">—</div>
+      </div>
+      <p id="hDesc">—</p>
+    </div>
+
+    <!-- تب‌های ۳گانهٔ برجسته و آیکون‌دار سایدبار (با قابلیت کلیک یا کلیدهای ۱ تا ۳) -->
+    <div class="hudTabsWrap">
+      <div class="hudTabsHint">
+        <span>بخش‌های اطلاعاتی (کلیک کنید یا کلید ۱ تا ۳):</span>
+        <b id="hudActiveStep" class="tabular">تب ۱ از ۳</b>
+      </div>
+      <div class="hudTabs" role="tablist">
+        <button class="hudTabBtn active" data-htab="specs" data-step="۱" title="تب ۱: شناسنامه فنی، کشور سازنده و بهره‌برداران (کلید ۱)">
+          <span class="tTopRow">
+            <span class="tNumBadge tabular">۱</span>
+            <svg class="tIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="14" y2="13"/><line x1="7" y1="17" x2="11" y2="17"/></svg>
+          </span>
+          <span class="tTitleTxt">شناسنامه و کشورها</span>
+        </button>
+
+        <button class="hudTabBtn" data-htab="charts" data-step="۲" title="تب ۲: نمودار راداری ۶محوره و مقایسه با پهپاد دیگر (کلید ۲)">
+          <span class="tTopRow">
+            <span class="tNumBadge tabular">۲</span>
+            <svg class="tIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><polygon points="12 2 21 8.5 17.5 19.5 6.5 19.5 3 8.5 12 2"/><circle cx="12" cy="12" r="3"/></svg>
+          </span>
+          <span class="tTitleTxt">نمودار و مقایسه</span>
+        </button>
+
+        <button class="hudTabBtn" data-htab="ana" data-step="۳" title="تب ۳: تحلیل عملیاتی، نقاط قوت و راه‌های مقابله (کلید ۳)">
+          <span class="tTopRow">
+            <span class="tNumBadge tabular">۳</span>
+            <svg class="tIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </span>
+          <span class="tTitleTxt">تحلیل عملیاتی</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="hudPanesBox" id="hudPanesBox">
+      <!-- تب ۱: کشور سازنده + کشورهای بهره‌بردار + جدول اعداد فنی -->
+      <div id="hpane-specs" class="hudPane active">
+        <!-- باکس دو ردیفهٔ کاملاً تفکیک‌شده برای سازنده و بهره‌برداران -->
+        <div class="countrySplitBox">
+          <div class="cTier producer">
+            <div class="cTierHead">
+              <span>🏭 کشور و شرکت تولیدکننده (سازنده)</span>
+              <span id="hMakerCompany" style="font-weight:500;opacity:.85">—</span>
+            </div>
+            <div class="flagGrid" id="hudProducers"></div>
+          </div>
+
+          <div class="cTier operator">
+            <div class="cTierHead">
+              <span>🌐 کشورهای بهره‌بردار (استفاده‌کننده)</span>
+              <span id="hOperatorCount" class="tabular">—</span>
+            </div>
+            <div class="flagGrid" id="hudOperators"></div>
+          </div>
+        </div>
+
+        <ul class="specs">
+          <li><span class="lbl">برد عملیاتی</span><span class="num tabular" id="hRange">—</span> <i class="unit">کیلومتر</i></li>
+          <li><span class="lbl">سرعت بیشینه</span><span class="num tabular" id="hSpeed">—</span> <i class="unit">کیلومتر/ساعت</i></li>
+          <li><span class="lbl">سقف پرواز</span><span class="num tabular" id="hCeil">—</span> <i class="unit">متر</i></li>
+          <li><span class="lbl">مداومت پروازی</span><span class="txt" id="hEnd">—</span></li>
+          <li><span class="lbl">وزن برخاست / بار</span><span class="txt" id="hWeight">—</span></li>
+          <li><span class="lbl">پیشرانه</span><span class="txt" id="hEngine">—</span></li>
+          <li class="wide"><span class="lbl">ناوبری، لینک داده و مقاومت جنگ الکترونیک</span><span class="txt" id="hGuidance" style="color:var(--cyan2)">—</span></li>
+          <li class="wide"><span class="lbl">هزینهٔ تخمینی و ابعاد</span><span class="txt" id="hPriceTxt" style="color:var(--brass2)">—</span></li>
+        </ul>
+      </div>
+
+      <!-- تب ۲: نمودار راداری ۶محوره + نوارهای مقیاس عملکرد + مقایسه با پهپاد دیگر -->
+      <div id="hpane-charts" class="hudPane">
+        <div class="radarCard">
+          <div class="compareSelectRow">
+            <span>مقایسهٔ همزمان روی رادار با:</span>
+            <select id="compareSelect">
+              <option value="">— فقط همین پهپاد —</option>
+            </select>
+          </div>
+          <div id="hudRadarSvg" style="width:210px;height:195px"></div>
+          <div id="radarLegend" style="display:flex;gap:12px;font-size:10.5px"></div>
+        </div>
+
+        <div class="barsList" id="hudMetricBars"></div>
+      </div>
+
+      <!-- تب ۳: تحلیل عملیاتی (کارایی / نقاط قوت / نقاط ضعف و مقابله) -->
+      <div id="hpane-ana" class="hudPane">
+        <div class="ana">
+          <div class="ab abC"><div class="abH">کارایی و سوابق عملیاتی</div><ul id="anaCaps"></ul></div>
+          <div class="ab abP"><div class="abH">نقاط قوت راهبردی</div><ul id="anaPros"></ul></div>
+          <div class="ab abM"><div class="abH">محدودیت‌ها، نقاط ضعف و راه‌های مقابله</div><ul id="anaCons"></ul></div>
+        </div>
+      </div>
+
+      <!-- نشانگر هوشمند اسکرول به پایین در سایدبار -->
+      <div id="hudScrollCue" class="scrollCueWrap">
+        <button type="button" id="hudScrollBtn" class="scrollCueBtn" title="اسکرول نرم به ادامهٔ اطلاعات پایین">
+          <span>اسکرول برای ادامه</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- تایم‌لاین مقیاس (از ریزترین تا بزرگ‌ترین پهپاد در پایین صفحه + پیش‌نمایش شناور) -->
+  <nav id="timeline" class="glass" aria-label="تایم‌لاین مقیاس">
+    <div id="tlHoverCard" aria-hidden="true">
+      <div class="tlHcHero">
+        <img id="tlHcBg" class="hcBg" alt="">
+        <img id="tlHcFg" class="hcFg" alt="">
+        <div class="tlHcOverlay">
+          <div id="tlHcName" class="tlHcName">—</div>
+          <div id="tlHcSub" class="tlHcSub">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="tlTop">
+      <span id="capMin">—</span>
+      <b id="tlCount" class="tabular">—</b>
+      <span id="capMax">—</span>
+    </div>
+    <div id="bar">
+      <div id="track"></div>
+      <div id="ticks"></div>
+      <div id="cursor"></div>
+    </div>
+  </nav>
+</div>
+
+<!-- مدال فهرست موزه (همراه با دکمهٔ «دانلود کد HTML» آفلاین کامل + مرتب‌سازی + نشانگر اسکرول) -->
+<div id="catModal" role="dialog" aria-modal="true">
+  <div class="glass" style="width:min(1060px,96vw);max-height:86vh;display:flex;flex-direction:column;border-radius:18px;overflow:hidden">
+    <div class="catHead">
+      <div>
+        <div style="font-size:10px;color:var(--mute)">آرشیو کامل · نمایش سینمایی با پس‌زمینهٔ تطبیقی و اجرای ۱۰۰٪ آفلاین</div>
+        <h3 style="margin:2px 0 0;font-size:15px">فهرست موزهٔ اوج‌نما</h3>
+      </div>
+
+      <div class="catHeadActions">
+        <select id="catSort" class="catSortSelect" aria-label="مرتب‌سازی آرشیو">
+          <option value="size-asc">مرتب‌سازی: مقیاس (کوچک به بزرگ)</option>
+          <option value="size-desc">مرتب‌سازی: مقیاس (بزرگ به کوچک)</option>
+          <option value="range-desc">مرتب‌سازی: بیشترین برد عملیاتی</option>
+          <option value="speed-desc">مرتب‌سازی: بیشترین سرعت</option>
+          <option value="price-asc">مرتب‌سازی: کمترین قیمت</option>
+          <option value="price-desc">مرتب‌سازی: بیشترین قیمت</option>
+        </select>
+
+        <button id="dlOfflineHtmlBtn" class="dlHtmlBtn" title="دانلود کل پروژه به صورت یک فایل HTML مستقل و بدون نیاز به اینترنت (همراه با عکس‌های لوکال آپلودشده)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span id="dlOfflineHtmlTxt">دانلود کد HTML</span>
+        </button>
+
+        <button id="catClose" class="iconbtn" style="border:1px solid var(--line);height:34px" aria-label="بستن">✕ بستن</button>
+      </div>
+    </div>
+
+    <div class="catGridWrap">
+      <div id="catGrid" class="catGrid"></div>
+      <div id="catScrollCue" class="scrollCueWrap">
+        <button type="button" id="catScrollBtn" class="scrollCueBtn" title="اسکرول نرم به ادامهٔ لیست پهپادها">
+          <span>اسکرول برای مشاهدهٔ پهپادهای بیشتر</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- لایت‌باکس بزرگ‌نمایی عکس و ویدیو -->
+<div id="lightbox" role="dialog" aria-modal="true">
+  <button id="lbPrev" class="lbNav" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  <figure class="lbFig">
+    <img id="lbImg" alt="">
+    <video id="lbVideo" controls playsinline style="display:none"></video>
+    <figcaption class="lbCap"><b id="lbCount" class="tabular">—</b><span class="sep"></span><span id="lbCap">—</span></figcaption>
+  </figure>
+  <button id="lbNext" class="lbNav" aria-label="بعدی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button id="lbClose" aria-label="بستن">✕</button>
+</div>
+
+<script>
+'use strict';
+
+/* ═══════════ ۰) ابزارهای پایه و پرچم کامل کشورها ═══════════ */
+const $ = id => document.getElementById(id);
+const FA = '۰۱۲۳۴۵۶۷۸۹';
+const faDigits = (n, l = 2) => String(n).padStart(l, '0').replace(/\d/g, d => FA[d]);
+const faNum = (n, d = 0) => Number(n).toLocaleString('fa-IR', { maximumFractionDigits: d, minimumFractionDigits: 0 });
+const easeOut = k => 1 - Math.pow(1 - k, 3);
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(pointer: fine)').matches;
+const cacheGet = k => {
+  try {
+    const v = localStorage.getItem(k);
+    if (v) return v;
+  } catch (e) {}
+  if (window.__OJNEMA_OFFLINE_BUNDLE__ && window.__OJNEMA_OFFLINE_BUNDLE__.ls && window.__OJNEMA_OFFLINE_BUNDLE__.ls[k]) {
+    return window.__OJNEMA_OFFLINE_BUNDLE__.ls[k];
+  }
+  return null;
+};
+const cacheSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+const cacheDel = k => { try { localStorage.removeItem(k); } catch (e) {} };
+
+function countTo(el, to, dur = 750) {
+  const from = parseFloat(el.dataset.v || '0'), t0 = performance.now();
+  cancelAnimationFrame(el._raf || 0);
+  (function step() {
+    const k = Math.min(1, (performance.now() - t0) / dur);
+    const v = from + (to - from) * easeOut(k);
+    el.dataset.v = v;
+    el.textContent = faNum(Math.round(v));
+    if (k < 1) el._raf = requestAnimationFrame(step);
+  })();
+}
+function fmtPrice(v) {
+  if (v >= 1e9) return faNum(v / 1e9, 2) + ' میلیارد دلار';
+  if (v >= 1e6) return faNum(v / 1e6, 1) + ' میلیون دلار';
+  if (v >= 1e3) return faNum(Math.round(v / 1e3)) + ' هزار دلار';
+  return faNum(Math.round(v)) + ' دلار';
+}
+const sizeFa = u => u.size < 1 ? faNum(u.size * 100, 1) + ' سانتی‌متر' : faNum(u.size, u.size < 10 ? 2 : 1) + ' متر';
+const sizeEn = u => u.size < 1 ? faNum(u.size * 100, 1) + ' cm' : faNum(u.size, u.size < 10 ? 2 : 1) + ' m';
+
+// تعریف کامل تمام کشورها با نام فارسی و پرچم SVG
+const COUNTRIES = {
+  IR: { name: 'ایران', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#239f40"/><rect y="8" width="36" height="8" fill="#fff"/><rect y="16" width="36" height="8" fill="#da0000"/><circle cx="18" cy="12" r="2.5" fill="#da0000"/></svg>' },
+  US: { name: 'آمریکا', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#b22234"/><path d="M0 4h36M0 8h36M0 12h36M0 16h36M0 20h36" stroke="#fff" stroke-width="2"/><rect width="16" height="13" fill="#3c3b6e"/></svg>' },
+  CN: { name: 'چین', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#de2910"/><circle cx="8" cy="8" r="4" fill="#ffde00"/></svg>' },
+  RU: { name: 'روسیه', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#fff"/><rect y="8" width="36" height="8" fill="#0039a6"/><rect y="16" width="36" height="8" fill="#d52b1e"/></svg>' },
+  TR: { name: 'ترکیه', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#e30a17"/><circle cx="16" cy="12" r="5" fill="#fff"/><circle cx="17.5" cy="12" r="4" fill="#e30a17"/></svg>' },
+  IL: { name: 'اسرائیل', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#fff"/><rect y="3" width="36" height="3" fill="#0038b8"/><rect y="18" width="36" height="3" fill="#0038b8"/><polygon points="18,7 22,15 14,15" fill="none" stroke="#0038b8" stroke-width="1.5"/><polygon points="18,17 22,9 14,9" fill="none" stroke="#0038b8" stroke-width="1.5"/></svg>' },
+  UA: { name: 'اوکراین', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="12" fill="#0057b7"/><rect y="12" width="36" height="12" fill="#ffd700"/></svg>' },
+  NO: { name: 'نروژ', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#ba0c2f"/><path d="M0 12h36M12 0v24" stroke="#fff" stroke-width="5"/><path d="M0 12h36M12 0v24" stroke="#00205b" stroke-width="2.5"/></svg>' },
+  UK: { name: 'بریتانیا', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#012169"/><path d="M0 0L36 24M36 0L0 24" stroke="#fff" stroke-width="3.5"/><path d="M18 0v24M0 12h36" stroke="#fff" stroke-width="5"/><path d="M18 0v24M0 12h36" stroke="#c8102e" stroke-width="3"/></svg>' },
+  AE: { name: 'امارات', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#00732f"/><rect y="8" width="36" height="8" fill="#fff"/><rect y="16" width="36" height="8" fill="#000"/><rect width="10" height="24" fill="#ff0000"/></svg>' },
+  SA: { name: 'عربستان', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#006c35"/><rect x="8" y="15" width="20" height="2" fill="#fff"/></svg>' },
+  AZ: { name: 'آذربایجان', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#00b5e2"/><rect y="8" width="36" height="8" fill="#ef3340"/><rect y="16" width="36" height="8" fill="#509e2f"/></svg>' },
+  PL: { name: 'لهستان', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="12" fill="#fff"/><rect y="12" width="36" height="12" fill="#dc143c"/></svg>' },
+  IN: { name: 'هند', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#ff9933"/><rect y="8" width="36" height="8" fill="#fff"/><rect y="16" width="36" height="8" fill="#138808"/><circle cx="18" cy="12" r="2.6" fill="#000080"/></svg>' },
+  PK: { name: 'پاکستان', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#01411c"/><rect width="8" height="24" fill="#fff"/><circle cx="22" cy="12" r="4.5" fill="#fff"/></svg>' },
+  AU: { name: 'استرالیا', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#00008b"/><rect width="16" height="12" fill="#012169"/><path d="M0 6h16M8 0v12" stroke="#fff" stroke-width="2"/><circle cx="27" cy="15" r="2" fill="#fff"/></svg>' },
+  JP: { name: 'ژاپن', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#fff"/><circle cx="18" cy="12" r="6" fill="#bc002d"/></svg>' },
+  KR: { name: 'کره جنوبی', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#fff"/><circle cx="18" cy="12" r="5.5" fill="#cd2e3a"/><path d="M12.5 12a5.5 5.5 0 0011 0" fill="#0047a0"/></svg>' },
+  TW: { name: 'تایوان', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#fe0000"/><rect width="18" height="12" fill="#000095"/><circle cx="9" cy="6" r="3.2" fill="#fff"/></svg>' },
+  DE: { name: 'آلمان', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#000"/><rect y="8" width="36" height="8" fill="#d00"/><rect y="16" width="36" height="8" fill="#ffce00"/></svg>' },
+  FR: { name: 'فرانسه', flag: '<svg viewBox="0 0 36 24"><rect width="12" height="24" fill="#002395"/><rect x="12" width="12" height="24" fill="#fff"/><rect x="24" width="12" height="24" fill="#ed2939"/></svg>' },
+  IT: { name: 'ایتالیا', flag: '<svg viewBox="0 0 36 24"><rect width="12" height="24" fill="#009246"/><rect x="12" width="12" height="24" fill="#fff"/><rect x="24" width="12" height="24" fill="#ce2b37"/></svg>' },
+  SE: { name: 'سوئد', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#006aa7"/><path d="M0 12h36M12 0v24" stroke="#fecc02" stroke-width="4"/></svg>' },
+  EG: { name: 'مصر', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#ce1126"/><rect y="8" width="36" height="8" fill="#fff"/><rect y="16" width="36" height="8" fill="#000"/></svg>' },
+  DZ: { name: 'الجزایر', flag: '<svg viewBox="0 0 36 24"><rect width="18" height="24" fill="#006233"/><rect x="18" width="18" height="24" fill="#fff"/><circle cx="18" cy="12" r="4.5" fill="#d21034"/></svg>' },
+  MA: { name: 'مراکش', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#c1272d"/><circle cx="18" cy="12" r="4" fill="none" stroke="#006233" stroke-width="1.6"/></svg>' },
+  QA: { name: 'قطر', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#8d1b3d"/><rect width="10" height="24" fill="#fff"/></svg>' },
+  ET: { name: 'اتیوپی', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#078930"/><rect y="8" width="36" height="8" fill="#fcdd09"/><rect y="16" width="36" height="8" fill="#da121a"/><circle cx="18" cy="12" r="4" fill="#0f47af"/></svg>' },
+  VE: { name: 'ونزوئلا', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#ffcc00"/><rect y="8" width="36" height="8" fill="#00247d"/><rect y="16" width="36" height="8" fill="#cf142b"/></svg>' },
+  IQ: { name: 'عراق', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="8" fill="#ce1126"/><rect y="8" width="36" height="8" fill="#fff"/><rect y="16" width="36" height="8" fill="#000"/></svg>' },
+  BR: { name: 'برزیل', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#009c3b"/><polygon points="18,3 32,12 18,21 4,12" fill="#ffdf00"/><circle cx="18" cy="12" r="4.5" fill="#002776"/></svg>' },
+  TH: { name: 'تایلند', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#a51931"/><rect y="4" width="36" height="16" fill="#f4f5f8"/><rect y="8" width="36" height="8" fill="#2d2a4a"/></svg>' },
+  KZ: { name: 'قزاقستان', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#00afca"/><circle cx="18" cy="12" r="4.5" fill="#fec50c"/></svg>' },
+  ID: { name: 'اندونزی', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="12" fill="#ff0000"/><rect y="12" width="36" height="12" fill="#fff"/></svg>' },
+  TN: { name: 'تونس', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#e70013"/><circle cx="18" cy="12" r="5" fill="#fff"/></svg>' },
+  BF: { name: 'بورکینافاسو', flag: '<svg viewBox="0 0 36 24"><rect width="36" height="12" fill="#ef2b2d"/><rect y="12" width="36" height="12" fill="#009e49"/><circle cx="18" cy="12" r="3" fill="#fcd116"/></svg>' }
+};
+
+function renderCountryBadge(code, isSupplier = false) {
+  const c = COUNTRIES[code] || { name: code, flag: '<svg viewBox="0 0 36 24"><rect width="36" height="24" fill="#475569"/></svg>' };
+  return `<span class="cBadge${isSupplier ? ' sup' : ''}"><span class="cFlag">${c.flag}</span><span>${c.name}${isSupplier ? ' (تامین موتور/قطعات)' : ''}</span></span>`;
+}
+
+/* ═══════════ ۱) دادهٔ ۲۷ پهپاد (کالیبره‌شده با هر ۳ مقاله پژوهشی) ═══════════ */
+const UAVS = [
+  {
+    id: 'blackhornet', name: 'بلک هورنت PD-100 / 4', latin: 'Teledyne FLIR Black Hornet 3/4', short: 'بلک‌هورنت',
+    maker: 'FLIR / Prox Dynamics', producers: ['NO', 'US'], suppliers: [], operators: ['UK', 'US', 'UA', 'NO', 'AU', 'FR'],
+    cat: 'شناسایی', cls: 'نانو', dodGroup: 'گروه ۱ (نانو)', sizeType: 'طول بدنه', size: 0.168,
+    price: 195000, priceNote: 'هر سامانه (قرارداد اولیه)', range: 2, speed: 36, ceiling: 1500, enduranceHr: 0.42, enduranceLbl: '۲۵ تا ۳۰ دقیقه',
+    weight: '۳۳ گرم (نسخه ۴: ۷۰ گرم)', payloadKg: 0.01, engine: 'برقی · تک‌روتور کم‌صدا', dims: 'طول ۱۶٫۸ سانتی‌متر',
+    guidance: 'لینک رادیویی رمزنگاری‌شده در خط دید + دوربین میکرو EO/IR', shape: 'heli',
+    wiki: ['Black Hornet Nano UAV', 'Prox Dynamics PD-100 Black Hornet'], gq: 'Black Hornet nano UAV',
+    files: ['PD-100 Black Hornet.jpg', 'Black Hornet Nano UAV.jpg'],
+    desc: 'کوچک‌ترین پهپاد عملیاتی جهان؛ در جیب فرمانده جا می‌شود و برای شناسایی درون‌ساختمانی و حفاظت شخصیت‌ها پیش از ورود کاروان به کار می‌رود.',
+    caps: ['شناسایی نزدیک و درون‌ساختمانی پیش از ورود تیم حفاظت', 'ارسال تصویر زنده روز/شب و حرارتی بدون جلب توجه صوتی', 'تحویل بیش از ۱۶۰ دستگاه به اوکراین توسط بریتانیا و آمریکا'],
+    pros: ['بسیار کوچک و کم‌صدا؛ سطح مقطع راداری نزدیک به صفر', 'حمل آسان در جلیقه تاکتیکی و آماده‌سازی در ۳۰ ثانیه', 'حذف ریسک انسانی در پاک‌سازی نقاط کور شهری'],
+    cons: ['برد و ماندگاری کوتاه (۲۵ دقیقه)', 'حساس به باد و کاهش ظرفیت باتری در سرما', 'راه‌های مقابله: پایش ریزموج RF داخلی و توری‌های فیزیکی'],
+    gallery: ['نشست روی کف دست در تمرین میدانی', 'پرواز شناسایی در گذرگاه شهری', 'نمای نزدیک سنسور الکترواپتیکال']
+  },
+  {
+    id: 'mini4', name: 'مینی ۴ پرو', latin: 'DJI Mini 4 Pro', short: 'مینی ۴',
+    maker: 'DJI', producers: ['CN'], suppliers: [], operators: ['CN', 'UA', 'RU'],
+    cat: 'تجاری', cls: 'میکرو', dodGroup: 'گروه ۱', sizeType: 'قطر مورب', size: 0.242,
+    price: 759, priceNote: 'خرده‌فروشی', range: 20, speed: 57, ceiling: 4000, enduranceHr: 0.56, enduranceLbl: '۳۴ دقیقه',
+    weight: 'زیر ۲۴۹ گرم', payloadKg: 0.2, engine: 'برقی چهارروتوره', dims: 'قطر مورب ۲۴٫۲ سانتی‌متر',
+    guidance: 'لینک O4 + GNSS و سنسورهای بینایی ۳۶۰ درجه پرهیز از مانع', shape: 'quad',
+    wiki: ['DJI Mini 4 Pro', 'DJI Mavic 3'], gq: 'DJI Mini 4 Pro',
+    files: ['DJI Mini 4 Pro.jpg', 'DJI Mini 3 Pro (cropped).jpg'],
+    desc: 'مرز میان ابزار تجاری و دیده‌بان تاکتیکی؛ سبک‌تر از نصاب قانونی ۲۵۰ گرم که از فیلم‌برداری تا پایش محیطی به کار می‌رود.',
+    caps: ['تصویربرداری 4K/60 و دیده‌بانی سبک در ارتفاع کم', 'ردیابی هوشمند سوژه و پرهیز خودکار از موانع', 'بازرسی سریع پشت‌بام‌ها و مسیر تردد'],
+    pros: ['زیر ۲۴۹ گرم؛ ابعاد جیبی و راه‌اندازی فوری', 'ماندگاری ۳۴ دقیقه‌ای با باتری سبک', 'ژیمبال سه‌محوره با چرخش عمودی'],
+    cons: ['لینک استاندارد و آسیب‌پذیر در برابر تفنگ‌های اخلالگر (DroneGun)', 'محدودیت‌های ژئوفنس سازنده', 'حساس به بادهای شدید'],
+    gallery: ['برخاست از کف دست در نور طلایی', 'گشت‌زنی توپوگرافیک در ارتفاع کم']
+  },
+  {
+    id: 'mavic3', name: 'مَویک ۳ پرو (تبدیل‌شده)', latin: 'DJI Mavic 3 Pro / Tactical', short: 'مَویک ۳',
+    maker: 'DJI', producers: ['CN'], suppliers: [], operators: ['UA', 'RU', 'CN', 'IR'],
+    cat: 'تجاری', cls: 'میکرو', dodGroup: 'گروه ۱', sizeType: 'قطر مورب', size: 0.35,
+    price: 2500, priceNote: '۲ تا ۴ هزار دلار تجاری [تأییدشده C]', range: 15, speed: 75, ceiling: 6000, enduranceHr: 0.76, enduranceLbl: '۴۳ تا ۴۶ دقیقه',
+    weight: '۹۵۸ گرم (تا ۱.۳ کیلوگرم با خرج)', payloadKg: 0.5, engine: 'برقی چهارروتوره', dims: 'قطر مورب ۳۵ سانتی‌متر',
+    guidance: 'لینک رادیویی OcuSync + اپتیک سه‌دوربینه و حرارتی (نسخه T)', shape: 'quad',
+    wiki: ['DJI Mavic 3', 'DJI Mavic'], gq: 'DJI Mavic 3',
+    files: ['DJI Mavic 3 Pro.jpg', 'DJI Mavic 3 (cropped).jpg'],
+    desc: 'پرشمارترین پهپاد دیده‌بانی میدان نبرد؛ در هر دو سوی جنگ اوکراین برای تصحیح آتش توپخانه و رهاسازی نارنجک در مقیاس میلیونی به کار می‌رود.',
+    caps: ['شناسایی روز/شب خط مقدم و تصحیح لحظه‌ای آتش توپخانه', 'رهاسازی عمودی نارنجک و بمبلت روی سنگرها', 'کوتاه کردن چرخه کشف تا شلیک (OODA) به چند دقیقه'],
+    pros: ['کیفیت تصویر و زوم اپتیکال کم‌رقیب نسبت به قیمت', 'تامین انبوه از بازار تجاری و خاکستری جهانی', 'ماندگاری تا ۴۶ دقیقه'],
+    cons: ['آسیب‌پذیری شدید لینک رادیویی به اخلال و کشف موقعیت اپراتور با شنود RF', 'توقف فروش مستقیم سازنده به طرفین درگیری از آوریل ۲۰۲۲', 'راه‌های مقابله: جهت‌یابی رادیویی و اخلال نقطه‌ای'],
+    gallery: ['گشت‌زنی توپوگرافیک در نور روز', 'نمای ژیمبال در حین قفل روی هدف']
+  },
+  {
+    id: 'fpv_fiber', name: 'پهپاد FPV فیبرنوری', latin: 'Fiber-Optic Wire-Guided FPV', short: 'FPV فیبرنوری',
+    maker: 'کارگاه‌های روسیه و اوکراین (۱۱+ سازنده)', producers: ['RU', 'UA'], suppliers: ['CN'], operators: ['RU', 'UA'],
+    cat: 'انتحاری', cls: 'مینی', dodGroup: 'گروه ۱ (ضد اخلال)', sizeType: 'قطر شاسی', size: 0.38,
+    price: 1200, priceNote: '۶۰۰ تا ۱٬۵۰۰ دلار با قرقره [SS]', range: 20, speed: 140, ceiling: 500, enduranceHr: 0.25, enduranceLbl: '۱۵ دقیقه پرواز',
+    weight: '۲٫۲ کیلوگرم (با قرقره فیبر)', payloadKg: 1.5, engine: 'برقی چهارروتوره تقویت‌شده', dims: 'قطر ۳۸ سانتی‌متر + قرقره ۱۰ تا ۲۰ کیلومتر',
+    guidance: 'کابل فیبرنوری متصل به اپراتور (مصون ۱۰۰٪ از اخلال رادیویی و بدون تابش)', shape: 'quad',
+    wiki: ['First-person view (radio control)'], gq: 'FPV drone military',
+    files: ['FPV drone Ukraine.jpg'],
+    desc: 'مهم‌ترین نوآوری ضداخلال ۲۰۲۴–۲۰۲۵ در محور کورسک و دونباس؛ با باز کردن قرقره فیبرنوری در حین پرواز، هیچ سیگنال رادیویی ساطع نمی‌کند و تمام جمرها را بی‌اثر می‌سازد.',
+    caps: ['انهدام تانک‌ها و خودروهای مجهز به قوی‌ترین جمرهای جنگ الکترونیک', 'ارسال تصویر شفاف بدون نویز تا لحظه برخورد در ارتفاع صفر', 'تایید بیش از ۲۰ مدل فیبرنوری در اوکراین و روسیه تا بهار ۲۰۲۵'],
+    pros: ['مصونیت مطلق در برابر هرگونه اخلال رادیویی (RF Jamming)', 'نامرئی برای سامانه‌های شنود فرکانسی (چون هیچ موجی ساطع نمی‌کند)', 'عبور از ستون سنتی خط داده رادیویی'],
+    cons: ['وزن اضافی قرقره فیبر و کاهش سرعت و مانورپذیری', 'خطر قطع شدن نخ فیبر در برخورد با درختان و کابل‌های برق', 'راه‌های مقابله: فقط کشت سخت (توپ، تور، شات‌گان و رهگیر برخوردی)'],
+    gallery: ['نمای قرقره فیبرنوری زیر شاسی کربنی', 'پرواز در محور پر اخلال کورسک']
+  },
+  {
+    id: 'skydio', name: 'اسکای‌دیو X10D', latin: 'Skydio X10D Autonomous', short: 'اسکای‌دیو',
+    maker: 'Skydio', producers: ['US'], suppliers: [], operators: ['US', 'UA', 'IL', 'JP'],
+    cat: 'شناسایی', cls: 'میکرو', dodGroup: 'گروه ۱', sizeType: 'قطر مورب', size: 0.45,
+    price: 15073, priceNote: 'ارزیابی DHS: ۱۵٬۰۷۳ دلار [D]', range: 12, speed: 72, ceiling: 4500, enduranceHr: 0.66, enduranceLbl: '۴۰ دقیقه',
+    weight: '۲٫۲ کیلوگرم', payloadKg: 0.7, engine: 'برقی چهارروتوره', dims: 'قطر مورب ۴۵ سانتی‌متر',
+    guidance: 'ناوبری دیدی هوش مصنوعی روی دستگاه (مستقل از GPS) + رادیویی امن', shape: 'quad',
+    wiki: ['Skydio'], gq: 'Skydio drone',
+    files: ['Skydio X2.jpg'],
+    desc: 'خودمختار تمام‌عیار؛ با ۶ دوربین ناوبری و هوش مصنوعی پروازی، حتی در صورت قطع کامل GPS مسیر را در باریکه‌های شهری و تونل‌ها گم نمی‌کند.',
+    caps: ['پرواز خودمختار بدون GPS با دوربین‌های ۳۶۰ درجه و سنسور NightSense', 'بازرسی دقیق زیرساخت و نقشه‌برداری سه‌بعدی سریع', 'تحویل به اوکراین در قالب قراردادهای واحد نوآوری دفاعی (DIU)'],
+    pros: ['ناوبری بینایی ماشین پیشرو در محیط‌های دچار اختلال ماهواره‌ای', 'مجموعه سنسورهای ماژولار حرارتی و اپتیکال', 'امنیت زنجیره تامین غربی'],
+    cons: ['قیمت بسیار بالا (۱۵ تا ۲۵ هزار دلار) در برابر رقبای تجاری', 'محدودیت برد رادیویی در میدان نبرد گسترده'],
+    gallery: ['پرواز خودمختار در باریکه شهری', 'ردیابی خودکار هدف متحرک']
+  },
+  {
+    id: 'switchblade', name: 'سوئیچ‌بلید ۳۰۰', latin: 'AeroVironment Switchblade 300', short: 'سوئیچ‌بلید',
+    maker: 'AeroVironment', producers: ['US'], suppliers: [], operators: ['US', 'UA', 'UK'],
+    cat: 'انتحاری', cls: 'مینی', dodGroup: 'گروه ۱ (سرگردان)', sizeType: 'دهانهٔ بال', size: 0.6,
+    price: 52914, priceNote: 'سطر بودجه ۲۰۲۳: ۵۲٬۹۱۴ دلار [D]', range: 20, speed: 160, ceiling: 1500, enduranceHr: 0.33, enduranceLbl: '۲۰ دقیقه',
+    weight: '۲٫۵ کیلوگرم', payloadKg: 0.5, engine: 'برقی · پرتاب از لوله پنوماتیک', dims: 'دهانهٔ ۶۰ سانتی‌متر',
+    guidance: 'اپتوالکترونیکی با اپراتور در حلقه + قابلیت لغو حمله و تغییر هدف', shape: 'tube',
+    wiki: ['AeroVironment Switchblade'], gq: 'AeroVironment Switchblade',
+    files: ['AeroVironment Switchblade 300.jpg', 'Switchblade 300 UAV.jpg'],
+    desc: 'مهمات سرگردان در ابعاد یک لوله خمپاره؛ از کوله‌پشتی پیاده‌نظام شلیک می‌شود و تا ثانیه آخر به اپراتور امکان لغو حمله را می‌دهد.',
+    caps: ['حمله دقیق علیه پرسنل و خودروهای سبک در خط مقدم', 'پرتاب از لوله بدون ردپای دود و حرارت', 'تحویل بیش از ۷۰۰ فروند به اوکراین توسط آمریکا'],
+    pros: ['سبک و قابل حمل توسط یک سرباز', 'امکان لغو حمله (Wave-off) در میانه مسیر برای پرهیز از آسیب جانبی', 'صدای بسیار کم در فاز شیرجه'],
+    cons: ['کلاهک کوچک (۰.۵ کیلوگرم) و بی‌اثر علیه زره سنگین', 'قیمت بسیار گزاف (۵۲ هزار دلار) در مقایسه با FPVهای ۶۰۰ دلاری', 'ماندگاری کوتاه ۲۰ دقیقه‌ای'],
+    gallery: ['خروج از لوله پرتاب در نمایشگاه دفاعی', 'باز شدن بال‌ها پس از پرتاب']
+  },
+  {
+    id: 'raven', name: 'آر‌کیو-۱۱ ریون', latin: 'AeroVironment RQ-11B Raven', short: 'ریون',
+    maker: 'AeroVironment', producers: ['US'], suppliers: [], operators: ['US', 'UA', 'UK', 'IT', 'AU'],
+    cat: 'شناسایی', cls: 'مینی', dodGroup: 'گروه ۱', sizeType: 'دهانهٔ بال', size: 1.37,
+    price: 35000, priceNote: 'هر فروند', range: 10, speed: 95, ceiling: 4500, enduranceHr: 1.5, enduranceLbl: '۹۰ دقیقه',
+    weight: '۱٫۹ کیلوگرم', payloadKg: 0.3, engine: 'برقی دست‌پرتاب', dims: 'دهانهٔ ۱٫۳۷ متر · طول ۰٫۹ متر',
+    guidance: 'لینک رادیویی خط دید + مسیر از پیش برنامه‌ریزی‌شده GPS', shape: 'straight',
+    wiki: ['AeroVironment RQ-11 Raven'], gq: 'RQ-11 Raven',
+    files: ['AeroVironment RQ-11 Raven.jpg', 'RQ-11 Raven.jpg'],
+    desc: 'پرکاربردترین پهپاد دست‌پرتاب تاریخ؛ چشم گردان‌ها و گروهان‌ها در خط مقدم بدون نیاز به باند.',
+    caps: ['شناسایی روز/شب در شعاع ۱۰ کیلومتری گروهان', 'پرتاب دستی و فرود شکمی خودکار', 'ارائه دید نقطه‌ای زنده به فرمانده میدان'],
+    pros: ['استفاده آسان توسط پیاده‌نظام', 'بازیابی بدون نیاز به چتر یا تور', 'هزینه عملیاتی پایین'],
+    cons: ['آسیب‌پذیر در برابر جنگ الکترونیک و اخلال GPS مدرن', 'فاقد توان ایستایی در جا و فاقد محموله رزمی'],
+    gallery: ['پرتاب دستی در تمرین گردان', 'پرواز بر فراز خط تماس']
+  },
+  {
+    id: 'lancet', name: 'لنسست-۳ (ایزدلیه ۵۲/۵۳)', latin: 'ZALA Lancet-3', short: 'لنسست',
+    maker: 'ZALA Aero / کالاشنیکوف', producers: ['RU'], suppliers: ['CN'], operators: ['RU'],
+    cat: 'انتحاری', cls: 'مینی', dodGroup: 'گروه ۲ (سرگردان)', sizeType: 'دهانهٔ بال', size: 1.65,
+    price: 35000, priceNote: 'حدود ۳۵ هزار دلار [SS]', range: 70, speed: 110, ceiling: 4000, enduranceHr: 1.0, enduranceLbl: '۴۰ تا ۶۰ دقیقه',
+    weight: '۱۲ تا ۱۵ کیلوگرم', payloadKg: 5.0, engine: 'برقی · پرتاب کاتاپولت', dims: 'دهانهٔ ۱٫۶۵ متر · بال ضربدری دوبل',
+    guidance: 'اپتیکی/حرارتی با اپراتور در حلقه + شناخت هدف ترمینال (با رله Orlan-10)', shape: 'tube',
+    wiki: ['ZALA Lancet'], gq: 'ZALA Lancet',
+    files: ['ZALA Lancet-3.jpg', 'ZALA Lancet.jpg'],
+    desc: 'کشنده اصلی توپخانه و رادارهای پدافندی در جنگ اوکراین؛ با هزینه ۳۵ هزار دلاری، هویتزرها و سامانه‌های چندمیلیون دلاری را در برد ۴۰ تا ۷۰ کیلومتر شکار می‌کند.',
+    caps: ['شکار توپخانه، رادارها و زره در چرخه مشترک با پهپاد شناسایی Orlan-10', 'شیرجه نهایی با سرعت ۳۰۰ کیلومتر بر ساعت و کلاهک خرج‌گود ۳ تا ۵ کیلوگرمی', 'نسخه ۵۳: قابلیت هماهنگی جفتی و قفل خودکار ترمینال'],
+    pros: ['نسبت تبادل هزینه فوق‌العاده در برابر اهداف گران‌قیمت', 'دقت بالا بر اهداف ثابت و متحرک', 'مانورپذیری عالی با بال‌های X شکل'],
+    cons: ['وابستگی به قطعات الکترونیکی وارداتی از مسیرهای دور زدن تحریم (گزارش ISW)', 'آسیب‌پذیر در برابر قفس‌های توری فلزی و پهپادهای رهگیر FPV'],
+    gallery: ['نمای لنسست-۳ با بال‌های ضربدری', 'آماده‌سازی روی ریل کاتاپولت']
+  },
+  {
+    id: 'roadrunner', name: 'اندوریل رودرانر-ام (رهگیر)', latin: 'Anduril Roadrunner-M VTOL', short: 'رودرانر-M',
+    maker: 'Anduril Industries', producers: ['US'], suppliers: [], operators: ['US'],
+    cat: 'رزمی', cls: 'تاکتیکی', dodGroup: 'گروه ۲/۳ (رهگیر جت)', sizeType: 'طول بدنه', size: 1.8,
+    price: 200000, priceNote: 'قرارداد ۲۵۰ میلیون دلاری برای ۵۰۰+ فروند [C]', range: 100, speed: 900, ceiling: 9000, enduranceHr: 0.7, enduranceLbl: '۴۰ دقیقه (قابل بازیابی)',
+    weight: 'حدود ۴۵ کیلوگرم', payloadKg: 10, engine: 'دو موتور توربوجت عمودپرواز (VTOL)', dims: 'طول ۱٫۸ متر · برخاست و فرود عمودی',
+    guidance: 'رادار/اپتیک + هوش مصنوعی Lattice با قابلیت بازگشت و فرود عمودی در صورت عدم شلیک', shape: 'tube',
+    wiki: ['Anduril Industries'], gq: 'Anduril Roadrunner',
+    files: ['Anduril Roadrunner.jpg'],
+    desc: 'پاسخ مهندسی به بحران اقتصاد پدافند؛ رهگیر جت دوقلویی که عمودی بلند می‌شود، پهپاد مهاجم را با سرعت زیرصوت بالا شکار می‌کند و در صورت عدم درگیری، سالم فرود می‌آید.',
+    caps: ['رهگیری و انهدام پهپادهای یک‌طرفه (رده شاهد و جران جت) و موشک‌های کروز', 'فرود عمودی خودکار و سوخت‌گیری مجدد در صورت لغو ماموریت', 'استقرار عملیاتی توسط سنتکام در ۲۰۲۴–۲۰۲۵ (قرارداد اکتبر ۲۰۲۴)'],
+    pros: ['تغییر حساب استهلاک هزینه پدافند به لطف قابلیت بازیابی', 'سرعت بسیار بالا در مقایسه با رهگیرهای ملخی', 'واکنش فوری از آشیانه خودکار'],
+    cons: ['قیمت واحد (۱۰۰ تا ۳۰۰ هزار دلار) همچنان بالاتر از پهپادهای انتحاری ارزان است', 'پیچیدگی نگهداری دو موتور میکروتوربوجت'],
+    gallery: ['برخاست عمودی از آشیانه خودکار', 'پرواز رهگیری پرسرعت']
+  },
+  {
+    id: 'shahed136', name: 'شاهد-۱۳۶ (جران-۲)', latin: 'HESA Shahed-136 / Geran-2', short: 'شاهد ۱۳۶',
+    maker: 'هسا / شاهد (و کارخانه الفبوگا)', producers: ['IR', 'RU'], suppliers: ['CN'], operators: ['IR', 'RU'],
+    cat: 'انتحاری', cls: 'تاکتیکی', dodGroup: 'گروه ۳ (حمله یک‌طرفه)', sizeType: 'دهانهٔ بال', size: 2.5,
+    price: 35000, priceNote: '۲۰ تا ۵۰ هزار دلار [مورد اختلاف D]', range: 2000, speed: 185, ceiling: 4000, enduranceHr: 10.0, enduranceLbl: '۸ تا ۱۲ ساعت',
+    weight: '۲۰۰ کیلوگرم', payloadKg: 45, engine: 'پیستونی ۴ سیلندر MD-550 (۵۰ اسب‌بخار)', dims: 'دهانهٔ ۲٫۵ متر · طول ۳٫۵ متر',
+    guidance: 'INS/GNSS + آرایه آنتن ضداخلال CRPA + ماژول LTE در نسخه‌های روسی', shape: 'delta',
+    wiki: ['HESA Shahed 136'], gq: 'Shahed 136',
+    files: ['HESA Shahed-136.jpg', 'Shahed-136 UAV.jpg'],
+    desc: 'معیار جهانی تولید انبوه مهمات یک‌طرفه؛ با هزینه ۲۰ تا ۵۰ هزار دلاری، پدافندهای موشکی چندمیلیون دلاری را دچار «گرسنگی رهگیر» و فرسایش اقتصادی می‌کند.',
+    caps: ['ضربه به زیرساخت‌ها و اهداف ثابت در عمق ۱٬۵۰۰ تا ۲٬۰۰۰ کیلومتر', 'تولید بیش از ۱۷۰ بدنه در روز در الفبوگا و رکورد ۷۲۸ پرتاب در یک شب (ژوئیه ۲۰۲۵)', 'اجبار پدافند به شلیک موشک‌های ۱ تا ۴ میلیون دلاری'],
+    pros: ['نسبت تبادل هزینه فوق‌العاده به سود مهاجم', 'مجهز شدن به آنتن‌های ضداخلال CRPA برای عبور از جنگ الکترونیک', 'پرتاب دسته‌ای از کامیون‌های متحرک بدون نیاز به باند'],
+    cons: ['سرعت پایین (۱۸۵ کیلومتر بر ساعت) و صدای متمایز موتور پیستونی', 'آسیب‌پذیر در برابر توپ‌های رادارهدایت (ژپارد)، جنگنده و رهگیرهای FPV', 'مناسب اهداف ثابت'],
+    gallery: ['نمودار فنی بال دلتا و پیشران', 'پرتاب راپیدی از رمپ مایل']
+  },
+  {
+    id: 'shahed238', name: 'شاهد-۲۳۸ (جران-۳ جت)', latin: 'Shahed-238 / Geran-3 Turbojet', short: 'شاهد ۲۳۸ جت',
+    maker: 'هسا / منطقه اقتصادی الفبوگا', producers: ['IR', 'RU'], suppliers: ['CN'], operators: ['IR', 'RU'],
+    cat: 'انتحاری', cls: 'تاکتیکی', dodGroup: 'گروه ۳ (سرعت گروه ۵)', sizeType: 'دهانهٔ بال', size: 2.5,
+    price: 90000, priceNote: '۲ تا ۳ برابر نسخه پیستونی [SS]', range: 1500, speed: 550, ceiling: 6000, enduranceHr: 3.0, enduranceLbl: 'حدود ۳ ساعت',
+    weight: '۲۵۰ تا ۳۰۰ کیلوگرم', payloadKg: 50, engine: 'توربوجت (موتور Telefly JT80 چینی در جران-۳)', dims: 'دهانهٔ ۲٫۵ متر · ورودی هوای جت فوقانی',
+    guidance: 'INS/GNSS + CRPA + نسخه‌های دارای جوینده اپتیکی/حرارتی و ضدرادار', shape: 'delta',
+    wiki: ['HESA Shahed 136'], gq: 'Shahed drone',
+    files: ['HESA Shahed-136.jpg'],
+    desc: 'نسخهٔ توربوجت خانواده شاهد (رونمایی نوامبر ۲۰۲۳)؛ با رساندن سرعت کروز به ۵۰۰ تا ۶۰۰ کیلومتر بر ساعت، زمان واکنش گروه‌های آتش متحرک و توپ‌های ضدهوایی را از بین می‌برد.',
+    caps: ['عبور پرسرعت از کمربند توپخانه‌ای و تیم‌های تیربار ضدپهپاد', 'تایید استفاده از توربوجت چینی Telefly JT80 در لاشه‌های جران-۳ در ۲۰۲۵ (گزارش CSIS)', 'همگرایی عملکرد با موشک کروز با یک‌پنجم هزینه'],
+    pros: ['سرعت ۳ برابر شاهد-۱۳۶ و کاهش شدید پنجره واکنش پدافند', 'حذف صدای ملخ و رنگ مشکی مات برای نفوذ شبانه', 'کلاهک تا ۹۰ کیلوگرم در نسخه‌های جران-۳'],
+    cons: ['امضای حرارتی شدید موتور جت برای موشک‌های دوش‌پرتاب حرارتی', 'هزینه بالاتر و وابستگی به زنجیره تامین موتورهای توربوجت'],
+    gallery: ['نمای بدنه مشکی مات و ورودی هوای جت', 'تحلیل پیشران توربوجت']
+  },
+  {
+    id: 'harop', name: 'هاروپ (شکارچی رادار)', latin: 'IAI Harop', short: 'هاروپ',
+    maker: 'صنایع هوایی اسرائیل (IAI)', producers: ['IL'], suppliers: [], operators: ['IL', 'AZ', 'IN', 'MA'],
+    cat: 'انتحاری', cls: 'تاکتیکی', dodGroup: 'گروه ۳ (سرگردان SEAD)', sizeType: 'دهانهٔ بال', size: 3.0,
+    price: 700000, priceNote: 'هر فروند (برآورد صادراتی)', range: 1000, speed: 417, ceiling: 4600, enduranceHr: 6.0, enduranceLbl: '۶ ساعت',
+    weight: '۱۳۵ کیلوگرم', payloadKg: 23, engine: 'پیستونی وانکل + بوستر پرتاب', dims: 'دهانهٔ ۳ متر · پرتاب از کانتینر',
+    guidance: 'دوحالته: جوینده ضدرادار خودکار + دوربین IIR با اپراتور در حلقه', shape: 'delta',
+    wiki: ['IAI Harop'], gq: 'IAI Harop',
+    files: ['IAI Harop.jpg', 'Harop UAV.jpg'],
+    desc: 'شکارچی رادارهای پدافندی؛ ساعت‌ها در آسمان پرسه می‌زند تا به محض روشن شدن رادار دشمن، روی منبع تشعشع قفل و شیرجه برود.',
+    caps: ['انهدام رادارهای پدافند هوایی (مأموریت SEAD در جنگ قره‌باغ ۲۰۲۰)', 'گشت انتظار ۶ ساعته بالای منطقه عملیات', 'شیرجه نهایی با سرعت ۴۱۷ کیلومتر بر ساعت و کلاهک ۲۳ کیلوگرمی'],
+    pros: ['ترکیب جوینده ضدرادار و هدایت تصویری اپراتور', 'قابلیت لغو حمله و بازگشت به گشت', 'پرتاب از کانتینرهای بسته روی کامیون یا ناو'],
+    cons: ['گران‌تر از مهمات سرگردان نسل جدید', 'محدودیت برد ارتباط مستقیم به حدود ۲۰۰ کیلومتر بدون رله'],
+    gallery: ['پرتاب از کانتینر کامیون', 'پرواز انتظار بر فراز منطقه']
+  },
+  {
+    id: 'scaneagle', name: 'اسکن‌ایگل (و نسخه یسیر)', latin: 'Boeing Insitu ScanEagle', short: 'اسکن‌ایگل',
+    maker: 'Insitu / بوئینگ (بومی‌سازی در ایران: یسیر)', producers: ['US', 'IR'], suppliers: [], operators: ['US', 'UA', 'IR', 'AU', 'JP', 'UK'],
+    cat: 'شناسایی', cls: 'تاکتیکی', dodGroup: 'گروه ۲', sizeType: 'دهانهٔ بال', size: 3.11,
+    price: 800000, priceNote: 'سامانه ۴ فروندی: ۳.۲ میلیون دلار', range: 100, speed: 148, ceiling: 5950, enduranceHr: 24.0, enduranceLbl: '۱۸ تا ۲۴ ساعت',
+    weight: '۲۲ کیلوگرم', payloadKg: 3.4, engine: 'پیستونی ۱٫۹ اسب‌بخار سوخت سنگین', dims: 'دهانهٔ ۳٫۱۱ متر · طول ۱٫۵۶ متر',
+    guidance: 'لینک دید مستقیم + پرتاب منجنیق و بازیابی با قلاب SkyHook', shape: 'straight',
+    wiki: ['Boeing Insitu ScanEagle', 'ScanEagle'], gq: 'ScanEagle',
+    files: ['Boeing Insitu ScanEagle.jpg', 'ScanEagle UAV.jpg'],
+    desc: 'رکورددار ماندگاری در کلاس سبک دریایی؛ با منجنیق از عرشه ناو پرتاب می‌شود و با قلاب هوایی SkyHook بدون نیاز به باند بازیابی می‌گردد.',
+    caps: ['شناسایی دریایی و ساحلی ۲۴ ساعته در بیش از ۲۰ نیروی دریایی', 'مجهز به رادار مینیاتوری NanoSAR و دوربین حرارتی', 'شکار سالم در دسامبر ۲۰۱۲ توسط ایران و مهندسی معکوس با نام «یسیر»'],
+    pros: ['ماندگاری ۲۴ ساعته در وزن تنها ۲۲ کیلوگرم', 'بی‌نیاز از باند فرود؛ ایده‌آل برای ناوچه‌ها', 'ردپای راداری و بصری بسیار کم'],
+    cons: ['فاقد محموله رزمی', 'نیازمند تجهیزات اختصاصی پرتاب و بازیابی SkyHook'],
+    gallery: ['پرتاب با منجنیق هوایی', 'بازیابی با بازوی اسکای‌هوک']
+  },
+  {
+    id: 'orlan10', name: 'اورلان-۱۰', latin: 'STC Orlan-10', short: 'اورلان-۱۰',
+    maker: 'STC سنت‌پترزبورگ', producers: ['RU'], suppliers: ['CN', 'US'], operators: ['RU'],
+    cat: 'شناسایی', cls: 'تاکتیکی', dodGroup: 'گروه ۲/۳', sizeType: 'دهانهٔ بال', size: 3.1,
+    price: 100000, priceNote: '۸۰ تا ۱۲۰ هزار دلار [C]', range: 110, speed: 150, ceiling: 5000, enduranceHr: 16.0, enduranceLbl: 'تا ۱۶ ساعت',
+    weight: '۱۵ تا ۱۸ کیلوگرم', payloadKg: 5.0, engine: 'پیستونی بنزینی', dims: 'دهانهٔ ۳٫۱ متر · طول ۲ متر',
+    guidance: 'لینک رادیویی + استفاده از شبکه تلفن همراه + رله برای Lancet', shape: 'straight',
+    wiki: ['STC Orlan-10'], gq: 'Orlan-10',
+    files: ['Orlan-10 UAV.jpg'],
+    desc: 'پهپاد شناسایی ارزان و پرتیراژ روسیه؛ ستون اصلی کشف هدف برای توپخانه و مهمات سرگردان Lancet در جنگ اوکراین.',
+    caps: ['شناسایی عمیق، تصحیح آتش توپخانه و رله مخابراتی برای Lancet', 'حمل سامانه جنگ الکترونیک Leer-3 برای جعل دکل‌های مخابراتی', 'پرواز در ارتفاع ۴ تا ۵ کیلومتری خارج از برد سلاح‌های سبک'],
+    pros: ['تولید انبوه ارزان با ترکیب قطعات تجاری و نظامی', 'مداومت ۱۶ ساعته و بازیابی ساده با چتر نجات', 'قابلیت تخلیه اطلاعات از طریق شبکه موبایل'],
+    cons: ['وابستگی شدید به قطعات الکترونیکی و موتور وارداتی', 'آسیب‌پذیر در برابر پهپادهای رهگیر FPV ارتفاع بالا'],
+    gallery: ['پرتاب از کاتاپولت تاشو', 'فرود با چتر نجات']
+  },
+  {
+    id: 'shadow', name: 'آر‌کیو-۷ شادو', latin: 'Textron RQ-7B Shadow', short: 'شادو',
+    maker: 'Textron Systems', producers: ['US'], suppliers: [], operators: ['US', 'AU', 'SE', 'IT'],
+    cat: 'شناسایی', cls: 'تاکتیکی', dodGroup: 'گروه ۳', sizeType: 'دهانهٔ بال', size: 4.3,
+    price: 1500000, priceNote: 'تخمینی', range: 125, speed: 203, ceiling: 4570, enduranceHr: 8.0, enduranceLbl: '۷٫۵ تا ۹ ساعت',
+    weight: '۲۱۰ کیلوگرم', payloadKg: 45, engine: 'روتاری وانکل ۳۸ اسب‌بخار', dims: 'دهانهٔ ۴٫۳ متر (بلاک ۳: ۶.۱ متر)',
+    guidance: 'لینک TCDL + تیم‌سازی مستقیم با هلیکوپتر آپاچی (MUM-T)', shape: 'straight',
+    wiki: ['AAI RQ-7 Shadow'], gq: 'RQ-7 Shadow',
+    files: ['AAI RQ-7 Shadow.jpg', 'RQ-7 Shadow (cropped).jpg'],
+    desc: 'چشم تیپ‌های زرهی ارتش آمریکا؛ تصویر زنده هدف را مستقیماً به کابین خلبان هلیکوپترهای آپاچی مخابره می‌کند.',
+    caps: ['شناسایی تاکتیکی تیپ و نشانه‌گذاری لیزری اهداف', 'هم‌رسانی داده در چارچوب تیم‌سازی انسان-ماشین (MUM-T)', 'هدایت آتش توپخانه'],
+    pros: ['ادغام کامل در شبکه فرماندهی زرهی', 'مقاوم‌سازی برای پرواز در باران در بلاک ۳'],
+    cons: ['صدای بسیار بلند موتور وانکل', 'نیاز به ریل پرتاب و کابل توقف روی باند'],
+    gallery: ['پرتاب از ریل هوایی روی کامیون', 'فرود با کابل توقف']
+  },
+  {
+    id: 'magura', name: 'شناور بی‌سرنشین ماگورا V5', latin: 'MAGURA V5 Naval USV', short: 'ماگورا V5',
+    maker: 'اطلاعات دفاعی اوکراین (GUR)', producers: ['UA'], suppliers: ['US'], operators: ['UA'],
+    cat: 'انتحاری', cls: 'تاکتیکی', dodGroup: 'شناور سطحی بی‌سرنشین (USV)', sizeType: 'طول بدنه', size: 5.5,
+    price: 273000, priceNote: 'حدود ۲۵۰ تا ۲۷۳ هزار دلار [C]', range: 800, speed: 78, ceiling: 1, enduranceHr: 48.0, enduranceLbl: 'تا ۶۰ ساعت دریایی',
+    weight: '۱٬۰۰۰ کیلوگرم', payloadKg: 320, engine: 'واترجت دریایی', dims: 'طول ۵٫۵ متر · ارتفاع بالای آب ۵۰ سانتی‌متر',
+    guidance: 'ارتباط ماهواره‌ای دوگانه (Starlink/Kymeta) + دوربین حرارتی', shape: 'tube',
+    wiki: ['MAGURA V5'], gq: 'Magura V5',
+    files: ['MAGURA V5.jpg'],
+    desc: 'نخستین شناور بی‌سرنشین تاریخ که در رزم واقعی ناوهای جنگی را غرق کرد و با موشک هوابه‌هوای R-73 هلیکوپتر شکاری را سرنگون ساخت.',
+    caps: ['حمله گله‌ای شبانه و غرق کردن ناوچه‌های موشک‌انداز در دریای سیاه', 'حمل ۳۲۰ کیلوگرم ماده منفجره یا ۲ فروند موشک هوابه‌هوای R-73', 'هدف قرار دادن ۱۸ شناور نظامی تا ۲۰۲۴–۲۰۲۵'],
+    pros: ['نیمرخ بسیار کوتاه روی آب و کشف دشوار راداری', 'برد ۸۰۰ کیلومتری با هدایت ماهواره‌ای پرسرعت', 'تغییر موازنه راهبردی دریایی بدون داشتن ناوگان بزرگ'],
+    cons: ['حساسیت به دریای مواج', 'آسیب‌پذیر در برابر آتش مسلسل هلیکوپترها در روز روشن'],
+    gallery: ['نمای شناور ماگورا V5 با آنتن‌های ماهواره‌ای', 'عملیات رهگیری دریایی']
+  },
+  {
+    id: 'mohajer6', name: 'مهاجر-۶', latin: 'Qods / IAIO Mohajer-6', short: 'مهاجر ۶',
+    maker: 'صنایع هوایی قدس / شاهد', producers: ['IR'], suppliers: [], operators: ['IR', 'RU', 'ET', 'VE', 'IQ'],
+    cat: 'رزمی', cls: 'MALE', dodGroup: 'گروه ۳', sizeType: 'دهانهٔ بال', size: 10.0,
+    price: 1800000, priceNote: 'تخمینی', range: 200, speed: 200, ceiling: 5400, enduranceHr: 12.0, enduranceLbl: '۱۲ ساعت',
+    weight: '۶۰۰ تا ۶۷۰ کیلوگرم', payloadKg: 100, engine: 'پیستونی روتکس ۹۱۴ / پیشران بومی', dims: 'دهانهٔ ۱۰ متر · طول ۵٫۷ متر',
+    guidance: 'لینک خط دید (۲۰۰ کیلومتر) + اپتوالکترونیک/حرارتی عقاب-۴', shape: 'male',
+    wiki: ['Mohajer-6', 'IAIO Mohajer-6'], gq: 'Mohajer-6',
+    files: ['Mohajer-6.jpg', 'IAIO Mohajer-6 (cropped).jpg'],
+    desc: 'پهپاد رزمی-شناسایی صادراتی ایران؛ با ۴ مقر زیر بال، بمب‌های هوشمند قائم-۵ و موشک‌های الماس را حمل می‌کند.',
+    caps: ['گشت مسلح با چرخه کامل شناسایی تا ضربه (ISTAR)', 'حمل ۴ فروند بمب هدایت اپتیکی/لیزری قائم یا موشک ضدزره الماس', 'صادرات به روسیه، اتیوپی، ونزوئلا و عراق'],
+    pros: ['هزینه تولید پایین و بهره‌برداری از باندهای کوتاه', 'تنوع مهمات هوشمند سبک بومی'],
+    cons: ['برد محدود به خط دید رادیویی (۲۰۰ کیلومتر)', 'سقف و سرعت محدودتر از رقبای کلاس MALE'],
+    gallery: ['برخاست از باند عملیاتی', 'گشت مسلح با بمب‌های قائم']
+  },
+  {
+    id: 'hermes450', name: 'هرمس ۴۵۰ / واچ‌کیپر', latin: 'Elbit Hermes 450 / Watchkeeper', short: 'هرمس',
+    maker: 'البیت / تالس بریتانیا', producers: ['IL', 'UK'], suppliers: [], operators: ['IL', 'UK', 'AZ', 'BR', 'TH'],
+    cat: 'شناسایی', cls: 'MALE', dodGroup: 'گروه ۳', sizeType: 'دهانهٔ بال', size: 10.5,
+    price: 5000000, priceNote: 'سامانه تخمینی', range: 300, speed: 176, ceiling: 5500, enduranceHr: 17.0, enduranceLbl: '۱۷ تا ۲۰ ساعت',
+    weight: '۵۵۰ کیلوگرم', payloadKg: 180, engine: 'روتاری وانکل ۵۲ اسب‌بخار', dims: 'دهانهٔ ۱۰٫۵ متر · طول ۶٫۱ متر',
+    guidance: 'لینک دید + ماهواره‌ای اختیاری + رادار SAR/GMTI', shape: 'male',
+    wiki: ['Elbit Hermes 450'], gq: 'Hermes 450',
+    files: ['Elbit Hermes 450.jpg', 'Hermes 450 (cropped).jpg'],
+    desc: 'پیشگام خانواده MALE و ستون شناسایی اسرائیل و بریتانیا (Watchkeeper WK450)؛ در گزارش راستی‌آزمایی، ادعای اعزام آن به اوکراین رد شد.',
+    caps: ['شناسایی پایدار و راداری SAR/GMTI', 'کاربرد گسترده در قره‌باغ ۲۰۲۰ (آذربایجان) و غزه/لبنان', 'پایش مرزی و دریایی طولانی‌مدت'],
+    pros: ['سابقه عملیاتی طولانی و قابلیت اطمینان بالا', 'تنوع محموله‌های راداری و اپتیکی'],
+    cons: ['فناوری نسل قدیم و بازنشستگی مصوب ۲۰۲۶ در بریتانیا', 'سرعت و سقف پرواز متوسط'],
+    gallery: ['گشت مرزی طولانی‌مدت', 'پرواز در ارتفاع عملیاتی متوسط']
+  },
+  {
+    id: 'tb2', name: 'بایراکتار TB2', latin: 'Baykar Bayraktar TB2', short: 'بایراکتار',
+    maker: 'بایکار تکنولوژی', producers: ['TR'], suppliers: [], operators: ['TR', 'UA', 'AZ', 'PL', 'PK', 'ET', 'MA', 'QA'],
+    cat: 'رزمی', cls: 'MALE', dodGroup: 'مرزی گروه ۳/۴', sizeType: 'دهانهٔ بال', size: 12.0,
+    price: 5000000, priceNote: '۵ میلیون دلار واحد [تأییدشده C]', range: 300, speed: 222, ceiling: 8230, enduranceHr: 27.0, enduranceLbl: '۱۸ تا ۲۷ ساعت',
+    weight: '۷۰۰ کیلوگرم', payloadKg: 150, engine: 'پیستونی روتکس ۹۱۲ / TM100', dims: 'دهانهٔ ۱۲ متر · طول ۶٫۵ متر',
+    guidance: 'لینک خط دید (۳۰۰ کیلومتر) + ماهواره‌ای در TB2S + سه رایانه هوشمند', shape: 'male',
+    wiki: ['Baykar Bayraktar TB2'], gq: 'Bayraktar TB2',
+    files: ['Bayraktar TB2 (cropped).jpg', 'Bayraktar TB2 UAV.jpg'],
+    desc: 'ستاره صادراتی دهه اخیر (فروش به بیش از ۳۱ کشور)؛ در لیبی، سوریه و قره‌باغ پدافندهای سنتی را درهم شکست.',
+    caps: ['ضربت دقیق با ۴ مهمات هوشمند لیزری MAM-L و MAM-C', 'صادرات به بیش از ۳۰ کشور در ۴ قاره (رشد ۱۲۲٪ سهم ترکیه در SIPRI)', 'هدایت آتش و پایش دریایی'],
+    pros: ['نسبت «هزینه هر اثر» عالی (پلتفرم ۵ میلیون دلاری با مهمات ارزان)', 'رکورد مداومت ۲۷ ساعت و ۳ دقیقه', 'فروش در قالب بسته کامل به همراه آموزش و ایستگاه زمینی'],
+    cons: ['آسیب‌پذیری اثبات‌شده در برابر پدافند یکپارچه و جنگ الکترونیک متراکم', 'محموله محدود ۱۵۰ کیلوگرمی و سرعت پایین'],
+    gallery: ['پرواز گشت در ارتفاع میانی', 'آماده‌سازی مهمات هوشمند زیر بال']
+  },
+  {
+    id: 'mq1', name: 'گرگ آسمانی MQ-1C', latin: 'General Atomics MQ-1C Gray Eagle', short: 'گرگ آسمانی',
+    maker: 'جنرال اتمیکس', producers: ['US'], suppliers: [], operators: ['US'],
+    cat: 'رزمی', cls: 'MALE', dodGroup: 'گروه ۴', sizeType: 'دهانهٔ بال', size: 17.0,
+    price: 21500000, priceNote: '۲۱.۵ میلیون دلار [تأییدشده C]', range: 2000, speed: 231, ceiling: 8845, enduranceHr: 40.0, enduranceLbl: '۲۵ تا ۴۰ ساعت (ER)',
+    weight: '۱٬۶۳۳ کیلوگرم (ER: ۱٬۹۰۵ کیلوگرم)', payloadKg: 261, engine: 'دیزلی سوخت سنگین ۱۸۰ اسب‌بخار', dims: 'دهانهٔ ۱۷ متر · طول ۸٫۵ متر',
+    guidance: 'دید + ماهواره‌ای Ku + رادار مرجع AN/ZPY-1 STARLite SAR/GMTI', shape: 'male',
+    wiki: ['General Atomics MQ-1C Gray Eagle'], gq: 'MQ-1C Gray Eagle',
+    files: ['MQ-1C Gray Eagle.jpg'],
+    desc: 'نسل پیشرفته Predator برای ارتش آمریکا با مداومت ۴۰ ساعته، رادار روزنه ترکیبی و ۴ موشک هلفایر.',
+    caps: ['پشتیبانی رزمی ۲۴ ساعته لشکرهای زرهی با ۴ موشک AGM-114 Hellfire', 'تصویربرداری راداری SAR/GMTI از پشت ابر', 'پرتاب ریزپرنده‌های شناسایی از زیر بال'],
+    pros: ['ماندگاری ۴۰ ساعته در نسخه بردبلند ER', 'استفاده از سوخت جت سنگین (JP-8)', 'برخاست و فرود کاملاً خودکار'],
+    cons: ['هزینه بالا (۲۱.۵ میلیون دلار)', 'آسیب‌پذیر در فضای هوایی متخاصم'],
+    gallery: ['گشت بلندمدت در ارتفاع متوسط', 'نمای دم V معکوس هنگام فرود']
+  },
+  {
+    id: 'shahed129', name: 'شاهد-۱۲۹', latin: 'HESA Shahed-129', short: 'شاهد ۱۲۹',
+    maker: 'هسا · صنایع شاهد', producers: ['IR'], suppliers: [], operators: ['IR'],
+    cat: 'رزمی', cls: 'MALE', dodGroup: 'گروه ۴', sizeType: 'دهانهٔ بال', size: 16.6,
+    price: 2000000, priceNote: 'تخمینی', range: 1700, speed: 200, ceiling: 7300, enduranceHr: 24.0, enduranceLbl: '۲۴ ساعت',
+    weight: '۹۰۰ تا ۱٬۱۵۰ کیلوگرم', payloadKg: 400, engine: 'پیستونی روتکس ۹۱۴', dims: 'دهانهٔ ۱۶٫۶ متر · طول ۸ متر',
+    guidance: 'لینک خط دید + هدایت ماهواره‌ای در نسخه ارتقایافته', shape: 'male',
+    wiki: ['HESA Shahed 129'], gq: 'Shahed 129',
+    files: ['Shahed-129.jpg', 'HESA Shahed 129.jpg'],
+    desc: 'بلندپرواز رزمی بومی با مداومت ۲۴ ساعته و توان حمل ۴ تا ۸ بمب و موشک هوشمند سدید.',
+    caps: ['گشت مسلح مرزی ۲۴ ساعته در شعاع ۱٬۷۰۰ کیلومتری', 'حمل ۴ فروند بمب هدایت اپتیکی/حرارتی سدید-۳۴۵', 'پایش دریایی در خلیج فارس و دریای عمان'],
+    pros: ['ماندگاری ۲۴ ساعته و ظرفیت بار ۴۰۰ کیلوگرمی', 'تولید داخلی و هزینه بسیار کمتر از رقبای غربی'],
+    cons: ['سرعت پایین و سطح مقطع راداری محسوس', 'سقف پرواز ۲۴ هزار پا (کمتر از میانگین ۳۰ هزار پایی کلاس MALE)'],
+    gallery: ['برخاست از باند در ارتفاع پایه', 'گشت پایدار بر فراز مرز']
+  },
+  {
+    id: 'anka', name: 'آنکا-اس (ماهواره‌ای)', latin: 'TAI Anka-S', short: 'آنکا',
+    maker: 'توساش / تای', producers: ['TR'], suppliers: [], operators: ['TR', 'KZ', 'ID', 'TN'],
+    cat: 'رزمی', cls: 'MALE', dodGroup: 'گروه ۴', sizeType: 'دهانهٔ بال', size: 17.5,
+    price: 15000000, priceNote: 'تخمینی', range: 2500, speed: 217, ceiling: 9144, enduranceHr: 24.0, enduranceLbl: '۲۴ ساعت',
+    weight: '۱٬۷۰۰ کیلوگرم', payloadKg: 350, engine: 'توربودیزل بومی PD170', dims: 'دهانهٔ ۱۷٫۵ متر · طول ۸٫۶ متر',
+    guidance: 'لینک ماهواره‌ای بومی Türksat + رادار SAR/GMTI و جنگ الکترونیک', shape: 'male',
+    wiki: ['TAI Anka'], gq: 'TAI Anka',
+    files: ['TAI Anka-S (cropped).jpg', 'TAI Anka.jpg'],
+    desc: 'مأموریت‌های ماهواره‌ای فراتر از خط دید؛ در عملیات ادلب و شمال عراق نقش کلیدی ایفا کرد و به قزاقستان و اندونزی صادر شد.',
+    caps: ['عملیات ماهواره‌ای فراتر از خط دید (BLOS)', 'شناسایی راداری SAR و حمل مهمات MAM-L و Cirit', 'هم‌تولیدی در قزاقستان'],
+    pros: ['پیوند ماهواره‌ای و موتور توربودیزل بومی', 'ظرفیت بار ۳۵۰ کیلوگرمی در سقف ۳۰ هزار پا'],
+    cons: ['هزینه بالاتر نسبت به TB2', 'سرعت زیرصوت پایین'],
+    gallery: ['پرواز در ارتفاع ۳۰ هزار پایی', 'نمای دماغه ماهواره‌ای آنکا-S']
+  },
+  {
+    id: 'kizilelma', name: 'بایراکتار کیزیل‌ایلما (جت)', latin: 'Baykar Bayraktar Kızılelma', short: 'کیزیل‌ایلما',
+    maker: 'بایکار تکنولوژی', producers: ['TR'], suppliers: ['UA'], operators: ['TR'],
+    cat: 'رزمی', cls: 'HALE', dodGroup: 'گروه ۴/۵ (UCAV جت)', sizeType: 'دهانهٔ بال', size: 10.0,
+    price: 30000000, priceNote: 'رده جنگنده بی‌سرنشین جت', range: 930, speed: 800, ceiling: 10668, enduranceHr: 5.0, enduranceLbl: '۵ ساعت (جت)',
+    weight: '۶٬۰۰۰ کیلوگرم', payloadKg: 1500, engine: 'توربوفن ایوچنکو AI-25TLT / AI-322F اوکراین', dims: 'دهانهٔ ۱۰ متر · طول ۱۴٫۷ متر',
+    guidance: 'رادار AESA بومی + دید/ماهواره‌ای + شلیک موشک هوابه‌هوا فراتر از دید', shape: 'hale',
+    wiki: ['Baykar Bayraktar Kızılelma'], gq: 'Bayraktar Kizilelma',
+    files: ['Bayraktar Kizilelma.jpg'],
+    desc: 'جنگنده بی‌سرنشین جت ترکیه؛ در ۲۹ نوامبر ۲۰۲۵ با شلیک موشک هوابه‌هوای «گوک‌دوغان» به یک هدف جت فراتر از برد دید (BVR)، نخستین رکورد عمومی نبرد هوایی UCAV را ثبت کرد.',
+    caps: ['نبرد هوابه‌هوا فراتر از برد دید (BVR) با رادار AESA و موشک گوک‌دوغان (نوامبر ۲۰۲۵)', 'نشست و برخاست از عرشه ناو پهپادبر TCG Anadolu', 'حمل ۱٬۵۰۰ کیلوگرم موشک کروز و بمب در محفظه داخلی'],
+    pros: ['سرعت ۸۰۰ کیلومتر بر ساعت و بدنه رادارگریز', 'ورود به تولید سریال در ژانویه ۲۰۲۶', 'توان درگیری با اهداف هوایی و زمینی'],
+    cons: ['وابستگی پیشران نسخه‌های اولیه به موتورهای اوکراینی', 'مداومت ۵ ساعته (محدودیت موتور توربوفن نسبت به توربوپراپ)'],
+    gallery: ['نمای جنگنده بی‌سرنشین کیزیل‌ایلما روی باند', 'پرواز آزمایشی با پیشران جت']
+  },
+  {
+    id: 'akinci', name: 'بایراکتار آقینجی', latin: 'Baykar Bayraktar Akıncı', short: 'آقینجی',
+    maker: 'بایکار تکنولوژی', producers: ['TR'], suppliers: ['UA'], operators: ['TR', 'PK', 'AZ', 'AE', 'SA', 'BF'],
+    cat: 'رزمی', cls: 'HALE', dodGroup: 'گروه ۴ (سقف گروه ۵)', sizeType: 'دهانهٔ بال', size: 20.0,
+    price: 22000000, priceNote: 'تخمینی', range: 7500, speed: 362, ceiling: 13716, enduranceHr: 24.0, enduranceLbl: '۲۴ ساعت',
+    weight: '۵٬۵۰۰ تا ۶٬۰۰۰ کیلوگرم', payloadKg: 1350, engine: 'توربوپراپ ×۲ (AI-450T / PT6A)', dims: 'دهانهٔ ۲۰ متر · طول ۱۲٫۲ متر',
+    guidance: 'ارتباط ماهواره‌ای دوگانه + رادار AESA + هوش مصنوعی سه‌گانه', shape: 'heavy',
+    wiki: ['Baykar Bayraktar Akıncı', 'Bayraktar Akinci'], gq: 'Bayraktar Akinci',
+    files: ['Bayraktar Akinci (cropped).jpg', 'Bayraktar Akinci.jpg'],
+    desc: 'ناو هواپیمابر آسمان؛ سنگین‌ترین مهمات و موشک‌های کروز SOM-J را به سقف ۴۵ هزار پایی می‌برد.',
+    caps: ['حمل ۱٬۳۵۰ کیلوگرم مهمات سنگین، موشک کروز SOM-J و موشک‌های هوابه‌هوا', 'رکورد پرواز در سقف ۴۵٬۱۱۸ پا (۱۳٫۷ کیلومتر)', 'صادرات به پاکستان، عربستان، امارات، آذربایجان و بورکینافاسو'],
+    pros: ['دو پیشرانه توربوپراپ قدرتمند و ایمنی بالا', 'مجهز به رادار AESA و غلاف جنگ الکترونیک', 'قدرت آتش در سطح جنگنده سبک'],
+    cons: ['سطح مقطع راداری بزرگ و آسیب‌پذیری در برابر پدافند بلندپرواز', 'هزینه خرید و نگهداری بالا'],
+    gallery: ['برخاست با دو ملخ توربوپراپ', 'حمل مهمات سنگین زیر بال']
+  },
+  {
+    id: 'mq9', name: 'ریپر MQ-9', latin: 'General Atomics MQ-9A/B Reaper', short: 'ریپر',
+    maker: 'جنرال اتمیکس', producers: ['US'], suppliers: [], operators: ['US', 'UK', 'FR', 'IT', 'PL', 'IN', 'JP', 'TW'],
+    cat: 'رزمی', cls: 'MALE', dodGroup: 'گروه ۴ (سقف گروه ۵)', sizeType: 'دهانهٔ بال', size: 20.12,
+    price: 32000000, priceNote: '۳۰ تا ۳۴ میلیون دلار [تأییدشده C]', range: 1900, speed: 482, ceiling: 15240, enduranceHr: 27.0, enduranceLbl: 'تا ۲۷ ساعت (نسخه B: ۳۴ ساعت)',
+    weight: '۴٬۷۶۰ کیلوگرم', payloadKg: 1746, engine: 'توربوپراپ هانیول TPE331-10', dims: 'دهانهٔ ۲۰٫۱ متر · طول ۱۱ متر',
+    guidance: 'دید + ماهواره‌ای Ku + برجک MTS-B و رادار Lynx SAR', shape: 'heavy',
+    wiki: ['General Atomics MQ-9 Reaper'], gq: 'MQ-9 Reaper',
+    files: ['MQ-9 Reaper UAV.jpg', 'General Atomics MQ-9 Reaper (cropped).jpg'],
+    desc: 'ستون فقرات ضربتی غرب با بار مفید ۱٬۷۴۶ کیلوگرم؛ سرنگونی ۷+ فروند آن در یمن (۲۰۲۳–۲۰۲۵) آسیب‌پذیری کلاس MALE در برابر پدافند موشکی را نشان داد.',
+    caps: ['ضربه دقیق با ۴ تا ۸ موشک هلفایر و بمب‌های GBU-12/38', 'فروش نسخه MQ-9B به لهستان، ژاپن، هند و تایوان (ژوئن ۲۰۲۶)', 'شناسایی سیگنالی و راداری دریایی'],
+    pros: ['ترکیب کم‌نظیر مداومت ۲۷ ساعته و قدرت آتش ۱.۷ تنی', 'شبکه پیوند ماهواره‌ای جهانی و اتصال Link-16'],
+    cons: ['هزینه گزاف (۳۴ میلیون دلار هر فروند)', 'سرنگونی ۱ فروند در دریای سیاه (۲۰۲۳) و بیش از ۷ فروند در یمن تا آوریل ۲۰۲۵'],
+    gallery: ['گشت رزمی در ارتفاع متوسط', 'حمل تسلیحات زیر بال']
+  },
+  {
+    id: 'wingloong', name: 'وینگ لانگ ۲', latin: 'AVIC Wing Loong II', short: 'وینگ‌لانگ',
+    maker: 'چنگدو / AVIC', producers: ['CN'], suppliers: [], operators: ['CN', 'AE', 'SA', 'EG', 'PK', 'DZ', 'MA'],
+    cat: 'رزمی', cls: 'MALE', dodGroup: 'گروه ۴', sizeType: 'دهانهٔ بال', size: 20.5,
+    price: 4000000, priceNote: '۱ تا ۴ میلیون دلار صادراتی [D]', range: 1500, speed: 370, ceiling: 9000, enduranceHr: 20.0, enduranceLbl: '۲۰ تا ۳۲ ساعت',
+    weight: '۴٬۲۰۰ کیلوگرم', payloadKg: 480, engine: 'توربوپراپ AEP-100', dims: 'دهانهٔ ۲۰٫۵ متر · طول ۱۱ متر',
+    guidance: 'لینک دید + ارتباط ماهواره‌ای + رادار SAR و برجک اپتیکی', shape: 'male',
+    wiki: ['CAIG Wing Loong II', 'Wing Loong'], gq: 'Wing Loong II',
+    files: ['Wing Loong II.jpg', 'CAIG Wing Loong II (cropped).jpg'],
+    desc: 'نسخهٔ صادراتی قدرت؛ رقیب چینی MQ-9 Reaper که با قیمت بسیار رقابتی بازار خاورمیانه و آفریقا را تسخیر کرد.',
+    caps: ['حمل تا ۱۲ موشک و بمب هدایت دقیق خانواده Blue Arrow و FT', 'کاربرد گسترده در جنگ لیبی (تامین امارات) و یمن (عربستان)', 'پایش مرزی در مصر، الجزایر، مراکش و پاکستان'],
+    pros: ['قیمت یک‌پنجم همتاهای آمریکایی (۱ تا ۴ میلیون دلار)', '۶ ایستگاه تسلیحاتی با بار مفید ۴۸۰ کیلوگرم', 'عدم محدودیت‌های صادراتی MTCR'],
+    cons: ['سقف پرواز (۹ کیلومتر) کمتر از ریپر آمریکا', 'سرنگونی بیش از ۲۰ فروند در جنگ لیبی'],
+    gallery: ['برخاست با پیشرانه توربوپراپ', 'گشت مسلح بر فراز منطقه عملیات']
+  },
+  {
+    id: 'herontp', name: 'هرون TP (اییتان)', latin: 'IAI Heron TP', short: 'هرون TP',
+    maker: 'صنایع هوایی اسرائیل (IAI)', producers: ['IL'], suppliers: [], operators: ['IL', 'DE', 'IN'],
+    cat: 'نظارت', cls: 'HALE', dodGroup: 'گروه ۵', sizeType: 'دهانهٔ بال', size: 26.0,
+    price: 35000000, priceNote: 'تخمینی', range: 7000, speed: 407, ceiling: 14000, enduranceHr: 36.0, enduranceLbl: '۳۰ تا ۳۶ ساعت',
+    weight: '۵٬۶۷۰ کیلوگرم', payloadKg: 2700, engine: 'توربوپراپ PT6A-67A (۱٬۲۰۰ اسب‌بخار)', dims: 'دهانهٔ ۲۶ متر · طول ۱۴ متر',
+    guidance: 'دید + ماهواره‌ای بردبلند + رادار SAR/GMTI و SIGINT', shape: 'hale',
+    wiki: ['IAI Heron TP'], gq: 'IAI Heron TP',
+    files: ['IAI Heron TP (cropped).jpg', 'IAI Eitan.jpg'],
+    desc: 'غول پایدار ۲۶ متری؛ در سقف ۱۴ کیلومتری بیش از ۳۰ ساعت پایش راهبردی و شنود الکترونیکی انجام می‌دهد.',
+    caps: ['نظارت استراتژیک و جمع‌آوری اطلاعات سیگنالی (SIGINT/COMINT)', 'ظرفیت بار مفید تا ۲٬۷۰۰ کیلوگرم (برگه داده سازنده)', 'بهره‌برداری در اسرائیل، آلمان و هند'],
+    pros: ['سقف ۱۴ کیلومتری و ماندگاری ۳۶ ساعته', 'مقاوم‌سازی برای آب‌وهوای سخت و یخ‌زدایی'],
+    cons: ['هزینه خرید و نگهداری سنگین', 'ابعاد بزرگ و نیاز به باند استاندارد فرودگاهی'],
+    gallery: ['برخاست از باند پایگاه عملیاتی', 'گشت پایش قاره‌ای در سقف ۱۴ کیلومتری']
+  },
+  {
+    id: 'globalhawk', name: 'گلوبال هاوک RQ-4', latin: 'Northrop Grumman RQ-4B Global Hawk', short: 'گلوبال‌هاوک',
+    maker: 'نورثروپ گرومن', producers: ['US'], suppliers: [], operators: ['US', 'JP', 'KR'],
+    cat: 'نظارت', cls: 'HALE', dodGroup: 'گروه ۵ (راهبردی)', sizeType: 'دهانهٔ بال', size: 39.9,
+    price: 131400000, priceNote: '۱۳۱.۴ میلیون دلار هر فروند [تأییدشده C]', range: 22780, speed: 629, ceiling: 18300, enduranceHr: 34.0, enduranceLbl: '۳۲ تا ۳۴+ ساعت',
+    weight: '۱۴٬۶۲۸ کیلوگرم', payloadKg: 1360, engine: 'توربوفن رولزرویس AE3007H', dims: 'دهانهٔ ۳۹٫۹ متر · طول ۱۴٫۵ متر',
+    guidance: 'ماهواره‌ای Ku/Ka + CDL + مجموعه سنسور EISS و رادار ASIP', shape: 'hale',
+    wiki: ['Northrop Grumman RQ-4 Global Hawk'], gq: 'RQ-4 Global Hawk',
+    files: ['Northrop Grumman RQ-4 Global Hawk.jpg', 'RQ-4 Global Hawk (cropped).jpg'],
+    desc: 'نگاه استراتژیک از سقف ۱۸.۳ کیلومتری؛ در یک پرواز ۲۲ هزار کیلومتر را می‌پیماید، هرچند سرنگونی آن در ژوئن ۲۰۱۹ آسیب‌پذیری در برابر پدافند مدرن را اثبات کرد.',
+    caps: ['شناسایی استراتژیک فراقاره‌ای با برد ۲۲٬۷۸۰ کیلومتر', 'تصویربرداری راداری SAR/GMTI پهناور از ورای ابرها', 'پایش جناح شرقی ناتو (RQ-4D) و اقیانوس آرام'],
+    pros: ['برد و سقف پرواز (۶۰ هزار پا) بی‌رقیب در جهان', 'محموله سنسوری ۱.۳۶ تنی'],
+    cons: ['گران‌ترین پهپاد جهان (۱۳۱ میلیون دلار پرواز مستقیم)', 'سرنگونی در ۲۰ ژوئن ۲۰۱۹ توسط پدافند ایران در تنگه هرمز [تأییدشده C]'],
+    gallery: ['پرواز در سقف ۱۸ هزار متری', 'هنگام تاکسی روی باند پایگاه']
+  }
+];
+
+/* ═══════════ ۲) موتور پایداری دوگانه و دائمی رسانه (IndexedDB Binary + File System Access API) ═══════════ */
+const DB_NAME = 'OjnemaPerUAVMediaDB';
+const STORE_NAME = 'uav_media';
+const HANDLE_STORE = 'uav_dir_handles';
+let dbPromise = null;
+
+// درخواست پایداری دائمی حافظه از مرورگر تا هیچ‌گاه توسط مرورگر پاک نشود
+if (navigator.storage && navigator.storage.persist) {
+  navigator.storage.persist().catch(() => {});
+}
+
+function getDB() {
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 2);
+    req.onupgradeneeded = e => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        const st = db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+        st.createIndex('uavId', 'uavId', { unique: false });
+      }
+      if (!db.objectStoreNames.contains(HANDLE_STORE)) {
+        db.createObjectStore(HANDLE_STORE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = e => resolve(e.target.result);
+    req.onerror = e => reject(e.target.error);
+  });
+  return dbPromise;
+}
+
+async function addFilesForCurrentUAV(uavId, fileList, handlesList = []) {
+  const db = await getDB();
+  const added = [];
+  const filesArr = Array.from(fileList);
+  for (let idx = 0; idx < filesArr.length; idx++) {
+    const file = filesArr[idx];
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) continue;
+    const relPath = file.webkitRelativePath || file.name;
+    const rec = {
+      id: 'm_' + uavId + '_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+      uavId: uavId, // متصل فقط به همین مدل پهپاد
+      type: file.type.startsWith('video/') ? 'video' : 'image',
+      cap: file.name.replace(/\.[^.]+$/, '') + ` (مسیر سیستم: ${relPath})`,
+      sourcePath: relPath,
+      fileHandle: handlesList[idx] || null,
+      blob: file,
+      isPrimary: false,
+      createdAt: Date.now() + idx
+    };
+    await new Promise((res, rej) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      tx.objectStore(STORE_NAME).put(rec);
+      tx.oncomplete = () => res();
+      tx.onerror = e => rej(e);
+    });
+    added.push({ ...rec, src: URL.createObjectURL(file), local: true });
+  }
+  return added;
+}
+
+async function loadFilesForUAV(uavId) {
+  const embeddedList = (window.__OJNEMA_OFFLINE_BUNDLE__ && window.__OJNEMA_OFFLINE_BUNDLE__.media && window.__OJNEMA_OFFLINE_BUNDLE__.media[uavId]) || [];
+  try {
+    const db = await getDB();
+    return new Promise(resolve => {
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const idx = tx.objectStore(STORE_NAME).index('uavId');
+      const req = idx.getAll(IDBKeyRange.only(uavId));
+      req.onsuccess = async () => {
+        const rows = (req.result || []);
+        const resolved = [];
+        const seenIds = new Set();
+        for (const r of rows) {
+          let fileObj = r.blob;
+          // اگر FileSystemFileHandle از سیستم کاربر ذخیره شده و مجوز فعال است، آخرین نسخه فایل را مستقیم از مسیر هارد می‌خواند
+          if (r.fileHandle && typeof r.fileHandle.getFile === 'function') {
+            try {
+              const perm = await r.fileHandle.queryPermission({ mode: 'read' });
+              if (perm === 'granted') fileObj = await r.fileHandle.getFile();
+            } catch (e) {}
+          }
+          if (fileObj) {
+            seenIds.add(r.id);
+            resolved.push({ ...r, src: URL.createObjectURL(fileObj), local: true });
+          } else if (r.dataUrl) {
+            seenIds.add(r.id);
+            resolved.push({ ...r, src: r.dataUrl, local: true });
+          }
+        }
+        // افزودن رسانه‌های جاسازی‌شده در بستهٔ آفلاین HTML (در صورت اجرای فایل دانلودشده روی سیستم دیگر)
+        for (const emb of embeddedList) {
+          if (!seenIds.has(emb.id) && emb.dataUrl) {
+            resolved.push({ ...emb, src: emb.dataUrl, local: true });
+          }
+        }
+        resolved.sort((a, b) => {
+          if (!!b.isPrimary !== !!a.isPrimary) return b.isPrimary ? 1 : -1;
+          return (a.createdAt || 0) - (b.createdAt || 0);
+        });
+        resolve(resolved);
+      };
+      req.onerror = () => {
+        const fallback = embeddedList.filter(e => e.dataUrl).map(e => ({ ...e, src: e.dataUrl, local: true }));
+        resolve(fallback);
+      };
+    });
+  } catch (e) {
+    return embeddedList.filter(x => x.dataUrl).map(x => ({ ...x, src: x.dataUrl, local: true }));
+  }
+}
+
+async function setPrimaryCoverForUAV(uavId, targetItem) {
+  const coverKey = 'ojn6-cover-' + uavId;
+  if (targetItem.local && targetItem.id) {
+    cacheDel(coverKey);
+    const db = await getDB();
+    await new Promise(resolve => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const idx = store.index('uavId');
+      const req = idx.getAll(IDBKeyRange.only(uavId));
+      req.onsuccess = () => {
+        (req.result || []).forEach(row => {
+          row.isPrimary = (row.id === targetItem.id);
+          store.put(row);
+        });
+      };
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => resolve();
+    });
+  } else if (targetItem.src) {
+    cacheSet(coverKey, targetItem.src);
+    // غیرفعال کردن پرچم کاور روی فایل‌های لوکال اگر عکس آرشیوی به عنوان کاور انتخاب شد
+    const db = await getDB();
+    await new Promise(resolve => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.index('uavId').getAll(IDBKeyRange.only(uavId));
+      req.onsuccess = () => {
+        (req.result || []).forEach(row => {
+          if (row.isPrimary) { row.isPrimary = false; store.put(row); }
+        });
+      };
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => resolve();
+    });
+  }
+}
+
+async function deleteFileById(id) {
+  const db = await getDB();
+  return new Promise(resolve => {
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    tx.objectStore(STORE_NAME).delete(id);
+    tx.oncomplete = () => resolve();
+  });
+}
+
+/* ═══════════ ۳) پلیت برداری مقیاس‌دار (پشتیبان آفلاین) ═══════════ */
+function svgSil(u) {
+  const cx = 500, cy = 295;
+  const F = 'rgba(236,232,223,.05)', S = '#e9e4d8', SW = 2.6;
+  const stl = `fill="${F}" stroke="${S}" stroke-width="${SW}" stroke-linejoin="round"`;
+  const disc = (x, y, r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${S}" stroke-width="1.4" stroke-dasharray="3 9" opacity=".55"/>`;
+  let a = ''; const sh = u.shape;
+  if (sh === 'heli') {
+    a += disc(cx, cy - 35, 200) + `<ellipse cx="${cx}" cy="${cy - 35}" rx="195" ry="10" fill="rgba(236,232,223,.14)" stroke="${S}"/>`;
+    a += `<path d="M ${cx} ${cy - 145} C ${cx + 26} ${cy - 88} ${cx + 26} ${cy - 15} ${cx + 12} ${cy + 62} L ${cx - 12} ${cy + 62} C ${cx - 26} ${cy - 15} ${cx - 26} ${cy - 88} ${cx} ${cy - 145} Z" ${stl}/>`;
+    a += `<rect x="${cx - 5}" y="${cy + 58}" width="10" height="150" rx="5" ${stl}/>` + disc(cx + 20, cy + 200, 40);
+  } else if (sh === 'quad') {
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(p => {
+      const ax = cx + p[0] * 225, ay = cy + p[1] * 155;
+      a += `<line x1="${cx + p[0] * 55}" y1="${cy + p[1] * 42}" x2="${ax}" y2="${ay}" stroke="${S}" stroke-width="6.5"/>`;
+      a += `<circle cx="${ax}" cy="${ay}" r="28" ${stl}/>` + disc(ax, ay, 138);
+    });
+    a += `<rect x="${cx - 115}" y="${cy - 68}" width="230" height="136" rx="40" ${stl}/>`;
+  } else if (sh === 'tube') {
+    a += `<rect x="${cx - 12}" y="${cy - 205}" width="24" height="410" rx="12" ${stl}/>`;
+    a += `<path d="M ${cx - 205} ${cy + 6} L ${cx - 55} ${cy - 16} L ${cx + 55} ${cy - 16} L ${cx + 205} ${cy + 6} L ${cx + 55} ${cy + 28} L ${cx - 55} ${cy + 28} Z" ${stl}/>`;
+    a += disc(cx, cy + 215, 55);
+  } else if (sh === 'delta') {
+    a += `<path d="M ${cx} ${cy - 245} L ${cx + 225} ${cy + 165} L ${cx + 115} ${cy + 190} L ${cx - 115} ${cy + 190} L ${cx - 225} ${cy + 165} Z" ${stl}/>`;
+    a += disc(cx, cy + 192, 62) + `<rect x="${cx - 16}" y="${cy - 40}" width="32" height="120" rx="8" ${stl}/>`;
+  } else {
+    const span = sh === 'hale' ? 430 : sh === 'heavy' ? 400 : 340;
+    const w = sh === 'hale' || sh === 'heavy' ? 54 : 38;
+    a += `<rect x="${cx - w / 2}" y="${cy - 220}" width="${w}" height="440" rx="${w / 2}" ${stl}/>`;
+    a += `<path d="M ${cx - span} ${cy + 25} L ${cx - 38} ${cy - 25} L ${cx + 38} ${cy - 25} L ${cx + span} ${cy + 25} L ${cx + 38} ${cy + 50} L ${cx - 38} ${cy + 50} Z" ${stl}/>`;
+    a += `<line x1="${cx}" y1="${cy + 200}" x2="${cx + 85}" y2="${cy + 275}" stroke="${S}" stroke-width="4"/>`;
+    a += `<line x1="${cx}" y1="${cy + 200}" x2="${cx - 85}" y2="${cy + 275}" stroke="${S}" stroke-width="4"/>`;
+    a += disc(cx, cy + 228, 58);
+  }
+  const ry = 585;
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid slice">'
+    + '<defs><radialGradient id="bg" cx="50%" cy="42%" r="75%"><stop offset="0%" stop-color="#161922"/><stop offset="100%" stop-color="#090b10"/></radialGradient></defs>'
+    + '<rect width="1000" height="620" fill="url(#bg)"/>'
+    + `<g>${a}</g>`
+    + `<line x1="240" y1="${ry}" x2="760" y2="${ry}" stroke="#8f8f88" stroke-width="1.2" opacity=".8"/>`
+    + `<circle cx="500" cy="${ry}" r="3" fill="#d4a349"/>`
+    + `<text x="500" y="52" text-anchor="middle" font-family="Segoe UI,Tahoma" font-size="25" letter-spacing="1.5" fill="#f2dfb3">${u.latin}</text>`
+    + `<text x="500" y="78" text-anchor="middle" font-family="Tahoma" font-size="14" fill="#9499a3">${u.cls} · ${u.cat} · ${u.dodGroup}</text>`
+    + `<text x="500" y="574" text-anchor="middle" font-family="Tahoma" font-size="15" fill="#d1d5db">${u.sizeType}: ${sizeFa(u)}</text>`
+    + '</svg>';
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+/* ═══════════ ۴) موتور تصویر آرشیوی ویکی‌مدیا ═══════════ */
+const imgKey = id => 'ojn6-img-' + id, galKey = id => 'ojn6-gal-' + id, coverKey = id => 'ojn6-cover-' + id;
+const filePathURL = (f, w) => 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(f) + '?width=' + (w || 1300);
+const loadImg = (url, ms) => new Promise((res, rej) => {
+  const im = new Image(); let done = false;
+  im.onload = () => { if (!done) { done = true; res(url); } };
+  im.onerror = () => { if (!done) { done = true; rej(); } };
+  setTimeout(() => { if (!done) { done = true; rej(); } }, ms || 8500);
+  im.src = url;
+});
+async function wikiThumbs(title) {
+  const r = await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(title.replace(/ /g, '_')));
+  if (!r.ok) throw new Error();
+  const j = await r.json(), out = [];
+  if (j.thumbnail && j.thumbnail.source) {
+    out.push(j.thumbnail.source.replace(/\/\d+px-/, '/1280px-'));
+    out.push(j.thumbnail.source);
+  }
+  if (j.originalimage && j.originalimage.source) out.push(j.originalimage.source);
+  return out;
+}
+async function resolveHero(u) {
+  const key = imgKey(u.id), c = cacheGet(key);
+  if (c) return { url: c, net: !c.startsWith('data:') };
+  const cand = [];
+  if (navigator.onLine) {
+    for (const t of (u.wiki || [])) { try { cand.push(...await wikiThumbs(t)); } catch (e) {} }
+    for (const f of (u.files || [])) cand.push(filePathURL(f));
+  }
+  for (const url of cand) {
+    try { await loadImg(url); cacheSet(key, url); return { url, net: true }; } catch (e) {}
+  }
+  return { url: u._svg || (u._svg = svgSil(u)), net: false };
+}
+async function commonsGallery(u) {
+  const key = galKey(u.id), c = cacheGet(key);
+  if (c) { try { return JSON.parse(c); } catch (e) {} }
+  if (!navigator.onLine) throw new Error();
+  const url = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=12&gsrsearch=' + encodeURIComponent(u.gq || u.latin) + '&prop=imageinfo&iiprop=url&iiurlwidth=1200';
+  const r = await fetch(url);
+  const j = await r.json();
+  const pages = Object.values((j.query && j.query.pages) || {});
+  pages.sort((a, b) => (a.index || 0) - (b.index || 0));
+  const list = pages.map(p => p.imageinfo && p.imageinfo[0] && p.imageinfo[0].thumburl).filter(Boolean).filter(s => /\.(jpe?g|png)$/i.test(s)).slice(0, 6);
+  if (list.length) cacheSet(key, JSON.stringify(list));
+  return list;
+}
+
+/* ═══════════ ۵) وضعیت برنامه و کاروسل اختصاصی هر پهپاد ═══════════ */
+let filter = 'all', countryFilter = 'all', query = '', cur = null, mainShown = null, order = [];
+let heroShow = 0, bgShow = 0;
+let galList = [], galIdx = 0, galTok = 0;
+const fg = [$('fgA'), $('fgB')], bg = [$('bgA'), $('bgB')], mainVideo = $('mainVideo');
+
+const CATS = [['all', 'همه'], ['شناسایی', 'شناسایی'], ['رزمی', 'رزمی'], ['انتحاری', 'انتحاری'], ['تجاری', 'تجاری'], ['نظارت', 'نظارت']];
+const LOGMIN = Math.log10(0.15), LOGMAX = Math.log10(42);
+const pos = s => ((Math.log10(s) - LOGMIN) / (LOGMAX - LOGMIN) * 100).toFixed(2);
+
+function setBg(url) {
+  const b = bg[bgShow ^ 1], o = bg[bgShow];
+  const go = () => { b.style.opacity = '1'; o.style.opacity = '0'; bgShow ^= 1; };
+  if (b.src === url && b.complete) { go(); return; }
+  b.onload = go; b.src = url;
+}
+
+function showOnStage(u, item) {
+  if (!item) return;
+  const amb = $('plateAmbBg');
+  if (item.type === 'video') {
+    fg[0].style.opacity = '0'; fg[1].style.opacity = '0';
+    $('zoomerBox').classList.add('playingVideo');
+    mainVideo.classList.add('active');
+    if (amb) amb.src = u._svg || (u._svg = svgSil(u));
+    if (mainVideo.src !== item.src) {
+      mainVideo.src = item.src;
+      mainVideo.play().catch(() => {});
+    }
+  } else {
+    mainVideo.pause();
+    mainVideo.classList.remove('active');
+    $('zoomerBox').classList.remove('playingVideo');
+    const nxt = fg[heroShow ^ 1], old = fg[heroShow];
+    nxt.onerror = () => { if (!item.src.startsWith('data:')) showOnStage(u, { src: u._svg || (u._svg = svgSil(u)), type: 'image' }); };
+    nxt.onload = () => {
+      nxt.style.opacity = '1'; old.style.opacity = '0';
+      nxt.classList.add('kb'); old.classList.remove('kb');
+      heroShow ^= 1;
+      setBg(item.src);
+      if (amb) amb.src = item.src;
+    };
+    if (nxt.src === item.src && nxt.complete) { nxt.onload(); return; }
+    nxt.src = item.src;
+  }
+}
+
+// دکمهٔ تغییر حالت نمایش تصویر اصلی (نمای کامل بدون برش با پس‌زمینه بلور برای عکس‌های کوچک/نامتقارن یا پر کردن کادر)
+$('plateFitBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  const pl = $('plate');
+  const isContain = pl.classList.toggle('containMode');
+  $('plateFitBtn').classList.toggle('activeFit', isContain);
+  $('plateFitTxt').textContent = isContain ? 'نمای کامل (بدون برش)' : 'پر کردن کادر';
+});
+
+async function promoteItemToCover(u, idx) {
+  const item = galList[idx];
+  if (!item) return;
+  galList.forEach((it, i) => { it.isPrimary = (i === idx); });
+  await setPrimaryCoverForUAV(u.id, item);
+  galList.splice(idx, 1);
+  galList.unshift(item);
+  renderStrip(u);
+  setMain(u, 0);
+}
+
+function renderStrip(u) {
+  const s = $('galStrip'); s.innerHTML = '';
+  const hasLocal = galList.some(x => x.local);
+  $('persistBadge').classList.toggle('show', hasLocal);
+
+  galList.forEach((it, i) => {
+    const b = document.createElement('button');
+    b.className = 'thumb' + (i === galIdx ? ' on' : '');
+    b.title = it.cap + ' (کلیک راست یا ستاره = تعیین به عنوان عکس کاور اصلی)';
+    const isCov = i === 0;
+    const starSpan = `<span class="tStar${isCov ? ' isCover' : ''}" data-star="${i}" title="${isCov ? 'تصویر کاور اصلی این پهپاد' : 'انتخاب به عنوان تصویر کاور اصلی'}">★</span>`;
+    const badge = it.type === 'video' ? `<span class="tBadge vid">▶ ویدیو</span>` : (it.local ? `<span class="tBadge">لوکال</span>` : '');
+    const mediaHtml = it.type === 'video'
+      ? `<video src="${it.src}" muted preload="metadata"></video>`
+      : `<img class="tBg" loading="lazy" src="${it.src}" alt="" aria-hidden="true"><img class="tFg" loading="lazy" src="${it.src}" alt="${u.name}">`;
+    const overlayHtml = `<div class="tOverlay"><span class="tName">${u.short}</span></div>`;
+    b.innerHTML = `${mediaHtml}${overlayHtml}${starSpan}${badge}<span class="tno">${faDigits(i + 1)}</span>`;
+
+    b.addEventListener('click', e => {
+      const starEl = e.target.closest('[data-star]');
+      if (starEl) {
+        e.stopPropagation();
+        promoteItemToCover(u, i);
+        return;
+      }
+      setMain(u, i);
+    });
+
+    // کلیک راست روی هر بندانگشتی آن را به عنوان عکس کاور اصلی آن پهپاد تثبیت می‌کند
+    b.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      promoteItemToCover(u, i);
+    });
+
+    s.appendChild(b);
+  });
+}
+
+function syncGalHead() {
+  const it = galList[galIdx];
+  if (it) {
+    $('galCap').textContent = it.cap;
+    $('plateDeleteBtn').style.display = it.local ? 'inline-flex' : 'none';
+  }
+  const cStr = faDigits(galIdx + 1) + ' / ' + faDigits(galList.length);
+  $('galIdx').textContent = cStr;
+  $('imgNo').textContent = cStr;
+}
+
+function setMain(u, i) {
+  galIdx = Math.max(0, Math.min(i, galList.length - 1));
+  const it = galList[galIdx];
+  if (!it) return;
+  showOnStage(u, it);
+  syncGalHead();
+  document.querySelectorAll('#galStrip .thumb').forEach((t, ti) => t.classList.toggle('on', ti === galIdx));
+  const el = document.querySelectorAll('#galStrip .thumb')[galIdx];
+  if (el) el.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
+}
+
+async function galleryInit(u) {
+  const tok = ++galTok;
+  galIdx = 0;
+  // ۱. ابتدا عکس‌ها و ویدیوهای لوکال ذخیره‌شده منحصراً برای همین مدل پهپاد را از IndexedDB و FileHandle می‌خوانیم
+  const userFiles = await loadFilesForUAV(u.id);
+  if (tok !== galTok) return;
+
+  const customCoverUrl = cacheGet(coverKey(u.id));
+  const cached = cacheGet(imgKey(u.id));
+  const svg = u._svg || (u._svg = svgSil(u));
+  const archHero = {
+    src: cached || svg,
+    type: 'image',
+    cap: 'نمای اصلی — ' + u.name,
+    local: false
+  };
+
+  galList = [...userFiles, archHero];
+  renderStrip(u);
+  setMain(u, 0);
+
+  resolveHero(u).then(r => {
+    if (tok !== galTok) return;
+    if (r.net && !cached) {
+      archHero.src = r.url;
+      renderStrip(u);
+      if (galList[galIdx] === archHero) showOnStage(u, archHero);
+    }
+  }).catch(() => {});
+
+  commonsGallery(u).then(imgs => {
+    if (tok !== galTok) return;
+    imgs.forEach((src, idx) => {
+      if (galList.some(x => x.src === src)) return;
+      const item = {
+        src,
+        type: 'image',
+        cap: (u.gallery && u.gallery[idx]) || (`تصویر عملیاتی ${faDigits(idx + 1)} — ${u.name}`),
+        local: false
+      };
+      if (customCoverUrl && src === customCoverUrl) {
+        galList.unshift(item);
+      } else {
+        galList.push(item);
+      }
+    });
+    renderStrip(u);
+    setMain(u, 0);
+  }).catch(() => {});
+}
+
+// ۱. انتخاب عکس/ویدیو با پشتیبانی از File System Access API (ثبت FileHandle + ذخیره دائمی در IndexedDB)
+$('plateUploadBtn').addEventListener('click', async e => {
+  e.stopPropagation();
+  if (!cur) return;
+  if (typeof window.showOpenFilePicker === 'function') {
+    try {
+      const handles = await window.showOpenFilePicker({
+        multiple: true,
+        types: [{
+          description: 'Images & Videos',
+          accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.avif'], 'video/*': ['.mp4', '.webm', '.mov', '.mkv'] }
+        }]
+      });
+      const files = [];
+      for (const h of handles) files.push(await h.getFile());
+      const added = await addFilesForCurrentUAV(cur.id, files, handles);
+      if (added.length) {
+        galList.unshift(...added);
+        renderStrip(cur);
+        setMain(cur, 0);
+      }
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+    }
+  }
+  $('localMediaInput').click();
+});
+
+$('localMediaInput').addEventListener('change', async e => {
+  if (!e.target.files || !e.target.files.length || !cur) return;
+  const added = await addFilesForCurrentUAV(cur.id, e.target.files);
+  e.target.value = '';
+  if (added.length) {
+    galList.unshift(...added);
+    renderStrip(cur);
+    setMain(cur, 0);
+  }
+});
+
+// ۲. اتصال مستقیم به پوشهٔ سیستم (File System Directory API یا انتخاب پوشه)
+$('plateFolderBtn').addEventListener('click', async e => {
+  e.stopPropagation();
+  if (!cur) return;
+  if (typeof window.showDirectoryPicker === 'function') {
+    try {
+      const dirHandle = await window.showDirectoryPicker({ mode: 'read' });
+      const matchedFiles = [];
+      const matchedHandles = [];
+      const allFiles = [];
+      const allHandles = [];
+      for await (const entry of dirHandle.values()) {
+        if (entry.kind === 'file') {
+          const f = await entry.getFile();
+          if (f.type.startsWith('image/') || f.type.startsWith('video/')) {
+            allFiles.push(f);
+            allHandles.push(entry);
+            const low = f.name.toLowerCase();
+            if (low.includes(cur.id.toLowerCase()) || low.includes(cur.short) || low.includes(cur.name)) {
+              matchedFiles.push(f);
+              matchedHandles.push(entry);
+            }
+          }
+        }
+      }
+      const targetFiles = matchedFiles.length ? matchedFiles : allFiles.slice(0, 8);
+      const targetHandles = matchedFiles.length ? matchedHandles : allHandles.slice(0, 8);
+      if (targetFiles.length) {
+        const added = await addFilesForCurrentUAV(cur.id, targetFiles, targetHandles);
+        if (added.length) {
+          galList.unshift(...added);
+          renderStrip(cur);
+          setMain(cur, 0);
+        }
+      }
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+    }
+  }
+  $('localFolderInput').click();
+});
+
+$('localFolderInput').addEventListener('change', async e => {
+  if (!e.target.files || !e.target.files.length || !cur) return;
+  const all = Array.from(e.target.files).filter(f => f.type.startsWith('image/') || f.type.startsWith('video/'));
+  const matched = all.filter(f => {
+    const p = (f.webkitRelativePath || f.name).toLowerCase();
+    return p.includes(cur.id.toLowerCase()) || p.includes(cur.short) || p.includes(cur.name);
+  });
+  const toAdd = matched.length ? matched : all.slice(0, 8);
+  e.target.value = '';
+  if (toAdd.length) {
+    const added = await addFilesForCurrentUAV(cur.id, toAdd);
+    if (added.length) {
+      galList.unshift(...added);
+      renderStrip(cur);
+      setMain(cur, 0);
+    }
+  }
+});
+
+$('plateDeleteBtn').addEventListener('click', async e => {
+  e.stopPropagation();
+  const it = galList[galIdx];
+  if (!it || !it.local) return;
+  await deleteFileById(it.id);
+  galList.splice(galIdx, 1);
+  renderStrip(cur);
+  setMain(cur, 0);
+});
+
+/* ═══════════ ۶) نمودار راداری ۶محوره و نوارهای مقیاس در تب دوم سایدبار ═══════════ */
+function getRadarScores(u) {
+  const sRange = Math.min(100, Math.max(14, Math.round((Math.log10(Math.max(1, u.range)) / Math.log10(23000)) * 100)));
+  const sSpeed = Math.min(100, Math.max(16, Math.round((Math.log10(Math.max(20, u.speed)) - 1.2) / (2.95 - 1.2) * 100)));
+  const sCeil = Math.min(100, Math.max(14, Math.round((Math.sqrt(Math.max(100, u.ceiling)) / Math.sqrt(18300)) * 100)));
+  const sEnd = Math.min(100, Math.max(16, Math.round((Math.log10(Math.max(0.2, u.enduranceHr) * 60) / Math.log10(3600)) * 100)));
+  const sPay = Math.min(100, Math.max(12, Math.round((Math.log10(Math.max(0.05, u.payloadKg) * 100) / Math.log10(270000)) * 100)));
+  const costScore = Math.min(100, Math.max(20, Math.round(105 - (Math.log10(Math.max(500, u.price)) - 2.7) * 14)));
+  return [
+    { label: 'برد عملیاتی', short: 'برد', val: sRange, raw: faNum(u.range) + ' کیلومتر', color: '#06b6d4' },
+    { label: 'سرعت بیشینه', short: 'سرعت', val: sSpeed, raw: faNum(u.speed) + ' کیلومتر/ساعت', color: '#d4a349' },
+    { label: 'سقف پرواز', short: 'سقف', val: sCeil, raw: faNum(u.ceiling) + ' متر', color: '#8b5cf6' },
+    { label: 'مداومت پروازی', short: 'مداومت', val: sEnd, raw: u.enduranceLbl, color: '#10b981' },
+    { label: 'ظرفیت بار / کلاهک', short: 'بار مفید', val: sPay, raw: faNum(u.payloadKg, 1) + ' کیلوگرم', color: '#f43f5e' },
+    { label: 'صرفهٔ اقتصادی', short: 'اقتصاد', val: costScore, raw: fmtPrice(u.price), color: '#f59e0b' }
+  ];
+}
+
+function renderChartsTab(u) {
+  const compId = $('compareSelect').value;
+  const compUAV = compId ? UAVS.find(x => x.id === compId) : null;
+  const s1 = getRadarScores(u);
+  const datasets = [{ scores: s1, fill: 'rgba(212,163,73,0.25)', stroke: '#d4a349', name: u.name }];
+  if (compUAV && compUAV.id !== u.id) {
+    datasets.push({ scores: getRadarScores(compUAV), fill: 'rgba(6,182,212,0.22)', stroke: '#06b6d4', name: compUAV.name });
+  }
+
+  const size = 205, cx = size / 2, cy = size / 2, R = 68;
+  let grid = '';
+  [0.25, 0.5, 0.75, 1].forEach(lv => {
+    const pts = s1.map((_, i) => {
+      const a = (Math.PI * 2 * i) / 6 - Math.PI / 2;
+      return `${(cx + Math.cos(a) * R * lv).toFixed(1)},${(cy + Math.sin(a) * R * lv).toFixed(1)}`;
+    }).join(' ');
+    grid += `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>`;
+  });
+  s1.forEach((ax, i) => {
+    const a = (Math.PI * 2 * i) / 6 - Math.PI / 2;
+    const x2 = cx + Math.cos(a) * R, y2 = cy + Math.sin(a) * R;
+    const lx = cx + Math.cos(a) * (R + 22), ly = cy + Math.sin(a) * (R + 16);
+    grid += `<line x1="${cx}" y1="${cy}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="rgba(255,255,255,0.14)"/>`;
+    grid += `<text x="${lx.toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="middle" fill="#cbd5e1" font-size="9.5" font-weight="600">${ax.short}</text>`;
+  });
+  let polys = '';
+  datasets.forEach(ds => {
+    const pts = ds.scores.map((s, i) => {
+      const a = (Math.PI * 2 * i) / 6 - Math.PI / 2;
+      const r = (s.val / 100) * R;
+      return `${(cx + Math.cos(a) * r).toFixed(1)},${(cy + Math.sin(a) * r).toFixed(1)}`;
+    }).join(' ');
+    polys += `<polygon points="${pts}" fill="${ds.fill}" stroke="${ds.stroke}" stroke-width="2"/>`;
+  });
+  $('hudRadarSvg').innerHTML = `<svg viewBox="0 0 ${size} ${size}" width="100%" height="100%">${grid}${polys}</svg>`;
+  $('radarLegend').innerHTML = datasets.map(ds => `<span style="display:inline-flex;align-items:center;gap:5px"><i style="width:9px;height:9px;border-radius:99px;background:${ds.stroke};display:inline-block"></i>${ds.name}</span>`).join('');
+
+  $('hudMetricBars').innerHTML = s1.map((s, idx) => {
+    const cScore = compUAV ? getRadarScores(compUAV)[idx] : null;
+    return `
+      <div class="barItem">
+        <div class="barTop">
+          <span style="color:var(--mute)">${s.label}</span>
+          <b class="tabular" style="color:var(--bone)">${s.raw}${cScore ? ` <span style="color:var(--cyan2);font-size:10px">(در برابر ${cScore.raw})</span>` : ''}</b>
+        </div>
+        <div class="barTrack">
+          <div class="barFill" style="width:${s.val}%;background:${s.color}"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ═══════════ ۷) به‌روزرسانی پنل سایدبار و تایم‌لاین ═══════════ */
+function hudUpdate(u) {
+  const i = order.indexOf(u);
+  $('hIdx').textContent = i >= 0 ? `پلتفرم ${faDigits(i + 1)} از ${faDigits(order.length)}` : '—';
+  $('hName').textContent = u.name;
+  $('hLatin').textContent = u.latin;
+  $('plateHeroName').textContent = u.name;
+  $('plateHeroLatin').textContent = u.latin;
+  $('hCat').textContent = u.cat;
+  $('hCls').textContent = u.cls;
+  $('pCat').textContent = u.cat;
+  $('pCls').textContent = u.cls;
+  $('hDesc').textContent = u.desc;
+
+  // رنگ هاله محیط متناسب با دسته پهپاد
+  const spotMap = {
+    'شناسایی': 'rgba(6, 182, 212, 0.09)',
+    'رزمی': 'rgba(212, 163, 73, 0.10)',
+    'انتحاری': 'rgba(244, 63, 94, 0.09)',
+    'نظارت': 'rgba(139, 92, 246, 0.09)',
+    'تجاری': 'rgba(16, 185, 129, 0.08)'
+  };
+  document.documentElement.style.setProperty('--spot-color', spotMap[u.cat] || 'rgba(212,163,73,.09)');
+
+  // ۱. باکس تفکیک‌شده کشور سازنده در برابر کشورهای استفاده‌کننده
+  $('hMakerCompany').textContent = u.maker;
+  $('hudProducers').innerHTML =
+    u.producers.map(c => renderCountryBadge(c, false)).join('') +
+    (u.suppliers && u.suppliers.length ? u.suppliers.map(c => renderCountryBadge(c, true)).join('') : '');
+
+  $('hOperatorCount').textContent = faNum(u.operators.length) + ' کشور';
+  $('hudOperators').innerHTML = u.operators.map(c => renderCountryBadge(c, false)).join('');
+
+  // ۲. اعداد و مشخصات
+  countTo($('hRange'), u.range, 750);
+  countTo($('hSpeed'), u.speed, 750);
+  countTo($('hCeil'), u.ceiling, 750);
+  $('hEnd').textContent = u.enduranceLbl;
+  $('hWeight').textContent = `${u.weight} · بار: ${faNum(u.payloadKg, 1)} kg`;
+  $('hEngine').textContent = u.engine;
+  $('hGuidance').textContent = u.guidance;
+  $('hPriceTxt').textContent = `${fmtPrice(u.price)} (${u.priceNote}) · ${u.dims}`;
+
+  // ۳. تحلیل عملیاتی
+  $('anaCaps').innerHTML = u.caps.map(x => `<li>${x}</li>`).join('');
+  $('anaPros').innerHTML = u.pros.map(x => `<li>${x}</li>`).join('');
+  $('anaCons').innerHTML = u.cons.map(x => `<li>${x}</li>`).join('');
+
+  // ۴. اطلاعات HUD گوشهٔ داخل تصویر
+  $('plLatin').textContent = u.latin;
+  $('plSize').textContent = `${u.sizeType}: ${sizeFa(u)}`;
+  $('plDod').textContent = u.dodGroup;
+
+  // ۵. نمودارها
+  renderChartsTab(u);
+
+  const s = i >= 0 ? `${faDigits(i + 1)} / ${faDigits(order.length)}` : '—';
+  $('tlCount').textContent = s;
+  $('hCount').textContent = s;
+  requestAnimationFrame(updateHudScrollCue);
+}
+
+let tickPctMap = {};
+
+function showTimelinePreview(u, pctNum) {
+  const hc = $('tlHoverCard');
+  if (!hc || !u) return;
+  const src = cacheGet(coverKey(u.id)) || cacheGet(imgKey(u.id)) || u._svg || (u._svg = svgSil(u));
+  $('tlHcBg').src = src;
+  $('tlHcFg').src = src;
+  $('tlHcName').textContent = u.name;
+  const pName = COUNTRIES[u.producers[0]]?.name || '';
+  $('tlHcSub').textContent = `${pName} · ${u.sizeType} ${sizeFa(u)}`;
+  const clampedRight = Math.max(8, Math.min(92, pctNum));
+  hc.style.right = clampedRight + '%';
+  hc.classList.add('show');
+}
+
+function hideTimelinePreview() {
+  const hc = $('tlHoverCard');
+  if (hc) hc.classList.remove('show');
+}
+
+function buildTicks() {
+  const tc = $('ticks'); tc.innerHTML = '';
+  tickPctMap = {};
+  const n = order.length;
+  if (!n) return;
+
+  // محاسبهٔ موقعیت ضدتداخل (ترکیب مقیاس لگاریتمی واقعی با حداقل فاصلهٔ استاندارد برای جلوگیری از روی‌هم‌افتادن برچسب‌ها)
+  const pts = order.map((u, i) => {
+    if (n === 1) return 50;
+    const logP = Math.max(0, Math.min(100, (Math.log10(u.size) - LOGMIN) / (LOGMAX - LOGMIN) * 100));
+    const evenP = (i / (n - 1)) * 100;
+    return 0.28 * logP + 0.72 * evenP;
+  });
+
+  if (n > 1) {
+    const minGap = Math.min(3.5, 95 / (n - 1));
+    pts[0] = Math.max(1.5, pts[0]);
+    for (let i = 1; i < n; i++) {
+      if (pts[i] - pts[i - 1] < minGap) pts[i] = pts[i - 1] + minGap;
+    }
+    if (pts[n - 1] > 98.5) {
+      pts[n - 1] = 98.5;
+      for (let i = n - 2; i >= 0; i--) {
+        if (pts[i + 1] - pts[i] < minGap) pts[i] = pts[i + 1] - minGap;
+      }
+    }
+  }
+
+  order.forEach((u, i) => {
+    const pctNum = pts[i];
+    const pct = pctNum.toFixed(2);
+    tickPctMap[u.id] = pct;
+    const b = document.createElement('button');
+    b.className = 'tick ' + (i % 2 ? 'rB' : 'rA') + (cur && cur.id === u.id ? ' active' : '');
+    b.dataset.id = u.id;
+    b.style.right = pct + '%';
+    b.title = u.name + ' · ' + sizeFa(u);
+    b.innerHTML = `<span class="tdot"></span><span class="tstem"></span><span class="tlab"><b>${u.short}</b><i class="latin">${sizeEn(u)}</i></span>`;
+    b.addEventListener('click', () => goTo(u));
+    b.addEventListener('mouseenter', () => showTimelinePreview(u, pctNum));
+    b.addEventListener('mouseleave', hideTimelinePreview);
+    b.addEventListener('focus', () => showTimelinePreview(u, pctNum));
+    b.addEventListener('blur', hideTimelinePreview);
+    tc.appendChild(b);
+  });
+}
+
+function sync(instantCursor) {
+  if (!cur) return;
+  if (cur.id !== mainShown) {
+    mainShown = cur.id;
+    galleryInit(cur);
+    hudUpdate(cur);
+  }
+  document.querySelectorAll('#ticks .tick').forEach(t => t.classList.toggle('active', !!cur && t.dataset.id === cur.id));
+  const c = $('cursor');
+  if (instantCursor) c.classList.add('noT');
+  const p = tickPctMap[cur.id] !== undefined ? tickPctMap[cur.id] : pos(cur.size);
+  c.style.right = p + '%';
+  if (instantCursor) requestAnimationFrame(() => requestAnimationFrame(() => c.classList.remove('noT')));
+}
+
+function goTo(u) {
+  if (!u || !order.includes(u)) return;
+  cur = u;
+  sync();
+}
+function nav(d) {
+  if (!order.length || !cur) return;
+  goTo(order[(order.indexOf(cur) + d + order.length) % order.length]);
+}
+
+/* ═══════════ ۸) تب‌های سایدبار، نشانگر هوشمند اسکرول، فیلتر، آرشیو و خروجی آفلاین HTML ═══════════ */
+function getActiveHudPane() {
+  return document.querySelector('.hudPane.active');
+}
+
+function updateHudScrollCue() {
+  const pane = getActiveHudPane();
+  const cue = $('hudScrollCue');
+  if (!pane || !cue) return;
+  const remaining = pane.scrollHeight - pane.scrollTop - pane.clientHeight;
+  const hasMore = remaining > 10;
+  cue.classList.toggle('show', hasMore);
+  cue.classList.toggle('visible', hasMore);
+}
+
+function updateCatScrollCue() {
+  const grid = $('catGrid');
+  const cue = $('catScrollCue');
+  if (!grid || !cue) return;
+  const remaining = grid.scrollHeight - grid.scrollTop - grid.clientHeight;
+  const hasMore = remaining > 12;
+  cue.classList.toggle('show', hasMore);
+  cue.classList.toggle('visible', hasMore);
+}
+
+document.querySelectorAll('.hudPane').forEach(pane => {
+  pane.addEventListener('scroll', updateHudScrollCue, { passive: true });
+});
+if (typeof ResizeObserver !== 'undefined') {
+  const ro = new ResizeObserver(() => {
+    updateHudScrollCue();
+    updateCatScrollCue();
+  });
+  document.querySelectorAll('.hudPane').forEach(p => ro.observe(p));
+  if ($('catGrid')) ro.observe($('catGrid'));
+}
+$('hudScrollBtn').addEventListener('click', () => {
+  const pane = getActiveHudPane();
+  if (pane) pane.scrollBy({ top: 185, behavior: 'smooth' });
+});
+
+$('catGrid').addEventListener('scroll', updateCatScrollCue, { passive: true });
+$('catScrollBtn').addEventListener('click', () => {
+  $('catGrid').scrollBy({ top: 260, behavior: 'smooth' });
+});
+addEventListener('resize', () => {
+  updateHudScrollCue();
+  updateCatScrollCue();
+});
+
+function switchHudTab(target) {
+  const btn = document.querySelector(`.hudTabBtn[data-htab="${target}"]`);
+  if (!btn) return;
+  document.querySelectorAll('.hudTabBtn').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('.hudPane').forEach(p => {
+    const isMatch = p.id === 'hpane-' + target;
+    p.classList.toggle('active', isMatch);
+    if (isMatch) p.scrollTop = 0;
+  });
+  const stepNum = btn.dataset.step || '۱';
+  if ($('hudActiveStep')) $('hudActiveStep').textContent = `تب ${stepNum} از ۳`;
+  requestAnimationFrame(updateHudScrollCue);
+}
+
+document.querySelectorAll('.hudTabBtn').forEach(btn => {
+  btn.addEventListener('click', () => switchHudTab(btn.dataset.htab));
+});
+
+// دکمهٔ نمای خلوت (Clean View) روی بوم اصلی
+function toggleCleanView(e) {
+  if (e) e.stopPropagation();
+  const pl = $('plate');
+  const btn = $('plateCleanBtn');
+  if (!pl || !btn) return;
+  const isClean = pl.classList.toggle('cleanView');
+  btn.classList.toggle('activeClean', isClean);
+}
+$('plateCleanBtn').addEventListener('click', toggleCleanView);
+
+$('compareSelect').addEventListener('change', () => {
+  if (cur) {
+    renderChartsTab(cur);
+    requestAnimationFrame(updateHudScrollCue);
+  }
+});
+
+function initSelects() {
+  const cSel = $('countryFilter');
+  Object.entries(COUNTRIES).forEach(([code, c]) => {
+    const used = UAVS.some(u => u.producers.includes(code) || u.operators.includes(code));
+    if (!used) return;
+    const opt = document.createElement('option');
+    opt.value = code;
+    opt.textContent = c.name;
+    cSel.appendChild(opt);
+  });
+
+  const compSel = $('compareSelect');
+  UAVS.forEach(u => {
+    const opt = document.createElement('option');
+    opt.value = u.id;
+    opt.textContent = `${u.name} (${COUNTRIES[u.producers[0]]?.name || ''})`;
+    compSel.appendChild(opt);
+  });
+}
+
+function buildChips() {
+  const c = $('chips'); c.innerHTML = '';
+  CATS.forEach(p => {
+    const n = p[0] === 'all' ? UAVS.length : UAVS.filter(u => u.cat === p[0]).length;
+    const b = document.createElement('button');
+    b.className = 'chipBtn' + (filter === p[0] ? ' on' : '');
+    b.innerHTML = `${p[1]}<i>${faDigits(n)}</i>`;
+    b.addEventListener('click', () => { filter = p[0]; buildChips(); refresh(); });
+    c.appendChild(b);
+  });
+}
+
+function refresh() {
+  const q = query.trim().toLowerCase();
+  order = UAVS.filter(u => {
+    const catOk = filter === 'all' || u.cat === filter;
+    const cntOk = countryFilter === 'all' || u.producers.includes(countryFilter) || u.operators.includes(countryFilter);
+    const qOk = !q || u.name.includes(query) || u.short.includes(query) || u.maker.toLowerCase().includes(q) || u.latin.toLowerCase().includes(q);
+    return catOk && cntOk && qOk;
+  });
+  if (cur && !order.includes(cur)) cur = null;
+  if (!cur && order.length) cur = order[0];
+  buildTicks();
+  sync(true);
+}
+
+// آرشیو موزه (با مرتب‌سازی چندگانه + افکت تیره روی عکس + نام بولد و وسط‌چین پهپاد + نشانگر اسکرول)
+async function renderCatalog() {
+  const g = $('catGrid'); g.innerHTML = '';
+  const sortMode = ($('catSort') && $('catSort').value) || 'size-asc';
+  const sortedList = [...order].sort((a, b) => {
+    if (sortMode === 'size-desc') return b.size - a.size;
+    if (sortMode === 'range-desc') return b.range - a.range;
+    if (sortMode === 'speed-desc') return b.speed - a.speed;
+    if (sortMode === 'price-asc') return a.price - b.price;
+    if (sortMode === 'price-desc') return b.price - a.price;
+    return a.size - b.size;
+  });
+
+  for (const u of sortedList) {
+    const b = document.createElement('button');
+    b.className = 'catCard';
+    const localMedia = await loadFilesForUAV(u.id);
+    const localCover = localMedia.find(x => x.type === 'image');
+    const src = (localCover && localCover.src) || cacheGet(coverKey(u.id)) || cacheGet(imgKey(u.id)) || u._svg || (u._svg = svgSil(u));
+    const pBadges = u.producers.map(c => renderCountryBadge(c, false)).join('');
+    const oNames = u.operators.slice(0, 4).map(c => COUNTRIES[c]?.name || c).join('، ');
+    b.innerHTML = `
+      <div class="catHero">
+        <img class="catBg" loading="lazy" src="${src}" alt="" aria-hidden="true">
+        <img class="catFg" loading="lazy" src="${src}" alt="${u.name}">
+        <div class="catOverlay">
+          <span class="catOverlayBadge">${u.cat}</span>
+          <span class="catOverlaySize tabular">${u.sizeType}: ${sizeFa(u)}</span>
+          <div class="catOverlayTitle">${u.name}</div>
+          <div class="catOverlayLatin latin">${u.latin}</div>
+        </div>
+      </div>
+      <div class="catBody">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap">
+          <span style="font-size:10px;color:var(--brass2);font-weight:700">سازنده:</span>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${pBadges}</div>
+        </div>
+        <div style="font-size:10px;color:var(--mute);margin-top:2px">بهره‌برداران: ${oNames}${u.operators.length > 4 ? ' و...' : ''}</div>
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;color:#cbd5e1;margin-top:3px;border-top:1px solid rgba(255,255,255,.06);padding-top:5px">
+          <span>برد: <b class="tabular" style="color:var(--cyan2)">${faNum(u.range)} km</b></span>
+          <span>سرعت: <b class="tabular">${faNum(u.speed)} km/h</b></span>
+          <span>قیمت: <b class="tabular" style="color:var(--brass2)">${fmtPrice(u.price)}</b></span>
+        </div>
+      </div>`;
+    b.addEventListener('click', () => { $('catModal').classList.remove('open'); goTo(u); });
+    g.appendChild(b);
+  }
+  requestAnimationFrame(updateCatScrollCue);
+}
+
+$('catSort').addEventListener('change', () => {
+  $('catGrid').scrollTop = 0;
+  renderCatalog();
+});
+$('catBtn').addEventListener('click', () => {
+  renderCatalog();
+  $('catModal').classList.add('open');
+  setTimeout(updateCatScrollCue, 80);
+});
+$('catClose').addEventListener('click', () => $('catModal').classList.remove('open'));
+$('catModal').addEventListener('click', e => { if (e.target === $('catModal')) $('catModal').classList.remove('open'); });
+
+// موتور خروجی و دانلود تک‌فایل HTML کاملاً آفلاین و خودکفا (همراه با تمام عکس‌های لوکال آپلودشده)
+function blobToDataURL(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function exportStandaloneOfflineHTML() {
+  const btn = $('dlOfflineHtmlBtn');
+  const txt = $('dlOfflineHtmlTxt');
+  if (!btn || btn.disabled) return;
+  const origLabel = txt ? txt.textContent : 'دانلود کد HTML';
+  try {
+    btn.disabled = true;
+    if (txt) txt.textContent = 'در حال بسته‌بندی آفلاین...';
+
+    // ۱. جمع‌آوری تمام عکس‌ها و ویدیوهای لوکال آپلودشده از IndexedDB + باندل قبلی
+    const mediaByUav = {};
+    if (window.__OJNEMA_OFFLINE_BUNDLE__ && window.__OJNEMA_OFFLINE_BUNDLE__.media) {
+      for (const [k, arr] of Object.entries(window.__OJNEMA_OFFLINE_BUNDLE__.media)) {
+        mediaByUav[k] = [...arr];
+      }
+    }
+
+    try {
+      const db = await getDB();
+      const allRows = await new Promise(res => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const req = tx.objectStore(STORE_NAME).getAll();
+        req.onsuccess = () => res(req.result || []);
+        req.onerror = () => res([]);
+      });
+      for (const r of allRows) {
+        let dataUrl = r.dataUrl || null;
+        if (!dataUrl && r.blob) {
+          try { dataUrl = await blobToDataURL(r.blob); } catch (e) {}
+        }
+        if (dataUrl) {
+          if (!mediaByUav[r.uavId]) mediaByUav[r.uavId] = [];
+          if (!mediaByUav[r.uavId].some(x => x.id === r.id)) {
+            mediaByUav[r.uavId].push({
+              id: r.id,
+              uavId: r.uavId,
+              type: r.type,
+              cap: r.cap,
+              sourcePath: r.sourcePath,
+              isPrimary: !!r.isPrimary,
+              createdAt: r.createdAt || Date.now(),
+              dataUrl
+            });
+          }
+        }
+      }
+    } catch (e) {}
+
+    // ۲. جمع‌آوری کاورهای انتخابی و کش تصاویر از localStorage
+    const lsDump = { ...((window.__OJNEMA_OFFLINE_BUNDLE__ && window.__OJNEMA_OFFLINE_BUNDLE__.ls) || {}) };
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('ojn6-')) {
+          lsDump[k] = localStorage.getItem(k);
+        }
+      }
+    } catch (e) {}
+
+    // ۳. دریافت سورس تمیز HTML صفحه
+    let rawHtml = '';
+    try {
+      const resp = await fetch(location.href, { cache: 'no-cache' });
+      if (resp.ok) rawHtml = await resp.text();
+    } catch (e) {}
+    if (!rawHtml || !rawHtml.includes('<html')) {
+      rawHtml = '<!doctype html>\n' + document.documentElement.outerHTML;
+    }
+
+    // حذف اسکریپت باندل قبلی در صورت وجود تا فایل تکراری نشود
+    const closeScriptTag = '<' + '/script>';
+    const oldBundleRegex = new RegExp('<script id="ojnema-offline-data">[\\s\\S]*?' + closeScriptTag + '\\s*', 'g');
+    rawHtml = rawHtml.replace(oldBundleRegex, '');
+
+    const safeCloseRegex = new RegExp('<' + '/script>', 'gi');
+    const bundlePayload = JSON.stringify({
+      exportedAt: new Date().toISOString(),
+      ls: lsDump,
+      media: mediaByUav
+    }).replace(safeCloseRegex, '<\\/script>');
+
+    const bundleScript = '<script id="ojnema-offline-data">window.__OJNEMA_OFFLINE_BUNDLE__=' + bundlePayload + ';' + closeScriptTag + '\n';
+    const targetIdx = rawHtml.indexOf('<script>');
+    const finalHtml = targetIdx !== -1
+      ? rawHtml.slice(0, targetIdx) + bundleScript + rawHtml.slice(targetIdx)
+      : rawHtml.replace('</body>', bundleScript + '</body>');
+
+    const blob = new Blob([finalHtml], { type: 'text/html;charset=utf-8' });
+    const dlUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = dlUrl;
+    a.download = 'ojnema-offline-complete.html';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(dlUrl), 5000);
+
+    if (txt) txt.textContent = '✓ دانلود شد (اجرای آفلاین)';
+    setTimeout(() => {
+      if (txt) txt.textContent = origLabel;
+      btn.disabled = false;
+    }, 2600);
+  } catch (err) {
+    if (txt) txt.textContent = origLabel;
+    btn.disabled = false;
+  }
+}
+$('dlOfflineHtmlBtn').addEventListener('click', exportStandaloneOfflineHTML);
+
+// لایت‌باکس
+const lb = $('lightbox'), lbImg = $('lbImg'), lbVid = $('lbVideo');
+let lbIdx = 0;
+function openLB(i) {
+  if (!cur || !galList.length) return;
+  lbIdx = Math.max(0, Math.min(i, galList.length - 1));
+  lbShow();
+  lb.classList.add('open');
+}
+function closeLB() { lbVid.pause(); lb.classList.remove('open'); }
+function lbShow() {
+  const it = galList[lbIdx]; if (!it) return;
+  if (it.type === 'video') {
+    lbImg.style.display = 'none';
+    lbVid.style.display = 'block';
+    lbVid.src = it.src;
+  } else {
+    lbVid.pause();
+    lbVid.style.display = 'none';
+    lbImg.style.display = 'block';
+    lbImg.src = it.src;
+  }
+  $('lbCap').textContent = it.cap;
+  $('lbCount').textContent = `${faDigits(lbIdx + 1)} / ${faDigits(galList.length)}`;
+}
+function lbNav(d) { if (!galList.length) return; lbIdx = (lbIdx + d + galList.length) % galList.length; lbShow(); }
+$('plateZoomBtn').addEventListener('click', e => { e.stopPropagation(); openLB(galIdx); });
+$('lbPrev').addEventListener('click', () => lbNav(-1));
+$('lbNext').addEventListener('click', () => lbNav(1));
+$('lbClose').addEventListener('click', closeLB);
+lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+
+/* ═══════════ ۹) رویدادهای کیبورد و ماوس ═══════════ */
+addEventListener('keydown', e => {
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'select') { if (e.key === 'Escape') e.target.blur(); return; }
+  if (e.key === 'Escape') { closeLB(); $('catModal').classList.remove('open'); return; }
+  if (lb.classList.contains('open')) {
+    if (e.key === 'ArrowLeft') lbNav(1); else if (e.key === 'ArrowRight') lbNav(-1);
+    return;
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') nav(1);
+  else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') nav(-1);
+  else if (e.key === '1' || e.key === '۱') switchHudTab('specs');
+  else if (e.key === '2' || e.key === '۲') switchHudTab('charts');
+  else if (e.key === '3' || e.key === '۳') switchHudTab('ana');
+  else if (e.key.toLowerCase() === 'h' || e.key === 'آ') toggleCleanView();
+  else if (e.key.toLowerCase() === 'g') {
+    $('catModal').classList.contains('open') ? $('catModal').classList.remove('open') : (renderCatalog(), $('catModal').classList.add('open'), setTimeout(updateCatScrollCue, 80));
+  }
+});
+
+$('nextBtn').addEventListener('click', () => nav(1));
+$('prevBtn').addEventListener('click', () => nav(-1));
+$('mNext').addEventListener('click', e => { e.stopPropagation(); nav(1); });
+$('mPrev').addEventListener('click', e => { e.stopPropagation(); nav(-1); });
+$('galNext').addEventListener('click', () => {
+  if (window.innerWidth >= 1080) $('galStrip').scrollBy({ top: 190, behavior: 'smooth' });
+  else $('galStrip').scrollBy({ left: -240, behavior: 'smooth' });
+});
+$('galPrev').addEventListener('click', () => {
+  if (window.innerWidth >= 1080) $('galStrip').scrollBy({ top: -190, behavior: 'smooth' });
+  else $('galStrip').scrollBy({ left: 240, behavior: 'smooth' });
+});
+
+const plate = $('plate');
+plate.addEventListener('dragover', e => { e.preventDefault(); plate.classList.add('dragover'); });
+plate.addEventListener('dragleave', () => plate.classList.remove('dragover'));
+plate.addEventListener('drop', async e => {
+  e.preventDefault();
+  plate.classList.remove('dragover');
+  if (e.dataTransfer && e.dataTransfer.files && cur) {
+    const added = await addFilesForCurrentUAV(cur.id, e.dataTransfer.files);
+    if (added.length) {
+      galList.unshift(...added);
+      renderStrip(cur);
+      setMain(cur, 0);
+    }
+  }
+});
+
+plate.addEventListener('click', e => {
+  if (e.target.closest('button') || e.target.tagName === 'VIDEO') return;
+  openLB(galIdx);
+});
+if (FINE && !RM) {
+  plate.addEventListener('mousemove', e => {
+    const r = plate.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    plate.style.setProperty('--ry', (x * 2.6).toFixed(2) + 'deg');
+    plate.style.setProperty('--rx', (-y * 2.2).toFixed(2) + 'deg');
+  });
+  plate.addEventListener('mouseleave', () => {
+    plate.style.setProperty('--ry', '0deg'); plate.style.setProperty('--rx', '0deg');
+  });
+}
+
+$('q').addEventListener('input', e => {
+  query = e.target.value;
+  $('qClear').style.display = query ? '' : 'none';
+  refresh();
+});
+$('qClear').addEventListener('click', () => {
+  query = ''; $('q').value = ''; $('qClear').style.display = 'none'; refresh();
+});
+$('countryFilter').addEventListener('change', e => {
+  countryFilter = e.target.value;
+  $('countryPillWrap').classList.toggle('activeFilter', countryFilter !== 'all');
+  refresh();
+});
+$('galRetry').addEventListener('click', () => {
+  if (!cur) return;
+  cacheDel(imgKey(cur.id)); cacheDel(galKey(cur.id));
+  mainShown = null; sync();
+});
+
+/* ═══════════ ۱۰) راه‌اندازی ═══════════ */
+initSelects();
+buildChips();
+order = [...UAVS];
+cur = UAVS[0];
+buildTicks();
+sync(true);
+setTimeout(updateHudScrollCue, 150);
+$('capMin').textContent = 'کوچک‌ترین: ' + sizeFa(UAVS[0]);
+$('capMax').textContent = 'بزرگ‌ترین: ' + sizeFa(UAVS[UAVS.length - 1]);
+</script>
+</body>
+</html>

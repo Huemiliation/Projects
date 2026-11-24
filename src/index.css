@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Vazirmatn', 'Estedad', 'IRANSansX', 'Tahoma', sans-serif;
+    font-feature-settings: "ss01", "tnum";
+    background-color: #04070d;
+    color: #f8fafc;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  h1, h2, .font-display-fa {
+    font-family: 'Vazirmatn', 'Lalezar', 'Tahoma', sans-serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+@keyframes rtlOneWaySlide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+.ticker-hover-zone {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.ticker-slide-track {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.group:hover .ticker-hover-zone.is-overflowing .ticker-slide-track,
+.ticker-hover-zone.is-overflowing:hover .ticker-slide-track {
+  animation: rtlOneWaySlide 5.2s linear infinite;
+}
+
+.bomb-scroll-strip {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(249, 115, 22, 0.55) rgba(15, 23, 42, 0.7);
+}
+
+.bomb-scroll-strip::-webkit-scrollbar {
+  height: 6px;
+}
+
+.bomb-scroll-strip::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: 9999px;
+}
+
+.bomb-scroll-strip::-webkit-scrollbar-thumb {
+  background: rgba(249, 115, 22, 0.55);
+  border-radius: 9999px;
+}
+
+.bomb-scroll-strip::-webkit-scrollbar-thumb:hover {
+  background: rgba(249, 115, 22, 0.85);
+}

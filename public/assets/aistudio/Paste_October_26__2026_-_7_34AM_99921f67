@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بمب‌ها: از باروت سیاه تا مادرِ بمب‌ها — ارائهٔ علیرضا فخر موحدی</title>
+<meta name="description" content="ارائهٔ تعاملی و آفلاین تاریخ بمب‌ها با شبیه‌ساز ایزومتریک شعاع تخریب">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171c0d'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23ff7a3c'/%3E%3C/svg%3E">
+<style>
+/* ============ توکن‌ها ============ */
+:root{
+  --bg0:#0e1108; --bg1:#151a0c; --bg2:#1d2311;
+  --ink:#eef0e0; --mut:#a9ae92; --dim:#787d63;
+  --acc:#ff7a3c; --acc2:#ffb35c; --ember:#ff5a2e;
+  --line:rgba(213,224,160,.15); --line2:rgba(213,224,160,.08);
+  --card:rgba(198,214,120,.05);
+  --glass:rgba(22,27,13,.74);
+  --r:22px;
+  --ff:'Vazirmatn','Vazirm','Shabnam','IRANSansX','IRANSans','Sahel',Tahoma,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono','Cascadia Mono','Consolas','Menlo','Courier New',monospace;
+}
+html{font-size:16px;scroll-behavior:smooth}
+html.present{font-size:19px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:var(--ff);color:var(--ink);line-height:1.8;overflow-x:hidden;
+  background:
+    radial-gradient(1100px 700px at 88% -10%, rgba(255,122,60,.07), transparent 60%),
+    radial-gradient(900px 700px at -10% 110%, rgba(159,191,74,.05), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg0));
+  min-height:100vh;
+}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");}
+.wrap{max-width:1340px;margin-inline:auto;padding-inline:20px;position:relative;z-index:2}
+.en{direction:ltr;unicode-bidi:isolate;font-family:var(--mono)}
+button{font:inherit;color:inherit}
+::selection{background:rgba(255,122,60,.35)}
+
+/* ============ کامپوننت پایه ============ */
+.glass{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.04)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:14px;
+  border:1px solid var(--line);background:rgba(198,214,120,.06);cursor:pointer;transition:.2s;font-size:.93rem}
+.btn:hover{border-color:rgba(255,122,60,.55);color:#fff}
+.btn.acc{background:var(--acc);border-color:var(--acc);color:#241206;font-weight:700}
+.btn.acc:hover{background:var(--acc2);border-color:var(--acc2);color:#241206}
+.btn.sm{padding:6px 12px;font-size:.83rem;border-radius:11px}
+.btn svg,.icon-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.icon-btn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);
+  background:rgba(198,214,120,.05);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;color:var(--mut)}
+.icon-btn:hover{border-color:var(--acc);color:var(--acc)}
+kbd{font-family:var(--mono);font-size:.72rem;background:rgba(0,0,0,.4);border:1px solid var(--line2);
+  border-bottom-width:2px;border-radius:6px;padding:1px 6px;color:var(--mut)}
+.chip{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.8rem;color:var(--mut);
+  display:inline-flex;gap:8px;align-items:center;white-space:nowrap}
+.flag{width:24px;height:15px;border-radius:3px;display:inline-block;flex:none;
+  box-shadow:0 0 0 1px rgba(0,0,0,.45), inset 0 0 0 .5px rgba(255,255,255,.18)}
+.flag.us{background:linear-gradient(#3c3b6e,#3c3b6e) left top/55% 52% no-repeat,repeating-linear-gradient(180deg,#b22234 0 2px,#fff 2px 4px)}
+.flag.uk{background:linear-gradient(#cf142b,#cf142b) 50% 50%/100% 3px no-repeat,linear-gradient(#cf142b,#cf142b) 50% 50%/9px 100% no-repeat,linear-gradient(#fff,#fff) 50% 50%/100% 6px no-repeat,linear-gradient(#fff,#fff) 50% 50%/15px 100% no-repeat,#012169}
+.flag.ru{background:linear-gradient(180deg,#fff 0 34%,#0039a6 34% 67%,#d52b1e 67%)}
+.flag.su{background:#c8102e}
+
+/* ============ هدر ============ */
+.site-head{padding-top:52px;padding-bottom:26px;position:relative}
+.mush{position:absolute;top:-24px;left:3%;width:min(400px,36vw);opacity:.33;filter:blur(1px) saturate(.9);pointer-events:none;z-index:0}
+.head-grid{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;position:relative;z-index:1}
+.kicker{display:flex;align-items:center;gap:10px;color:var(--acc);font-size:.86rem;margin-bottom:8px}
+.kicker .dash{width:28px;height:2px;background:var(--acc);border-radius:2px}
+h1{font-size:clamp(3rem,7vw,5.1rem);font-weight:800;line-height:1.15;letter-spacing:-.5px}
+.subline{font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--mut);font-weight:600}
+.subline b{color:var(--acc)}
+.hairline{display:block;width:132px;height:3px;border-radius:3px;margin:14px 0 12px;
+  background:linear-gradient(90deg,#9fbf4a,var(--acc))}
+.lede{color:#c9cfb0;max-width:560px;font-size:.98rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.head-side{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.presenter{border:1.5px solid var(--acc);border-radius:16px;padding:12px 22px;background:rgba(255,122,60,.07);
+  display:flex;flex-direction:column;gap:2px}
+.p-k{color:var(--acc);font-size:.78rem}
+.p-n{font-weight:800;font-size:1.18rem}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ============ چیدمان اصلی ============ */
+.main-grid{display:grid;grid-template-columns:400px 1fr;gap:18px;align-items:stretch}
+.list-panel{display:flex;flex-direction:column;min-height:520px}
+.lp-head{padding:16px 16px 10px}
+.lp-head b{font-size:1.05rem}
+.lp-head span{display:block;font-size:.79rem;color:var(--dim)}
+.list-scroll{display:flex;flex-direction:column;gap:8px;padding:4px 12px 14px;overflow-y:auto;flex:1;min-height:200px;scrollbar-width:thin;scrollbar-color:rgba(255,122,60,.35) transparent}
+.list-scroll::-webkit-scrollbar{width:8px}
+.list-scroll::-webkit-scrollbar-thumb{background:rgba(255,122,60,.3);border-radius:8px}
+.kbd-hints{padding:10px 16px;border-top:1px solid var(--line2);display:flex;gap:6px 10px;align-items:center;flex-wrap:wrap;font-size:.78rem;color:var(--dim)}
+
+/* کارت بمب */
+.bomb{display:grid;grid-template-columns:auto auto 1fr auto auto;gap:12px;align-items:center;
+  padding:10px 12px;border:1px solid var(--line2);border-radius:16px;background:var(--card);
+  cursor:pointer;user-select:none;outline:none;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s}
+.bomb:hover,.bomb:focus-visible{border-color:rgba(255,122,60,.5);transform:translateY(-1px);background:rgba(198,214,120,.08)}
+.bomb.active{border-color:var(--acc);background:rgba(255,122,60,.09);box-shadow:inset -3px 0 0 var(--acc)}
+.idx{font-family:var(--mono);font-size:.78rem;color:var(--dim)}
+.bomb.active .idx{color:var(--acc)}
+.glyph{width:44px;height:26px}
+.bmeta{display:flex;flex-direction:column;gap:1px;min-width:0}
+.bmeta .en{font-size:.9rem}
+.bmeta i{font-style:normal;font-size:.85rem;color:#cdd2b4}
+.bmeta small{font-size:.75rem;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bpower{font-family:var(--mono);font-size:.78rem;color:var(--mut);direction:ltr;unicode-bidi:isolate}
+.cmp{width:32px;height:32px;border-radius:10px;border:1px dashed var(--line);background:transparent;color:var(--mut);
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.18s}
+.cmp svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cmp:hover{border-color:var(--acc);color:var(--acc)}
+.cmp.on{background:var(--acc);border:1px solid var(--acc);color:#231204}
+
+/* ============ صحنهٔ شبیه‌سازی ============ */
+.stage-panel{display:flex;flex-direction:column}
+.stage-panel.shake{animation:shk .8s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes shk{
+  0%,100%{transform:none}
+  12%{transform:translate(calc(var(--mag,3px)*-1.4),calc(var(--mag,3px)*.7))}
+  25%{transform:translate(calc(var(--mag,3px)*1.2),calc(var(--mag,3px)*-.9))}
+  37%{transform:translate(calc(var(--mag,3px)*-.9),calc(var(--mag,3px)*-.6))}
+  50%{transform:translate(calc(var(--mag,3px)*.8),calc(var(--mag,3px)*.8))}
+  62%{transform:translate(calc(var(--mag,3px)*-.6),calc(var(--mag,3px)*.4))}
+  75%{transform:translate(calc(var(--mag,3px)*.4),calc(var(--mag,3px)*-.4))}
+  88%{transform:translate(calc(var(--mag,3px)*-.2),calc(var(--mag,3px)*.2))}
+}
+.stage-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+.stt b{font-size:.98rem}
+.stt span{display:block;font-size:.76rem;color:var(--dim)}
+.scale{font-size:.85rem;color:var(--acc2);border:1px dashed rgba(255,179,92,.4);border-radius:999px;padding:4px 14px}
+.stage-view{position:relative;width:100%;aspect-ratio:600/370;min-height:230px;cursor:crosshair;
+  background-image:radial-gradient(rgba(213,224,160,.07) 1px,transparent 1.3px);background-size:22px 22px;background-position:center;border-radius:0 0 0 0;overflow:hidden}
+#map{position:absolute;inset:0;width:100%;height:100%;display:block}
+#map .shadow{fill:#000;opacity:.5;filter:blur(7px)}
+#labels text{font-family:var(--ff);font-size:11px;paint-order:stroke;stroke:#0d1105;stroke-width:3px;pointer-events:none}
+.bld{transition:transform .8s cubic-bezier(.22,.75,.25,1),filter .8s;transform-box:fill-box;transform-origin:50% 100%}
+.bld.ruined{transform:scaleY(.1);filter:brightness(.3) saturate(.4)}
+.bld.damaged{filter:brightness(.55)}
+.fire{mix-blend-mode:screen;pointer-events:none}
+.shock{fill:none;stroke:#ffe0b0;stroke-width:2.4;pointer-events:none}
+.shock2{fill:none;stroke:#ff8a4d;stroke-width:1.5;pointer-events:none}
+.fullfill{stroke:#ff5a2e;stroke-opacity:.8;stroke-width:1.1;fill:rgba(255,88,44,.15);pointer-events:none}
+.sevr{fill:none;stroke:#ffb35c;stroke-width:1.3;stroke-dasharray:6 5;pointer-events:none}
+.sndr{fill:none;stroke:#aab287;stroke-width:1;pointer-events:none}
+.mk-ring{fill:none;stroke:#ffb35c;stroke-width:1.4;opacity:.9;transform-box:fill-box;transform-origin:center;animation:mkp 2.2s ease-out infinite}
+@keyframes mkp{0%{transform:scale(.5);opacity:.9}70%{transform:scale(1.9);opacity:0}100%{transform:scale(1.9);opacity:0}}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.stage-view.boom .flash{animation:boomf .55s ease-out}
+@keyframes boomf{0%{opacity:0}8%{opacity:.5}100%{opacity:0}}
+.hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:.78rem;color:var(--mut);
+  background:rgba(14,17,8,.72);border:1px solid var(--line2);border-radius:999px;padding:4px 14px;white-space:nowrap;transition:opacity .5s;pointer-events:none}
+.hint.seen{opacity:0}
+.stage-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--line2)}
+.legend{display:flex;gap:14px;flex-wrap:wrap}
+.legend span{display:flex;gap:7px;align-items:center;font-size:.8rem;color:var(--mut)}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.st-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#sndBtn .off{display:none}
+#sndBtn.muted .on{display:none}
+#sndBtn.muted .off{display:inline-flex}
+
+/* ============ پنل اطلاعات ============ */
+.info{margin-top:18px;padding:22px 24px}
+.info.in{animation:rise .4s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.info-top{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:flex-start}
+.info-kicker{color:var(--acc);font-size:.78rem;margin-bottom:4px}
+.info h2{font-size:1.55rem;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;line-height:1.5}
+.info h2 .en{color:var(--acc)}
+.info h2 .faName{font-size:1rem;color:var(--mut);font-weight:600}
+.info-chips{display:flex;gap:8px;flex-wrap:wrap}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.tile{background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:12px 14px}
+.tile label{font-size:.78rem;color:var(--dim);display:block}
+.tile b{display:block;font-weight:600;font-size:.93rem;margin-top:4px;line-height:1.7}
+.tile small{display:block;color:var(--acc2);font-size:.78rem;margin-top:4px}
+.tile.wide{grid-column:1/-1}
+.rr{display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;font-size:.82rem;padding:4px 0}
+.rr .rl{color:var(--mut)}
+.rr .track{height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;display:block}
+.rr .track i{display:block;height:100%;border-radius:99px;transition:width .6s ease}
+.rr .rv{color:var(--mut);min-width:90px;text-align:left}
+.desc{margin:16px 0 10px;color:#d8dcc2;max-width:920px}
+.facts{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px 18px}
+.facts li{position:relative;padding-inline-start:16px;font-size:.88rem;color:var(--mut)}
+.facts li::before{content:'';position:absolute;inset-inline-start:0;top:.6em;width:6px;height:6px;background:var(--acc);border-radius:2px}
+
+/* ============ مقایسه ============ */
+.cmp-drawer{position:fixed;bottom:14px;inset-inline:0;margin-inline:auto;width:min(940px,94vw);z-index:90;
+  padding:16px 18px;transform:translateY(140%);transition:transform .38s cubic-bezier(.2,.8,.2,1);max-height:72vh;overflow-y:auto}
+.cmp-drawer.open{transform:none}
+.cmp-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.cmp-head .row{display:flex;gap:8px;align-items:center}
+.cmp-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp-col{background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:14px}
+.cmp-col h4{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.cmp-col h4 .en{font-size:.95rem}
+.cmp-col h4 em{font-style:normal;color:var(--mut);font-size:.85rem;font-weight:400}
+.cr{display:flex;justify-content:space-between;gap:10px;font-size:.85rem;padding:6px 0;border-bottom:1px dashed var(--line2)}
+.cr span{color:var(--mut)}
+.cr b{font-weight:600;text-align:left}
+.cmp-note{margin-top:10px;color:var(--mut);font-size:.85rem}
+.cmp-empty{color:var(--mut);font-size:.92rem}
+
+/* ============ فوتر / توست ============ */
+.site-foot{padding:34px 0 26px;margin-top:8px}
+.f-grid{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--line2);padding-top:20px}
+.f-note{font-size:.82rem;color:var(--dim);max-width:640px}
+.f-chips{display:flex;gap:8px;flex-wrap:wrap}
+.f-chips span{font-family:var(--mono);font-size:.72rem;color:var(--dim);border:1px solid var(--line2);border-radius:999px;padding:3px 10px;direction:ltr}
+.f-credit{font-size:.82rem;color:var(--mut)}
+#toast{position:fixed;bottom:18px;inset-inline-start:18px;z-index:95;background:rgba(20,24,10,.92);
+  border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-size:.88rem;
+  opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;max-width:70vw}
+#toast.show{opacity:1;transform:none}
+
+/* ============ حالت ارائه ============ */
+html.present .chrome{display:none!important}
+html.present .main-grid{grid-template-columns:400px 1fr}
+html.present .stage-view{min-height:340px}
+html.present .btn{padding:12px 20px}
+html.present .list-scroll{gap:10px}
+
+/* ============ واکنش‌گرایی ============ */
+@media (max-width:1060px){
+  .main-grid{grid-template-columns:1fr}
+  .list-panel{order:2;min-height:0}
+  .stage-panel{order:1}
+  .list-scroll{max-height:56vh}
+  .kbd-hints{display:none}
+}
+@media (max-width:700px){
+  .info-grid{grid-template-columns:1fr 1fr}
+  .cmp-cols{grid-template-columns:1fr}
+  .head-grid{flex-direction:column;align-items:stretch}
+  .mush{opacity:.18}
+  .rr .rv{min-width:70px}
+}
+@media (max-width:520px){
+  .bomb{grid-template-columns:auto 1fr auto}
+  .glyph,.bpower{display:none}
+  .info-grid{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr}
+  .rr{grid-template-columns:80px 1fr auto}
+}
+@media (prefers-reduced-motion: reduce){
+  .stage-panel.shake,.mk-ring,.flash{animation:none!important}
+  .bld{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ================= هدر ================= -->
+<header class="site-head wrap">
+  <svg class="mush" viewBox="0 0 480 420" aria-hidden="true">
+    <defs>
+      <radialGradient id="mg" cx="50%" cy="35%" r="65%">
+        <stop offset="0" stop-color="#ffc07a" stop-opacity=".85"/>
+        <stop offset=".45" stop-color="#ff6a30" stop-opacity=".4"/>
+        <stop offset="1" stop-color="#ff6a30" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <g fill="url(#mg)">
+      <circle cx="240" cy="105" r="92"/><circle cx="158" cy="135" r="54"/><circle cx="322" cy="135" r="54"/>
+      <circle cx="205" cy="72" r="48"/><circle cx="282" cy="76" r="46"/>
+      <ellipse cx="240" cy="192" rx="112" ry="42"/>
+      <path d="M216 176c-8 66-16 130-28 194h124c-12-64-20-128-28-194z"/>
+      <ellipse cx="240" cy="372" rx="120" ry="26"/>
+    </g>
+  </svg>
+  <div class="head-grid">
+    <div class="brand">
+      <div class="kicker"><span class="dash"></span>تاریخ و تحلیل قدرتِ انفجار</div>
+      <h1>بمب‌ها</h1>
+      <div class="subline">از باروت سیاه تا <b>«مادرِ همهٔ بمب‌ها»</b></div>
+      <span class="hairline"></span>
+      <p class="lede">روی هر بمب کلیک کنید تا شعاع واقعیِ تخریبش را روی یک شهرک شبیه‌سازی‌شده ببینید؛ از یک بمب ۲۲۷ کیلوگرمی تا آتش‌گل ۸ کیلومتریِ تزار. مقیاس نقشه به‌طور خودکار با هر بمب تنظیم می‌شود.</p>
+      <div class="chips chrome">
+        <span class="chip">۱۰ نمونهٔ واقعی</span>
+        <span class="chip">شعاع تخریب دقیق</span>
+        <span class="chip">شبیه‌ساز ۲.۵بعدی</span>
+        <span class="chip">مقایسهٔ زنده</span>
+      </div>
+    </div>
+    <div class="head-side">
+      <div class="presenter">
+        <span class="p-k">ارائه‌دهنده</span>
+        <span class="p-n">علیرضا فخر موحدی</span>
+      </div>
+      <div class="actions">
+        <button class="btn acc" id="presentBtn" title="برای پرژکتور و کلاس درس (P)">
+          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          <span id="presentLbl">حالت ارائه</span>
+        </button>
+        <button class="btn" id="compareBtn" title="مقایسهٔ سریع دو بمب">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M12 4v16"/></svg>
+          مقایسهٔ سریع
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= بدنه ================= -->
+<main class="wrap">
+  <div class="main-grid">
+
+    <!-- فهرست بمب‌ها (ستون راست) -->
+    <aside class="list-panel glass">
+      <div class="lp-head">
+        <b>فهرست مهمات</b>
+        <span>به ترتیب تاریخ و قدرت — از کوچک‌ترین تا عظیم‌ترین</span>
+      </div>
+      <div class="list-scroll" id="bombList"></div>
+      <div class="kbd-hints chrome">
+        <kbd>↑</kbd><kbd>↓</kbd><span>انتخاب و انفجار</span>
+        <kbd>Space</kbd><span>انفجار دوباره</span>
+        <kbd>P</kbd><span>ارائه</span>
+        <kbd>M</kbd><span>صدا</span>
+        <kbd>R</kbd><span>شهر تازه</span>
+      </div>
+    </aside>
+
+    <!-- شبیه‌ساز ایزومتریک (ستون چپ) -->
+    <section class="stage-panel glass" id="stagePanel">
+      <div class="stage-top">
+        <div class="stt"><b>منطقهٔ شبیه‌سازی</b><span>شهرک فرضی — نمای ایزومتریک ۲.۵بعدی</span></div>
+        <div class="scale" id="scaleChip">مقیاس: —</div>
+      </div>
+      <div class="stage-view" id="stageView">
+        <svg id="map" viewBox="250 40 600 370" preserveAspectRatio="xMidYMid meet" aria-label="نقشهٔ شهرک شبیه‌سازی">
+          <defs>
+            <radialGradient id="gFlash" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff8e4"/>
+              <stop offset="25%" stop-color="#ffd08a"/>
+              <stop offset="55%" stop-color="#ff7a3c" stop-opacity=".85"/>
+              <stop offset="100%" stop-color="#ff5a2e" stop-opacity="0"/>
+            </radialGradient>
+            <clipPath id="clipMap"><polygon points="500,140 780,280 580,380 300,340"/></clipPath>
+          </defs>
+          <polygon class="shadow" points="500,154 780,294 580,394 300,354"/>
+          <g id="ground"></g>
+          <g id="city"></g>
+          <g id="fx" clip-path="url(#clipMap)"></g>
+          <g id="rings" clip-path="url(#clipMap)"></g>
+          <g id="labels"></g>
+          <g id="marker">
+            <ellipse class="mk-ring" rx="12" ry="6"/>
+            <ellipse rx="2.6" ry="1.4" fill="#ffb35c"/>
+            <path d="M0 -14 V-6 M0 14 V6 M-20 0 H-12 M20 0 H12" stroke="#ffb35c" stroke-width="1.5" fill="none"/>
+          </g>
+        </svg>
+        <div class="flash" aria-hidden="true"></div>
+        <div class="hint chrome" id="mapHint">روی نقشه کلیک کنید تا نقطهٔ هدف جابه‌جا شود</div>
+      </div>
+      <div class="stage-bar">
+        <div class="legend">
+          <span><i style="background:#ff5a2e"></i>تخریب کامل</span>
+          <span><i style="background:#ffb35c"></i>آسیب شدید</span>
+          <span><i style="background:#aab287"></i>برد صدا</span>
+        </div>
+        <div class="st-actions">
+          <button class="icon-btn" id="prevB" title="بمب سبک‌تر" aria-label="بمب سبک‌تر">
+            <svg viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></svg>
+          </button>
+          <button class="icon-btn" id="nextB" title="بمب سنگین‌تر" aria-label="بمب سنگین‌تر">
+            <svg viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></svg>
+          </button>
+          <button class="btn acc" id="fireBtn">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+            انفجار در هدف
+          </button>
+          <button class="btn" id="rebuildBtn">
+            <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+            بازسازی شهر
+          </button>
+          <button class="icon-btn" id="sndBtn" title="صدا (M)" aria-label="روشن/خاموش صدا">
+            <span class="ic on"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></span>
+            <span class="ic off"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 5m0-5-5 5"/></svg></span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- پنل اطلاعات تخصصی -->
+  <section class="info glass in" id="infoPanel" aria-live="polite"></section>
+</main>
+
+<!-- ================= فوتر ================= -->
+<footer class="site-foot chrome">
+  <div class="wrap f-grid">
+    <p class="f-note">ابزاری آموزشی–تاریخی؛ همهٔ ارقام تخریب تقریبی و بر پایهٔ منابع باز است. این صفحه صرفاً هدف آموزشی دارد و هیچ دستورالعمل فنی ارائه نمی‌دهد.</p>
+    <div class="f-chips"><span>SIPRI</span><span>DVIDS</span><span>Reuters</span><span>The Guardian</span><span>AF Armament Museum</span></div>
+    <div class="f-credit">ارائه‌دهنده: علیرضا فخر موحدی</div>
+  </div>
+</footer>
+
+<!-- کشوی مقایسه -->
+<div class="cmp-drawer glass" id="cmpDrawer">
+  <div class="cmp-head">
+    <b>مقایسهٔ سریع دو بمب</b>
+    <div class="row">
+      <button class="btn sm" id="cmpClear">پاک‌کردن</button>
+      <button class="icon-btn" id="cmpClose" aria-label="بستن">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="cmpBody"></div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+(function(){
+/* ================= ابزارها ================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const NS='http://www.w3.org/2000/svg';
+const FD='۰۱۲۳۴۵۶۷۸۹';
+const faNum=v=>String(v).replace(/[0-9]/g,d=>FD[d]).replace(/,/g,'٬');
+const faInt=n=>faNum(Math.round(n).toLocaleString('en-US'));
+function fmtLen(m){
+  if(m>=1000){const k=m/1000;const v=k>=10?Math.round(k):Math.round(k*10)/10;return faNum(v)+' کیلومتر';}
+  return faInt(m)+' متر';
+}
+function fmtR(m){return fmtLen(m);}
+function barW(m){const lo=Math.log10(40),hi=Math.log10(120000);
+  const w=(Math.log10(Math.max(m,40))-lo)/(hi-lo);
+  return (Math.min(1,Math.max(.03,w))*100).toFixed(1);}
+function ratioText(r){
+  if(r>=1e6)return '≈ '+faNum(Math.round(r/1e6))+' میلیون برابر Mk-82';
+  if(r>=1000)return '≈ '+faNum(Math.round(r/100)/10)+' هزار برابر Mk-82';
+  return '≈ '+faInt(r)+' برابر Mk-82';
+}
+const barRow=(l,m,c)=>'<div class="rr"><span class="rl">'+l+'</span><span class="track"><i style="width:'+barW(m)+'%;background:'+(c||'#ff7a3c')+'"></i></span><span class="rv">'+fmtLen(m)+'</span></div>';
+
+let toastT;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2700);}
+
+const IC={
+  plus:'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+  check:'<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'
+};
+
+/* ================= دادهٔ بمب‌ها ================= */
+const BOMBS=[
+{id:'mk82',en:'Mk-82',fa:'ام‌کی-۸۲',sub:'بمب سبک چندمنظوره',country:'آمریکا',flag:'us',cls:'متعارف سبک',
+ years:'۱۹۵۴ تا امروز',expl:'۸۹ کیلوگرم تریتونال (TNT + پودر آلومینیوم)',weight:'۲۲۷ کیلوگرم',
+ yieldTxt:'≈ ۹۰ کیلوگرم TNT',y:0.089,yShort:'90 kg',full:45,severe:95,sound:800,tier:1,
+ desc:'بمب ۲۲۷ کیلوگرمی سبک و ارزان؛ قطره‌ای از اقیانوس بمباران هوایی. قدرتش برای نابودی یک ساختمان کوچک یا یک خودرو کافی است — و همین «دقتِ کم‌قدرت» آن را پرکاربردترین بمب تاریخ کرده است.',
+ facts:['با کیت هدایت لیزری به «پاوی‌وی» GBU-12 تبدیل می‌شود.','از ویتنام تا امروز در تقریباً همهٔ نبردهای هوایی آمریکا حضور داشته است.','برای اصابت دقیق به خودرو، سنگر سبک و ساختمان‌های کوچک به‌کار می‌رود.']},
+{id:'gbu28',en:'GBU-28',fa:'جی‌بی‌یو-۲۸',sub:'کوبندهٔ سنگر — لیزری',country:'آمریکا',flag:'us',cls:'متعارف نفوذی',
+ years:'۱۹۹۱ تا امروز',expl:'۲۸۳ کیلوگرم تریتونال + بدنهٔ فولادی از توپ ۲۰۳ میلی‌متری',weight:'۲٬۱۳۰ کیلوگرم',
+ yieldTxt:'≈ ۲۸۰ کیلوگرم TNT',y:0.286,yShort:'280 kg',full:60,severe:140,sound:1200,tier:1,
+ desc:'متهٔ بتنیِ نیروی هوایی. به‌جای شعاع انفجار بزرگ، وظیفه‌اش سوراخ‌کردن سقف پناهگاه‌های فولادی است؛ انفجار اصلی درونِ هدف رخ می‌دهد.',
+ facts:['بدنه‌اش از لولهٔ توپ ۲۰۳ میلی‌متری M110 ساخته شد.','در جنگ خلیج فارس فقط ۱۷ روز پس از سفارش آمادهٔ نبرد بود.','می‌تواند ۶ متر بتن مسلح یا بیش از ۳۰ متر خاک را بشکافد.']},
+{id:'grandslam',en:'Grand Slam',fa:'گرند اسلم',sub:'بمب زلزلهٔ جنگ جهانی',country:'بریتانیا',flag:'uk',cls:'متعارف سنگین (میراث)',
+ years:'۱۹۴۳ تا ۱۹۴۵',expl:'۴٬۱۴۴ کیلوگرم تورپکس D1',weight:'۹٬۹۸۸ کیلوگرم',
+ yieldTxt:'≈ ۵ تن TNT',y:5.1,yShort:'5.1 t',full:120,severe:280,sound:2600,tier:2,
+ desc:'ایدهٔ انقلابی بارنز والیس: بمب را در زمین دفن کن و با موج لرزه ساختمان را از پایه بیندوز. پدربزرگ همهٔ «بمب‌های زلزله» امروزی.',
+ facts:['«بمب زلزله» والیس؛ به‌جای انفجار در سطح، در خاک نفوذ می‌کرد.','موج لرزه‌ای آن پیِ ساختمان‌ها را می‌شکست.','سنگین‌ترین بمبی که جنگ جهانی دوم به‌کار گرفت.']},
+{id:'blu82',en:'BLU-82 Daisy Cutter',fa:'بلو-۸۲ قاصدک',sub:'غول متعارف قرن بیستم',country:'آمریکا',flag:'us',cls:'متعارف فوق‌سنگین',
+ years:'۱۹۷۰ تا ۲۰۰۱ — ویتنام تا افغانستان',expl:'≈ ۵٬۷۰۰ کیلوگرم دوغاب GSX (نیترات آمونیوم + آلومینیوم)',weight:'≈ ۶٬۸۰۰ کیلوگرم',
+ yieldTxt:'≈ ۶ تن TNT',y:5.7,yShort:'5.7 t',full:160,severe:350,sound:4000,tier:2,
+ desc:'یک ابر انفجاری غول‌آسا که درختان جنگل را صاف می‌کند و زمین را برای هلیکوپترها آماده می‌سازد. انفجارش از فاصلهٔ ده‌ها کیلومتری مثل خورشید طلوع می‌کرد.',
+ facts:['در ویتنام برای ساختن فرودگاه چاپری هلیکوپتر در دل جنگل به‌کار رفت.','در سال ۲۰۰۱ در افغانستان هم برای تخریب و هم برای اثر روانی استفاده شد.','قدرتمندترین بمب متعارف قرن بیستم از نظر انرژی انفجار.']},
+{id:'davy',en:'Davy Crockett (W54)',fa:'دیوی کرکت',sub:'کوچک‌ترین سلاح هسته‌ای',country:'آمریکا',flag:'us',cls:'هسته‌ای تاکتیکال',
+ years:'۱۹۶۱ تا ۱۹۷۱',expl:'کلاهک شکافتی پلوتونیومی W-54',weight:'۲۳ کیلوگرم (سر جنگی M-388)',
+ yieldTxt:'۲۰ تن TNT',y:20,yShort:'20 t',full:150,severe:350,sound:3000,tier:2,
+ desc:'هسته‌ای‌ترین نقطهٔ تاریخ: سلاحی به سنگینی یک نوجوان، به قدرت ۲۰ تن TNT. طنز تلخ تاریخ نظامی: خطرناک‌ترین دشمنش، خودِ توپچی بود.',
+ facts:['شعاع خطر انفجارش از برد شلیکِ آن هم بیشتر بود!','با خمپاره‌انداز بدون بازوش یا توپ بی‌لگد شلیک می‌شد.','کوچک‌ترین سلاح هسته‌ای عملیاتی تاریخ با کلاهک W-54.']},
+{id:'moab',en:'GBU-43/B MOAB',fa:'مادر همهٔ بمب‌ها',sub:'مادرِ همهٔ بمب‌ها',country:'آمریکا',flag:'us',cls:'متعارف فوق‌سنگین',
+ years:'۲۰۰۳ تا امروز · استفادهٔ عملیاتی: ۲۰۱۷',expl:'≈ ۸٬۵۰۰ کیلوگرم H6 (RDX + TNT + آلومینیوم)',weight:'۹٬۸۰۰ کیلوگرم',
+ yieldTxt:'≈ ۱۱ تن TNT',y:11,yShort:'11 t',full:230,severe:500,sound:8000,tier:3,
+ desc:'سنگین‌ترین بمب غیرهسته‌ای که آمریکا در نبرد به‌کار گرفته است. انفجارش نه فقط با فشار، بلکه با شعله و مصرف اکسیژن، همه‌چیز در شعاع صدها متری را نابود می‌کند.',
+ facts:['نامش مخفف «Mother of All Bombs» — مادر همهٔ بمب‌ها — است.','تنها بار در ۱۳ آوریل ۲۰۱۷ در درهٔ آچین افغانستان استفاده شد.','از هوا رها نمی‌شود؛ با رمپ پشتی از C-130 به پایین سُر داده می‌شود.']},
+{id:'foab',en:'FOAB',fa:'پدر همهٔ بمب‌ها',sub:'پدرِ همهٔ بمب‌ها — ترموبریک',country:'روسیه',flag:'ru',cls:'ترموبریک',
+ years:'۲۰۰۷ (نمایش عمومی) — بدون کاربرد تأییدشده',expl:'مهمات ترموبریک (سوخت–هوا؛ ترکیب محرمانه)',weight:'≈ ۷٬۱۰۰ کیلوگرم',
+ yieldTxt:'≈ ۴۴ تن TNT (ادعای رسمی)',y:44,yShort:'44 t',full:300,severe:600,sound:8000,tier:3,
+ desc:'روسیه گذاشت «پدر» جواب «مادر» را بدهد. سلاح ترموبریک: اول ابری از سوخت می‌پاشد، بعد مشتعلش می‌کند — انفجاری که نفس می‌کشد.',
+ facts:['ادعا شده چهار برابر قوی‌تر از MOAB است.','انفجار ترموبریک اکسیژن محیط را می‌بلعد و دما تا ۲٬۵۰۰ درجه می‌رسد.','تا امروز استفادهٔ عملیاتی آن در هیچ نبردی تأیید نشده است.']},
+{id:'gbu57',en:'GBU-57 MOP',fa:'جی‌بی‌یو-۵۷',sub:'شکافندهٔ عمیق (MOP)',country:'آمریکا',flag:'us',cls:'متعارف نفوذی غول‌پیکر',
+ years:'۲۰۱۱ تا امروز · استفادهٔ عملیاتی: ۲۰۲۵',expl:'≈ ۲٬۴۰۰ کیلوگرم مهمات ترکیشی AFX-757 + بدنهٔ نفوذگر فولادی',weight:'۱۳٬۶۰۰ کیلوگرم',
+ yieldTxt:'≈ ۲٫۴ تن TNT',y:2.4,yShort:'2.4 t',full:90,severe:200,sound:3000,tier:2,
+ desc:'عظیم‌ترین «چکش» متعارف جهان برای میخ‌کوب‌کردن تأسیسات در اعماق کوه و زمین. سقف بتن‌مسلح ۶۰ متری برایش مثل مقواست.',
+ facts:['سنگین‌ترین بمب متعارف عملیاتی جهان؛ فقط B-2 می‌تواند حملش کند.','تا ۶۱ متر بتن یا ۲۰۰ متر خاک نفوذ می‌کند.','در ژوئن ۲۰۲۵ در عملیات شبانهٔ «چکش نیمه‌شب» علیه تأسیسات عمیق زیرزمینی به‌کار رفت.']},
+{id:'b83',en:'B83-1',fa:'بی-۸۳',sub:'کلاهک راهبردی مگاتنی',country:'آمریکا',flag:'us',cls:'هسته‌ای راهبردی',
+ years:'۱۹۸۳ تا امروز',expl:'کلاهک شکافت–همجوشی با توان متغیر',weight:'≈ ۱٬۱۰۰ کیلوگرم',
+ yieldTxt:'تا ۱٫۲ مگاتن',y:1200000,yShort:'1.2 Mt',full:3000,severe:7000,sound:40000,tier:4,
+ desc:'بزرگ‌ترین چکش هسته‌ای باقی‌مانده در جعبه‌ابزار آمریکا؛ ۸۰ برابر بمبی که هیروشیما را ویران کرد.',
+ facts:['آخرین کلاهک مگاتنی فعال در زرادخانهٔ ایالات متحده.','توان آن از ده‌ها کیلوتن تا ۱٫۲ مگاتن قابل تنظیم است.','برای انفجار در ارتفاع پایین و نفوذ به پناهگاه‌های زمینی طراحی شده است.']},
+{id:'tsar',en:'Tsar Bomba (AN602)',fa:'بمب تزار',sub:'قوی‌ترین سلاح تاریخ',country:'شوروی',flag:'su',cls:'هسته‌ای آزمایشی',
+ years:'۳۰ اکتبر ۱۹۶۱ — فقط یک بار',expl:'کلاهک همجوشی سه‌مرحله‌ای (آزمایش با نیم‌توان)',weight:'≈ ۲۷٬۰۰۰ کیلوگرم',
+ yieldTxt:'۵۰ مگاتن',y:50000000,yShort:'50 Mt',full:22000,severe:35000,sound:100000,tier:5,
+ desc:'قدرتمندترین سیل انرژی که بشر تاکنون عمداً آزاد کرده: ۳٬۳۰۰ برابر هیروشیما، در یک لحظه. امید که هرگز وارثی نداشته باشد.',
+ facts:['در ۳۰ اکتبر ۱۹۶۱ روی مجمع‌الجزایر نوایا زملیا منفجر شد.','آتش‌گلش ۸ کیلومتر ارتفاع داشت؛ ستون قارچ تا ۶۰ کیلومتری رفت.','شیشه‌های پنجره در ۹۰۰ کیلومتری شکست و موج لرزه سه بار دور زمین چرخید.']}
+];
+
+/* ================= شهر ایزومتریک ================= */
+const OX=500,OY=140,TW=40,TH=20,GX=14,GY=10;
+const iso=(i,j)=>[OX+(i-j)*TW/2,OY+(i+j)*TH/2];
+const isRoad=(i,j)=>i===4||i===9||j===3||j===7;
+const pp=p=>p.map(t=>t[0].toFixed(1)+','+t[1].toFixed(1)).join(' ');
+let target={i:7,j:5};
+
+function renderCity(){
+  const rows=[];
+  const parks=new Set();
+  for(let n=0;n<5;n++){
+    const i=1+Math.floor(Math.random()*(GX-2)),j=1+Math.floor(Math.random()*(GY-2));
+    if(!isRoad(i,j))parks.add(i+','+j);
+  }
+  // زمین: کاشی‌ها، جاده‌ها، پارک‌ها
+  for(let i=0;i<GX;i++)for(let j=0;j<GY;j++){
+    const road=isRoad(i,j),park=parks.has(i+','+j);
+    const p=[iso(i,j),iso(i+1,j),iso(i+1,j+1),iso(i,j+1)];
+    const fill=road?'#232912':park?'#2a3a19':((i+j)%2?'#1f250f':'#1c220d');
+    rows.push('<polygon points="'+pp(p)+'" fill="'+fill+'" stroke="rgba(0,0,0,.16)" stroke-width=".5"/>');
+    if(park){
+      const c=iso(i+.5,j+.5);
+      const trees=2+Math.floor(Math.random()*3);
+      for(let t=0;t<trees;t++){
+        const ox=(Math.random()-.5)*22,oy=(Math.random()-.5)*10;
+        rows.push('<ellipse cx="'+(c[0]+ox).toFixed(1)+'" cy="'+(c[1]+oy).toFixed(1)+'" rx="3.2" ry="2" fill="#3c5520"/>');
+      }
+    }
+  }
+  // خط‌کشی جاده‌ها
+  const ln=(a,b)=>rows.push('<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="#3a4322" stroke-width="1.1" stroke-dasharray="5 7"/>');
+  ln(iso(4.5,0),iso(4.5,GY));ln(iso(9.5,0),iso(9.5,GY));
+  ln(iso(0,3.5),iso(GX,3.5));ln(iso(0,7.5),iso(GX,7.5));
+  // ساختمان‌ها
+  const bs=[];
+  for(let i=0;i<GX;i++)for(let j=0;j<GY;j++){
+    if(isRoad(i,j)||parks.has(i+','+j))continue;
+    if(Math.random()<.13)continue;
+    const w=.42+Math.random()*.34,d=.42+Math.random()*.34;
+    const i0=i+(1-w)/2,j0=j+(1-d)/2,i1=i0+w,j1=j0+d;
+    const r=Math.random();
+    const h=r<.5?7+Math.random()*13:r<.85?17+Math.random()*20:32+Math.random()*32;
+    bs.push({x:(i0+i1)/2,y:(j0+j1)/2,i0,j0,i1,j1,h,t:Math.random()});
+  }
+  bs.sort((a,b)=>(a.x+a.y)-(b.x+b.y));
+  for(const b of bs){
+    const A=iso(b.i0,b.j0),B=iso(b.i1,b.j0),C=iso(b.i1,b.j1),D=iso(b.i0,b.j1);
+    const h=b.h,hue=72+Math.round(b.t*14),sat=12+Math.round(b.t*10);
+    const lt=Math.min(38,26+h*.14);
+    const top='hsl('+hue+' '+sat+'% '+Math.round(lt+8)+'%)';
+    const right='hsl('+hue+' '+(sat+4)+'% '+Math.round(lt-5)+'%)';
+    const left='hsl('+hue+' '+sat+'% '+Math.round(lt-12)+'%)';
+    rows.push('<g class="bld" data-x="'+b.x.toFixed(2)+'" data-y="'+b.y.toFixed(2)+'">'
+      +'<polygon points="'+D[0]+','+(D[1]-h)+' '+C[0]+','+(C[1]-h)+' '+C[0]+','+C[1]+' '+D[0]+','+D[1]+'" fill="'+left+'"/>'
+      +'<polygon points="'+B[0]+','+(B[1]-h)+' '+C[0]+','+(C[1]-h)+' '+C[0]+','+C[1]+' '+B[0]+','+B[1]+'" fill="'+right+'"/>'
+      +'<polygon points="'+A[0]+','+(A[1]-h)+' '+B[0]+','+(B[1]-h)+' '+C[0]+','+(C[1]-h)+' '+D[0]+','+(D[1]-h)+'" fill="'+top+'" stroke="rgba(0,0,0,.18)" stroke-width=".4"/>'
+      +'</g>');
+  }
+  $('#city').innerHTML=rows.join('');
+}
+
+function updateMarker(){
+  const c=iso(target.i,target.j);
+  $('#marker').setAttribute('transform','translate('+c[0].toFixed(1)+' '+c[1].toFixed(1)+')');
+}
+function clearFx(){
+  $('#rings').innerHTML='';$('#fx').innerHTML='';$('#labels').innerHTML='';
+  $$('#city .bld').forEach(g=>g.classList.remove('ruined','damaged'));
+}
+function rebuildCity(){renderCity();clearFx();toast('شهرک تازه‌ای ساخته شد');}
+
+/* ================= صدای سنتزشده (Web Audio) ================= */
+let AC=null,master=null,muted=false;
+function actx(){
+  if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
+    AC=new C();master=AC.createGain();master.gain.value=.85;master.connect(AC.destination);}
+  if(AC.state==='suspended')AC.resume();
+  return AC;
+}
+function boom(tier){
+  if(muted)return;const ctx=actx();if(!ctx)return;
+  const t=ctx.currentTime,dur=1.1+tier*.5;
+  const n=Math.floor(ctx.sampleRate*dur),buf=ctx.createBuffer(1,n,ctx.sampleRate),d=buf.getChannelData(0);
+  let l=0;
+  for(let i=0;i<n;i++){const w=Math.random()*2-1;l=l*.965+w*.035;d[i]=l*3.4*Math.pow(1-i/n,1.8);}
+  const src=ctx.createBufferSource();src.buffer=buf;
+  const lp=ctx.createBiquadFilter();lp.type='lowpass';
+  lp.frequency.setValueAtTime(Math.max(400,1500-160*tier),t);
+  lp.frequency.exponentialRampToValueAtTime(55,t+dur);
+  const g=ctx.createGain();g.gain.setValueAtTime(.5+tier*.09,t);
+  g.gain.exponentialRampToValueAtTime(.001,t+dur);
+  src.connect(lp);lp.connect(g);g.connect(master);src.start(t);
+  const o=ctx.createOscillator();o.type='sine';
+  o.frequency.setValueAtTime(95-6*tier,t);o.frequency.exponentialRampToValueAtTime(26,t+1.5);
+  const og=ctx.createGain();og.gain.setValueAtTime(.0001,t);
+  og.gain.exponentialRampToValueAtTime(.55,t+.05);og.gain.exponentialRampToValueAtTime(.0001,t+1.8);
+  o.connect(og);og.connect(master);o.start(t);o.stop(t+1.9);
+}
+function tick(){
+  if(muted)return;const ctx=actx();if(!ctx)return;
+  const t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();
+  o.type='triangle';o.frequency.setValueAtTime(640,t);o.frequency.exponentialRampToValueAtTime(420,t+.07);
+  g.gain.setValueAtTime(.055,t);g.gain.exponentialRampToValueAtTime(.0001,t+.09);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+.1);
+}
+function toggleMute(){muted=!muted;$('#sndBtn').classList.toggle('muted',muted);
+  toast(muted?'صدا: خاموش':'صدا: روشن');}
+
+/* ================= انفجار ================= */
+let animId=null,current=null;
+function detonate(){
+  const b=current;if(!b)return;
+  if(animId){cancelAnimationFrame(animId);animId=null;}
+  clearFx();
+  $('#mapHint').classList.add('seen');
+  const mPer=b.severe/7;                       // متر در هر بلوک — طوری که شعاع «شدید» در نقشه جا شود
+  const c0=iso(target.i,target.j),cx=c0[0],cy=c0[1];
+  const fT=b.full/mPer,sT=b.severe/mPer,nT=b.sound/mPer;
+  const KX=TW/2*Math.SQRT2,KY=TH/2*Math.SQRT2; // تبدیل شعاع شبکه‌ای به بیضی ایزومتریک
+  const tier=b.tier,dur=1900+tier*430;
+  const rings=$('#rings');
+  const mkE=(cls,fill)=>{const e=document.createElementNS(NS,'ellipse');
+    e.setAttribute('cx',cx);e.setAttribute('cy',cy);e.setAttribute('rx',0);e.setAttribute('ry',0);
+    if(cls)e.setAttribute('class',cls);if(fill)e.setAttribute('fill',fill);
+    rings.appendChild(e);return e;};
+  const shock=mkE('shock');
+  const sh2=tier>=3?mkE('shock2'):null, sh3=tier>=4?mkE('shock2'):null;
+  const fire=mkE('fire','url(#gFlash)');
+  const fullF=mkE('fullfill'),sevE=mkE('sevr'),sndE=mkE('sndr');
+  const scor=document.createElementNS(NS,'ellipse');
+  scor.setAttribute('cx',cx);scor.setAttribute('cy',cy);scor.setAttribute('fill','rgba(6,8,3,.62)');
+  $('#fx').appendChild(scor);
+  const blds=$$('#city .bld').map(g=>({g,d:Math.hypot(+g.dataset.x-target.i,+g.dataset.y-target.j)}))
+    .sort((a,b)=>a.d-b.d);
+  let ptr=0;
+  const setR=(e,r)=>{e.setAttribute('rx',(r*KX).toFixed(1));e.setAttribute('ry',(r*KY).toFixed(1));};
+  boom(tier);
+  const sv=$('#stageView');sv.classList.remove('boom');void sv.offsetWidth;sv.classList.add('boom');
+  if(tier>=2){
+    const st=$('#stagePanel');st.classList.remove('shake');void st.offsetWidth;
+    st.style.setProperty('--mag',(1.4+tier*1.1).toFixed(1)+'px');st.classList.add('shake');
+  }
+  const t0=performance.now();
+  const frame=now=>{
+    const p=Math.min(1,(now-t0)/dur);
+    const front=(p/.55)*sT; // جبههٔ موج شوک — پیشروی خطی (فیزیکی)
+    setR(shock,Math.min(front,sT));
+    shock.style.opacity=Math.max(0,.95-(p/.55)*.85).toFixed(2);
+    if(sh2){setR(sh2,Math.max(0,front-sT*.3));sh2.style.opacity=Math.max(0,.7-(p/.6)*.8).toFixed(2);}
+    if(sh3){setR(sh3,Math.max(0,front-sT*.55));sh3.style.opacity=Math.max(0,.55-(p/.65)*.7).toFixed(2);}
+    const fr=fT*.55;
+    setR(fire,p<.4?fr*Math.min(1,p*6):fr);
+    fire.style.opacity=p<.12?'.95':Math.max(0,.95-(p-.12)*2.1).toFixed(2);
+    setR(fullF,Math.min(front,fT));
+    setR(sevE,Math.min(front,sT));
+    setR(sndE,Math.min(p/.9,1)*nT);
+    sndE.style.opacity=(.45-.3*Math.min(p/.9,1)).toFixed(2);
+    const sr=fT*.45*Math.min(1,p*4);
+    scor.setAttribute('rx',(sr*KX).toFixed(1));scor.setAttribute('ry',(sr*KY).toFixed(1));
+    const rM=front*mPer; // شعاع جبهه به متر
+    while(ptr<blds.length&&blds[ptr].d*mPer<=rM){
+      const it=blds[ptr++];it.g.classList.add(it.d<=fT?'ruined':'damaged');
+    }
+    if(p<1){animId=requestAnimationFrame(frame);}
+    else{
+      animId=null;addLabels(b,cx,cy,fT,sT,nT);
+      if(tier>=3)toast('گزارش: «'+b.fa+'» — تخریب کامل در شعاع '+fmtLen(b.full));
+    }
+  };
+  animId=requestAnimationFrame(frame);
+}
+function addLabels(b,cx,cy,fT,sT,nT){
+  const L=$('#labels');L.innerHTML='';
+  const put=(d,txt,color)=>{if(d<=0)return;
+    const y=Math.max(48,cy-d*14.14-9);
+    const t=document.createElementNS(NS,'text');
+    t.setAttribute('x',cx);t.setAttribute('y',y);t.setAttribute('text-anchor','middle');t.setAttribute('fill',color);
+    t.textContent=txt;L.appendChild(t);};
+  put(fT,'تخریب کامل ≈ '+fmtR(b.full),'#ff9c6b');
+  put(sT,'آسیب شدید ≈ '+fmtR(b.severe),'#ffcf9a');
+  if(nT<=10)put(nT,'برد صدا ≈ '+fmtR(b.sound),'#b9c193');
+}
+
+/* ================= فهرست و انتخاب ================= */
+function miniGlyph(b){
+  const s=b.tier;
+  return '<svg class="glyph" viewBox="0 0 44 26" aria-hidden="true">'
+    +'<polygon points="22,2 42,13 22,24 2,13" fill="rgba(198,214,120,.05)" stroke="rgba(213,224,160,.25)"/>'
+    +'<ellipse cx="22" cy="13" rx="'+(5+s*1.6)+'" ry="'+(2.5+s*.8)+'" fill="none" stroke="#ff5a2e" stroke-opacity=".85"/>'
+    +'<ellipse cx="22" cy="13" rx="'+(3+s)+'" ry="'+(1.5+s*.5)+'" fill="none" stroke="#ffb35c" stroke-opacity=".7"/>'
+    +'<circle cx="22" cy="13" r="1.4" fill="#ffd9a8"/></svg>';
+}
+function renderList(){
+  $('#bombList').innerHTML=BOMBS.map((b,ix)=>
+    '<div class="bomb" data-id="'+b.id+'" tabindex="0" role="button" aria-pressed="false">'
+    +'<span class="idx">'+faNum(String(ix+1).padStart(2,'0'))+'</span>'
+    +miniGlyph(b)
+    +'<span class="bmeta"><b class="en">'+b.en+'</b><i>'+b.fa+'</i><small>'+b.sub+'</small></span>'
+    +'<span class="bpower">'+b.yShort+'</span>'
+    +'<button class="cmp" data-id="'+b.id+'" aria-label="افزودن به مقایسه">'+IC.plus+'</button>'
+    +'</div>').join('');
+}
+function renderInfo(b){
+  const P=$('#infoPanel');
+  P.innerHTML=
+   '<div class="info-top"><div><div class="info-kicker">شناسنامهٔ مهمات</div>'
+   +'<h2><span class="en">'+b.en+'</span><span class="faName">'+b.fa+'</span></h2></div>'
+   +'<div class="info-chips">'
+   +'<span class="chip"><i class="flag '+b.flag+'"></i>'+b.country+'</span>'
+   +'<span class="chip">'+b.cls+'</span>'
+   +'<span class="chip">'+b.years+'</span></div></div>'
+   +'<div class="info-grid">'
+   +'<div class="tile"><label>مادهٔ منفجره</label><b>'+b.expl+'</b></div>'
+   +'<div class="tile"><label>وزن کل</label><b>'+b.weight+'</b></div>'
+   +'<div class="tile"><label>معادل انرژی</label><b>'+b.yieldTxt+'</b><small>'+ratioText(b.y/0.089)+'</small></div>'
+   +'<div class="tile wide"><label>شعاع‌های اثر (تقریبی)</label>'
+   +barRow('تخریب کامل',b.full,'#ff5a2e')
+   +barRow('آسیب شدید',b.severe,'#ffb35c')
+   +barRow('برد صدا',b.sound,'#aab287')
+   +'</div></div>'
+   +'<p class="desc">'+b.desc+'</p>'
+   +'<ul class="facts">'+b.facts.map(f=>'<li>'+f+'</li>').join('')+'</ul>';
+  P.classList.remove('in');void P.offsetWidth;P.classList.add('in');
+}
+function select(id,opts){
+  opts=opts||{};
+  const b=BOMBS.find(x=>x.id===id);if(!b)return;
+  current=b;
+  $$('.bomb').forEach(el=>{
+    const on=el.dataset.id===id;
+    el.classList.toggle('active',on);el.setAttribute('aria-pressed',on);
+  });
+  renderInfo(b);
+  $('#scaleChip').textContent='مقیاس: هر بلوک ≈ '+fmtLen(b.severe/7);
+  if(opts.fire!==false){tick();detonate();}else{clearFx();}
+}
+function step(dir){
+  const idx=BOMBS.indexOf(current);
+  const n=(idx+dir+BOMBS.length)%BOMBS.length;
+  select(BOMBS[n].id);
+}
+
+/* ================= مقایسه ================= */
+const cmp=[];
+function toggleCmp(id){
+  const i=cmp.indexOf(id);
+  if(i>=0){cmp.splice(i,1);}
+  else{
+    if(cmp.length>=2){toast('در هر لحظه حداکثر دو بمب قابل مقایسه است');return;}
+    cmp.push(id);tick();
+  }
+  $$('.cmp').forEach(b=>{
+    const on=cmp.includes(b.dataset.id);
+    b.classList.toggle('on',on);b.innerHTML=on?IC.check:IC.plus;
+    b.setAttribute('aria-label',on?'حذف از مقایسه':'افزودن به مقایسه');
+  });
+  if(cmp.length===1)toast('برای مقایسه، بمب دوم را هم انتخاب کنید');
+  renderCmp();$('#cmpDrawer').classList.add('open');
+}
+function renderCmp(){
+  const body=$('#cmpBody');
+  if(!cmp.length){
+    body.innerHTML='<p class="cmp-empty">برای مقایسه، روی آیکن <b>+</b> در کارت هر بمب بزنید؛ تا دو بمب را هم‌زمان می‌توانید بسنجید.</p>';
+    return;
+  }
+  const bs=cmp.map(id=>BOMBS.find(b=>b.id===id));
+  body.innerHTML='<div class="cmp-cols">'+bs.map(b=>
+    '<div class="cmp-col">'
+    +'<h4><i class="flag '+b.flag+'"></i><span class="en">'+b.en+'</span><em>'+b.fa+'</em></h4>'
+    +'<div class="cr"><span>کشور سازنده</span><b>'+b.country+'</b></div>'
+    +'<div class="cr"><span>سال‌های استفاده</span><b>'+b.years+'</b></div>'
+    +'<div class="cr"><span>معادل انرژی</span><b>'+b.yieldTxt+'</b></div>'
+    +'<div class="cr"><span>وزن کل</span><b>'+b.weight+'</b></div>'
+    +barRow('تخریب کامل',b.full)
+    +barRow('آسیب شدید',b.severe,'#ffb35c')
+    +barRow('برد صدا',b.sound,'#aab287')
+    +'</div>').join('')+'</div>'
+    +(bs.length<2?'<p class="cmp-note">یک بمب دیگر برای مقایسه انتخاب کنید…</p>':'');
+}
+
+/* ================= حالت ارائه ================= */
+function setPresent(on){
+  document.documentElement.classList.toggle('present',on);
+  $('#presentLbl').textContent=on?'خروج از حالت ارائه':'حالت ارائه';
+  if(on){
+    try{if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});}catch(e){}
+    toast('حالت ارائه فعال شد — با Esc خارج شوید');
+  }else{
+    try{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});}catch(e){}
+  }
+}
+
+/* ================= رویدادها ================= */
+ $('#bombList').addEventListener('click',e=>{
+  const cmpBtn=e.target.closest('.cmp');
+  if(cmpBtn){e.stopPropagation();toggleCmp(cmpBtn.dataset.id);return;}
+  const c=e.target.closest('.bomb');
+  if(c)select(c.dataset.id);
+});
+ $('#bombList').addEventListener('keydown',e=>{
+  const c=e.target.closest('.bomb');if(!c)return;
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();select(c.dataset.id);}
+});
+ $('#map').addEventListener('click',e=>{
+  const m=$('#map').getScreenCTM();if(!m)return;
+  const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse());
+  const dx=(p.x-OX)/(TW/2),dy=(p.y-OY)/(TH/2);
+  let i=(dx+dy)/2,j=(dy-dx)/2;
+  i=Math.min(GX-.3,Math.max(.3,i));j=Math.min(GY-.3,Math.max(.3,j));
+  target={i:i,j:j};updateMarker();detonate();
+});
+ $('#fireBtn').addEventListener('click',()=>detonate());
+ $('#rebuildBtn').addEventListener('click',rebuildCity);
+ $('#sndBtn').addEventListener('click',toggleMute);
+ $('#prevB').addEventListener('click',()=>step(-1));
+ $('#nextB').addEventListener('click',()=>step(1));
+ $('#presentBtn').addEventListener('click',()=>setPresent(!document.documentElement.classList.contains('present')));
+ $('#compareBtn').addEventListener('click',()=>$('#cmpDrawer').classList.toggle('open'));
+ $('#cmpClose').addEventListener('click',()=>$('#cmpDrawer').classList.remove('open'));
+ $('#cmpClear').addEventListener('click',()=>{
+  cmp.length=0;
+  $$('.cmp').forEach(b=>{b.classList.remove('on');b.innerHTML=IC.plus;});
+  renderCmp();
+});
+document.addEventListener('keydown',e=>{
+  const t=e.target;
+  if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
+  if(e.key===' '){
+    if(t&&t.closest&&t.closest('button'))return;
+    e.preventDefault();detonate();
+  }
+  else if(e.key==='ArrowDown'){e.preventDefault();step(1);}
+  else if(e.key==='ArrowUp'){e.preventDefault();step(-1);}
+  else if(e.key==='p'||e.key==='P'){setPresent(!document.documentElement.classList.contains('present'));}
+  else if(e.key==='m'||e.key==='M'){toggleMute();}
+  else if(e.key==='r'||e.key==='R'){rebuildCity();}
+  else if(e.key==='Escape'){
+    if(document.documentElement.classList.contains('present'))setPresent(false);
+    else $('#cmpDrawer').classList.remove('open');
+  }
+});
+
+/* ================= شروع ================= */
+renderList();
+renderCity();
+updateMarker();
+select('mk82',{fire:false});
+renderCmp();
+})();
+</script>
+</body>
+</html>

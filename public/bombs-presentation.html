@@ -1,0 +1,3025 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>بمب‌ها: از باروت سیاه تا مادر بمب‌ها</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-deep: #0b0e06;
+  --bg-olive-panel: rgba(24, 31, 14, 0.88);
+  --bg-olive-card: rgba(32, 41, 19, 0.85);
+  --bg-olive-hover: rgba(44, 56, 26, 0.95);
+  --border-olive: rgba(142, 168, 98, 0.24);
+  --border-accent: rgba(255, 107, 43, 0.65);
+  --text-main: #f2f5e6;
+  --text-muted: #b6c299;
+  --accent-fire: #ff5e1a;
+  --accent-amber: #ffb340;
+  --z1-color: #ff1e42;
+  --z2-color: #ff5e1a;
+  --z3-color: #ffb340;
+  --z4-color: #c5e84c;
+  --z5-color: #4cc9f0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 14% 12%, rgba(255, 94, 26, 0.08) 0%, transparent 38%),
+    radial-gradient(circle at 86% 82%, rgba(110, 142, 55, 0.1) 0%, transparent 44%),
+    linear-gradient(180deg, #0b0e06 0%, #13190b 55%, #0c1007 100%);
+  color: var(--text-main);
+  font-family: 'Vazirmatn', 'Estedad', 'IRANSansX', 'Tahoma', sans-serif;
+  font-feature-settings: "ss01", "tnum";
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0e1208; }
+::-webkit-scrollbar-thumb { background: #384620; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-fire); }
+
+@keyframes rtlOneWaySlide {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(50%); }
+}
+
+@keyframes floatBounceDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+@keyframes pulseRingGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 94, 26, 0.35), 0 8px 24px rgba(0, 0, 0, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 94, 26, 0), 0 12px 30px rgba(255, 94, 26, 0.25); }
+}
+
+@keyframes shakeLight {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 2px); }
+  50% { transform: translate(3px, -2px); }
+  75% { transform: translate(-2px, -1px); }
+}
+
+@keyframes shakeHeavy {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-8px, 5px); }
+  40% { transform: translate(7px, -6px); }
+  60% { transform: translate(-6px, -3px); }
+  80% { transform: translate(5px, 4px); }
+}
+
+.shake-1 { animation: shakeLight 0.42s ease-in-out; }
+.shake-2 { animation: shakeHeavy 0.62s ease-in-out; }
+
+.ticker-box {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.ticker-loop {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.bomb-chip:hover .ticker-loop,
+.encyc-card:hover .ticker-loop {
+  animation: rtlOneWaySlide 5.5s linear infinite;
+}
+
+.app-wrap {
+  max-width: 1740px;
+  margin: 0 auto;
+  padding: 12px 16px 36px;
+}
+
+.panel-glass {
+  background: var(--bg-olive-panel);
+  border: 1px solid var(--border-olive);
+  border-radius: 16px;
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+.top-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 960px) {
+  .top-header {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-self: start;
+}
+
+@media (max-width: 960px) {
+  .brand-group { justify-self: center; }
+}
+
+.radar-emblem {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 94, 26, 0.25), #161d0c);
+  border: 1px solid rgba(255, 94, 26, 0.6);
+  display: grid;
+  place-items: center;
+  color: #ff5e1a;
+  flex-shrink: 0;
+}
+
+.title-block h1 {
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  font-weight: 900;
+  color: #fff;
+}
+
+.title-block h1 span {
+  background: linear-gradient(90deg, var(--accent-fire), var(--accent-amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.title-block p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: end;
+}
+
+@media (max-width: 960px) {
+  .header-actions { justify-self: center; }
+}
+
+.btn-ui {
+  cursor: pointer;
+  border: 1px solid var(--border-olive);
+  background: #1c2410;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-ui:hover {
+  background: #2a3618;
+  border-color: rgba(255, 179, 64, 0.45);
+}
+
+.btn-ui.primary {
+  background: linear-gradient(135deg, var(--accent-fire), #d43f06);
+  border-color: transparent;
+  color: #fff;
+}
+
+.btn-ui.accent-outline {
+  background: rgba(255, 94, 26, 0.15);
+  border-color: rgba(255, 94, 26, 0.5);
+  color: #ffd29d;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 6px;
+  background: rgba(11, 14, 6, 0.88);
+  padding: 5px;
+  border-radius: 13px;
+  border: 1px solid var(--border-olive);
+  justify-self: center;
+}
+
+.tab-btn {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--accent-fire), #d94308);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(255, 94, 26, 0.3);
+}
+
+.horiz-roster-bar {
+  padding: 10px 14px;
+  margin-bottom: 12px;
+}
+
+.horiz-roster-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.search-box-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  max-width: 360px;
+}
+
+.search-input {
+  width: 100%;
+  background: #0e1307;
+  border: 1px solid var(--border-olive);
+  border-radius: 10px;
+  padding: 6px 32px 6px 12px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.76rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--accent-fire);
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.filter-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  cursor: pointer;
+  border: 1px solid rgba(142, 168, 98, 0.2);
+  background: #12170a;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.filter-chip.active {
+  background: rgba(255, 94, 26, 0.25);
+  border-color: var(--accent-fire);
+  color: var(--accent-amber);
+}
+
+.horiz-scroll-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scroll-nav-btn {
+  cursor: pointer;
+  width: 32px;
+  height: 64px;
+  border-radius: 12px;
+  border: 1px solid var(--border-olive);
+  background: #0e1308;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.scroll-nav-btn:hover {
+  background: #1f2912;
+  border-color: var(--accent-amber);
+}
+
+.bomb-horiz-track {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  cursor: grab;
+  user-select: none;
+}
+
+.bomb-horiz-track.dragging {
+  cursor: grabbing;
+}
+
+.bomb-chip {
+  flex: 0 0 190px;
+  height: 64px;
+  position: relative;
+  cursor: pointer;
+  background: var(--bg-olive-card);
+  border: 1px solid rgba(142, 168, 98, 0.24);
+  border-radius: 12px;
+  padding: 7px 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.bomb-chip-flag-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: saturate(1.15) contrast(1.05);
+}
+
+.bomb-chip-flag-bg svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.35);
+}
+
+.bomb-chip-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.bomb-chip:hover {
+  background: var(--bg-olive-hover);
+  border-color: rgba(255, 179, 64, 0.45);
+}
+
+.bomb-chip.active {
+  background: linear-gradient(90deg, rgba(255, 94, 26, 0.28), rgba(36, 47, 20, 0.92));
+  border-color: var(--accent-fire);
+  box-shadow: inset 0 -2px 0 var(--accent-fire), 0 0 14px rgba(255, 94, 26, 0.2);
+}
+
+.split-50-50 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+@media (max-width: 1150px) {
+  .split-50-50 { grid-template-columns: 1fr; }
+}
+
+.equal-box {
+  height: 620px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.top-summary-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  padding: 10px;
+  background: rgba(16, 21, 9, 0.95);
+  border-bottom: 1px solid var(--border-olive);
+  flex-shrink: 0;
+}
+
+@media (max-width: 680px) {
+  .top-summary-strip { grid-template-columns: repeat(2, 1fr); }
+}
+
+.mini-zone-pill {
+  background: rgba(10, 14, 6, 0.85);
+  border: 1px solid rgba(142, 168, 98, 0.16);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.mini-zone-bar {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.mini-zone-fill {
+  height: 100%;
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.iso-canvas-wrap {
+  width: 100%;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  background: radial-gradient(ellipse at 50% 55%, rgba(44, 58, 23, 0.4) 0%, rgba(10, 13, 6, 0.98) 78%);
+}
+
+.iso-canvas-wrap.panning { cursor: grabbing; }
+.iso-canvas-wrap.zooming { cursor: ns-resize; }
+
+#citySvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.screen-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, #fffdf5 0%, #ffae52 45%, transparent 80%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 8;
+  mix-blend-mode: screen;
+  transition: opacity 0.45s ease-out;
+}
+
+.control-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(16, 21, 9, 0.95);
+  border-top: 1px solid var(--border-olive);
+  flex-shrink: 0;
+}
+
+.media-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(16, 21, 9, 0.95);
+  border-bottom: 1px solid var(--border-olive);
+  flex-shrink: 0;
+}
+
+.media-stage {
+  flex: 1;
+  position: relative;
+  margin: 10px 12px 6px;
+  border-radius: 12px;
+  background: #060803;
+  border: 1px dashed rgba(142, 168, 98, 0.35);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  user-select: none;
+}
+
+.media-stage.fullscreen-active {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  border-radius: 0;
+  z-index: 200;
+  background: rgba(4, 6, 2, 0.97);
+  border: none;
+  padding: 24px;
+}
+
+.media-frame-16-9 {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  aspect-ratio: 16 / 9;
+  max-height: 100%;
+  margin: auto;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #020301;
+  border: 1px solid rgba(142, 168, 98, 0.28);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-stage.fullscreen-active .media-frame-16-9 {
+  max-width: 1280px;
+  max-height: 86vh;
+}
+
+.stage-exit-fs-btn {
+  display: none;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 25;
+  background: rgba(15, 20, 8, 0.9);
+  border-color: #ff5e1a;
+  color: #fff;
+}
+
+.media-stage.fullscreen-active .stage-exit-fs-btn {
+  display: inline-flex;
+}
+
+.media-stage.drag-over {
+  border-color: var(--accent-fire);
+  background: rgba(255, 94, 26, 0.12);
+}
+
+.media-frame-16-9 img,
+.media-frame-16-9 video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #020301;
+}
+
+.stage-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(10, 14, 6, 0.82);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.stage-nav-arrow:hover {
+  background: var(--accent-fire);
+  border-color: transparent;
+}
+
+.ltr-gallery-bar {
+  direction: ltr;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 10px;
+  background: rgba(16, 21, 9, 0.95);
+  border-top: 1px solid var(--border-olive);
+  height: 86px;
+  flex-shrink: 0;
+}
+
+.ltr-thumb-track {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  height: 100%;
+  padding: 2px 0;
+}
+
+.ltr-thumb-card {
+  position: relative;
+  width: 92px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(142, 168, 98, 0.28);
+  background: #0b0e06;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.ltr-thumb-card.active {
+  border-color: var(--accent-fire);
+  box-shadow: 0 0 0 2px var(--accent-fire);
+  transform: translateY(-1px);
+}
+
+.ltr-thumb-badge {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #ffb340;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+.scroll-down-banner {
+  margin: 14px auto;
+  padding: 10px 22px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, rgba(28, 37, 16, 0.95), rgba(45, 26, 12, 0.95), rgba(28, 37, 16, 0.95));
+  border: 1px solid rgba(255, 140, 66, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  width: fit-content;
+  max-width: 100%;
+  animation: pulseRingGlow 2.6s infinite;
+  transition: transform 0.2s ease;
+}
+
+.scroll-down-banner:hover {
+  transform: scale(1.02);
+  border-color: var(--accent-amber);
+}
+
+.bounce-arrow {
+  display: inline-flex;
+  color: var(--accent-amber);
+  animation: floatBounceDown 1.3s ease-in-out infinite;
+}
+
+.dossier-full-section {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.specs-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .specs-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+.spec-box {
+  background: rgba(14, 19, 8, 0.8);
+  border: 1px solid rgba(142, 168, 98, 0.18);
+  padding: 12px 14px;
+  border-radius: 12px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 215px 1fr 105px;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.77rem;
+}
+
+@media (max-width: 680px) {
+  .bar-row { grid-template-columns: 1fr; gap: 4px; }
+}
+
+.bar-track {
+  height: 9px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.narrative-grid-2 {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .narrative-grid-2 { grid-template-columns: 1fr; }
+}
+
+.tab-section { display: none; }
+.tab-section.active {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.compare-table th, .compare-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(142, 168, 98, 0.16);
+  text-align: right;
+}
+
+.compare-table tbody tr {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.compare-table tbody tr:hover {
+  background: rgba(255, 94, 26, 0.12);
+}
+
+.compare-table tbody tr.active-row {
+  background: rgba(255, 94, 26, 0.2);
+}
+
+.encyc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 14px;
+}
+
+.encyc-card {
+  position: relative;
+  background: rgba(20, 26, 11, 0.92);
+  border: 1px solid var(--border-olive);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.encyc-card:hover {
+  border-color: rgba(255, 140, 66, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.encyc-flag-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.encyc-flag-bg svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.25);
+}
+
+.encyc-card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  height: 100%;
+}
+
+.slides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 3, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  place-items: center;
+  padding: 16px;
+}
+
+.modal-backdrop.open { display: grid; }
+
+.settings-modal {
+  width: 100%;
+  max-width: 540px;
+  background: #141a0b;
+  border: 1px solid var(--border-accent);
+  border-radius: 16px;
+  padding: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="app-wrap">
+  <header class="panel-glass top-header">
+    <div class="brand-group">
+      <div class="radar-emblem">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>
+        </svg>
+      </div>
+      <div class="title-block">
+        <h1>بمب‌ها و موشک‌های کروز: <span>از باروت سیاه تا مادر بمب‌ها و کروزهای مدرن</span></h1>
+        <p>شبیه‌ساز تعاملی شهر (سقوط عمودی بمب‌ها و برخورد ۴۵ درجه موشک‌های کروز) و دانشنامه جامع ۲۶ سلاح تاریخ</p>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="tab-btn active" id="tabSimBtn" type="button">شبیه‌ساز و گالری</button>
+      <button class="tab-btn" id="tabCompareBtn" type="button">جدول مقایسه (۲۶ سلاح)</button>
+      <button class="tab-btn" id="tabDeckBtn" type="button">دانشنامه جامع</button>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn-ui" id="openSettingsBtn" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffb340" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>تنظیمات</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="simSection" class="tab-section active">
+    <section class="panel-glass horiz-roster-bar">
+      <div class="horiz-roster-top">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:1;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:800;color:#fff;white-space:nowrap;">
+            <span>انتخاب بمب یا موشک کروز:</span>
+            <span id="rosterCountTxt" style="color:var(--accent-amber);">۲۶ سلاح</span>
+          </div>
+          <div class="search-box-wrap">
+            <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="bombSearchInput" class="search-input" placeholder="جستجوی نام بمب یا موشک کروز، کشور یا سال ساخت..." />
+          </div>
+        </div>
+        <div class="filter-pills" id="filterBar">
+          <button class="filter-chip active" data-cat="all" type="button">همه (۲۶)</button>
+          <button class="filter-chip" data-cat="cruise" type="button" style="border-color:rgba(76,201,240,0.45);color:#72d6f5;">موشک‌های کروز (۸)</button>
+          <button class="filter-chip" data-cat="conventional" type="button">بمب متعارف</button>
+          <button class="filter-chip" data-cat="bunker" type="button">بمب سنگرشکن</button>
+          <button class="filter-chip" data-cat="nuclear" type="button">بمب هسته‌ای</button>
+        </div>
+      </div>
+
+      <div class="horiz-scroll-wrap">
+        <button class="scroll-nav-btn" id="scrollRightBtn" type="button" title="حرکت به راست">❯</button>
+        <div class="bomb-horiz-track" id="bombListContainer"></div>
+        <button class="scroll-nav-btn" id="scrollLeftBtn" type="button" title="حرکت به چپ">❮</button>
+      </div>
+    </section>
+
+    <div class="split-50-50">
+      <section class="panel-glass equal-box" id="simBoxCard">
+        <div class="top-summary-strip" id="topSummaryZones"></div>
+
+        <div class="iso-canvas-wrap" id="isoCanvasWrap">
+          <div class="screen-flash" id="screenFlash"></div>
+
+          <div class="sim-hud-bar" style="position:absolute;top:10px;right:10px;left:10px;z-index:20;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px;pointer-events:none;">
+            <div style="pointer-events:auto;background:rgba(10,14,6,0.88);border:1px solid var(--border-olive);padding:4px 10px;border-radius:8px;font-size:0.74rem;color:var(--text-muted);">
+              بمب انتخابی: <strong id="hudBombName" style="color:#ffb340">—</strong>
+            </div>
+            <div class="sim-hud-controls" style="pointer-events:auto;display:flex;align-items:center;gap:4px;background:rgba(10,14,6,0.88);border:1px solid var(--border-olive);padding:4px 7px;border-radius:8px;">
+              <button class="btn-ui" id="toggleGhostBtn" type="button" style="padding:3px 9px;font-size:0.7rem;color:#ffb340;border-color:rgba(255,179,64,0.5);">پیش‌نمایش: روشن</button>
+              <button class="btn-ui" id="zoomOutBtn" type="button" style="padding:2px 8px;font-size:0.85rem;">−</button>
+              <span id="zoomValueTxt" style="font-size:0.72rem;min-width:38px;text-align:center;font-weight:800;color:#ffb340;">۱۰۰٪</span>
+              <button class="btn-ui" id="zoomInBtn" type="button" style="padding:2px 8px;font-size:0.85rem;">+</button>
+              <button class="btn-ui" id="resetCamBtn" type="button" style="padding:3px 8px;font-size:0.7rem;">ریست دید</button>
+            </div>
+          </div>
+
+          <svg id="citySvg" viewBox="0 0 1120 580" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <radialGradient id="fireballGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="28%" stop-color="#ffea9f" />
+                <stop offset="60%" stop-color="#ff5e1a" stop-opacity="0.9" />
+                <stop offset="100%" stop-color="#ff1e42" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="mushroomCapGrad" cx="50%" cy="38%" r="58%">
+                <stop offset="0%" stop-color="#ffd599" />
+                <stop offset="45%" stop-color="#ff6b2b" />
+                <stop offset="85%" stop-color="#592316" stop-opacity="0.92" />
+                <stop offset="100%" stop-color="#26120c" stop-opacity="0" />
+              </radialGradient>
+              <clipPath id="boardClip">
+                <polygon id="boardClipPoly" />
+              </clipPath>
+            </defs>
+
+            <g id="cameraGroup">
+              <polygon id="slabShadowPoly" fill="rgba(0,0,0,0.62)" />
+              <polygon id="slabLeftPoly" fill="#141a0b" />
+              <polygon id="slabRightPoly" fill="#0e1307" />
+
+              <g id="groundLayer"></g>
+              <g id="craterLayer" clip-path="url(#boardClip)"></g>
+              <g id="ringsLayer" clip-path="url(#boardClip)"></g>
+              <g id="ghostRingsLayer" clip-path="url(#boardClip)"></g>
+              <g id="trafficLayer" clip-path="url(#boardClip)"></g>
+              <g id="buildingsLayer"></g>
+              <g id="firesLayer" clip-path="url(#boardClip)"></g>
+              <g id="projectileLayer"></g>
+              <g id="mushroomLayer"></g>
+              <g id="particlesLayer"></g>
+
+              <g id="targetReticle">
+                <ellipse rx="13" ry="6.5" fill="none" stroke="#ff7a3c" stroke-width="1.4" stroke-dasharray="4 3"/>
+                <ellipse rx="3.2" ry="1.6" fill="#ff1e42"/>
+                <path d="M0 -11 V-4 M0 11 V4 M-16 0 H-7 M16 0 H7" stroke="#ffb340" stroke-width="1.3"/>
+              </g>
+            </g>
+          </svg>
+
+          <div style="position:absolute;bottom:8px;right:10px;left:10px;z-index:12;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px;pointer-events:none;font-size:0.68rem;color:var(--text-muted);">
+            <div style="background:rgba(10,14,6,0.9);border:1px solid var(--border-olive);padding:4px 9px;border-radius:8px;display:flex;gap:8px;align-items:center;">
+              <span style="display:inline-flex;align-items:center;gap:3px;"><i style="width:8px;height:8px;border-radius:2px;background:#ff1e42;display:inline-block;"></i>نابودی</span>
+              <span style="display:inline-flex;align-items:center;gap:3px;"><i style="width:8px;height:8px;border-radius:2px;background:#ff5e1a;display:inline-block;"></i>فروریزی</span>
+              <span style="display:inline-flex;align-items:center;gap:3px;"><i style="width:8px;height:8px;border-radius:2px;background:#ffb340;display:inline-block;"></i>آتش‌سوزی</span>
+              <span style="display:inline-flex;align-items:center;gap:3px;"><i style="width:8px;height:8px;border-radius:2px;background:#c5e84c;display:inline-block;"></i>ترکش</span>
+              <span style="display:inline-flex;align-items:center;gap:3px;"><i style="width:8px;height:8px;border-radius:2px;background:#4cc9f0;display:inline-block;"></i>شکستن شیشه</span>
+            </div>
+            <div style="background:rgba(10,14,6,0.9);border:1px solid var(--border-olive);padding:4px 9px;border-radius:8px;">
+              کلیک روی شهر = پرتاب بمب و پر شدن نمودارها | کشیدن موس = جابجایی دید
+            </div>
+          </div>
+        </div>
+
+        <div class="control-strip">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn-ui primary" id="detonateBtn" type="button">پرتاب بمب در مرکز</button>
+            <button class="btn-ui" id="rebuildCityBtn" type="button">بازسازی شهر (صفر کردن نمودار)</button>
+            <button class="btn-ui" id="prevBombBtn" type="button">بمب قبلی</button>
+            <button class="btn-ui" id="nextBombBtn" type="button">بمب بعدی</button>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;font-size:0.74rem;color:var(--text-muted);">
+            <button class="btn-ui" id="quickSpeedBtn" type="button">سرعت: ۱×</button>
+            <button class="btn-ui" id="quickMuteBtn" type="button">صدا: روشن</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel-glass equal-box">
+        <div class="media-header">
+          <div>
+            <h3 style="font-size:0.86rem;font-weight:800;color:#fff;">پخش‌کننده ۱۶:۹ و گالری «<span id="mediaBombTitle">—</span>»</h3>
+            <p style="font-size:0.68rem;color:var(--text-muted);">ذخیره دائمی در مرورگر + ورق زدن از چپ به راست با موس و کیبورد</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <label class="btn-ui primary" style="cursor:pointer;">
+              <span>+ افزودن عکس یا ویدیو</span>
+              <input type="file" id="mediaFileInput" accept="image/*,video/*" multiple style="display:none;" />
+            </label>
+            <button class="btn-ui" id="fullscreenMediaBtn" type="button" style="display:none;" title="نمایش تمام‌صفحه">تمام‌صفحه</button>
+            <button class="btn-ui" id="deleteMediaBtn" type="button" style="display:none;color:#ff8598;border-color:rgba(255,30,66,0.4);">حذف</button>
+          </div>
+        </div>
+
+        <div class="media-stage" id="mediaStage"></div>
+
+        <div class="ltr-gallery-bar">
+          <button class="btn-ui" id="galLeftBtn" type="button" style="height:56px;padding:0 10px;" title="Previous (Left)">❮</button>
+          <div class="ltr-thumb-track" id="mediaThumbStrip"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:52px;font-size:0.72rem;color:var(--text-muted);">
+            <strong id="slideCounterTxt" style="color:#ffb340;">0 / 0</strong>
+            <span style="font-size:0.62rem;">LTR</span>
+          </div>
+          <button class="btn-ui" id="galRightBtn" type="button" style="height:56px;padding:0 10px;" title="Next (Right)">❯</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="scroll-down-banner" id="scrollToDossierBtn">
+      <span class="bounce-arrow">▼</span>
+      <span style="font-size:0.82rem;font-weight:800;color:#fff;">
+        مشاهده توضیحات کامل، مشخصات فنی و نمودار ۵ حلقه تخریب «<span id="scrollBannerBombName" style="color:#ffb340;">—</span>» در پایین صفحه
+      </span>
+      <span class="bounce-arrow">▼</span>
+    </div>
+
+    <section class="panel-glass dossier-full-section" id="dossierSection">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border-olive);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div id="dossierFlagBox" style="width:52px;height:36px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.22);flex-shrink:0;"></div>
+          <div>
+            <h2 id="dossierTitleFa" style="font-size:1.18rem;font-weight:900;color:#fff;">—</h2>
+            <div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;">
+              کشور سازنده: <span id="dossierCountryTxt">—</span> • سال ورود به خدمت: <strong id="dossierYearTxt" style="color:#ffb340;">—</strong> • <strong id="dossierTypeChip" style="color:var(--accent-amber);">—</strong>
+            </div>
+          </div>
+        </div>
+        <div id="dossierSilBox" style="width:120px;height:44px;border-radius:10px;background:#0a0e06;border:1px solid var(--border-olive);padding:5px 10px;color:#ffb340;display:grid;place-items:center;"></div>
+      </div>
+
+      <div class="specs-grid-4">
+        <div class="spec-box">
+          <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:3px;">قدرت تخریب (معادل TNT)</div>
+          <div id="specYieldTxt" style="font-size:0.95rem;font-weight:800;color:var(--accent-amber);">—</div>
+        </div>
+        <div class="spec-box">
+          <div id="specWeightLabel" style="font-size:0.72rem;color:var(--text-muted);margin-bottom:3px;">وزن کل سلاح</div>
+          <div id="specWeightTxt" style="font-size:0.95rem;font-weight:800;color:#fff;">—</div>
+        </div>
+        <div class="spec-box">
+          <div id="specFillLabel" style="font-size:0.72rem;color:var(--text-muted);margin-bottom:3px;">وزن کلاهک / ماده منفجره</div>
+          <div id="specFillTxt" style="font-size:0.84rem;font-weight:700;color:#fff;">—</div>
+        </div>
+        <div class="spec-box">
+          <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:3px;">شیوه هدایت و سکوی پرتاب</div>
+          <div id="specGuidanceTxt" style="font-size:0.84rem;font-weight:700;color:#fff;">—</div>
+        </div>
+      </div>
+
+      <div class="specs-grid-4" id="cruiseExtraSpecsRow" style="display:none;">
+        <div class="spec-box" style="border-color:rgba(76,201,240,0.35);background:rgba(12,24,28,0.75);">
+          <div style="font-size:0.72rem;color:#72d6f5;margin-bottom:3px;">برد عملیاتی موشک کروز</div>
+          <div id="cruiseRangeTxt" style="font-size:0.95rem;font-weight:900;color:#4cc9f0;">—</div>
+        </div>
+        <div class="spec-box" style="border-color:rgba(76,201,240,0.35);background:rgba(12,24,28,0.75);">
+          <div style="font-size:0.72rem;color:#72d6f5;margin-bottom:3px;">سرعت پرواز کروز</div>
+          <div id="cruiseSpeedTxt" style="font-size:0.95rem;font-weight:900;color:#ffb340;">—</div>
+        </div>
+        <div class="spec-box" style="border-color:rgba(76,201,240,0.35);background:rgba(12,24,28,0.75);">
+          <div style="font-size:0.72rem;color:#72d6f5;margin-bottom:3px;">سکوهای پرتاب</div>
+          <div id="cruisePlatformTxt" style="font-size:0.84rem;font-weight:800;color:#fff;">—</div>
+        </div>
+        <div class="spec-box" style="border-color:rgba(76,201,240,0.35);background:rgba(12,24,28,0.75);">
+          <div style="font-size:0.72rem;color:#72d6f5;margin-bottom:3px;">زاویه و جهت برخورد در شبیه‌ساز</div>
+          <div id="cruiseStrikeProfileTxt" style="font-size:0.82rem;font-weight:800;color:#c5e84c;">شیرجه زاویه‌دار + سوت اختصاصی جت</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(12,17,7,0.75);border:1px solid rgba(142,168,98,0.18);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;font-size:0.78rem;font-weight:800;color:var(--text-muted);margin-bottom:2px;">
+          <span>نمودار مقایسه‌ای ۵ حلقه تخریب (مقیاس از بمب چدنی باروت سیاه تا بمب تزار)</span>
+          <span style="color:var(--accent-amber);">شعاع دقیق اثرگذاری</span>
+        </div>
+        <div class="bar-row">
+          <span style="color:var(--z1-color);font-weight:700;">۱. نابودی مطلق (مرکز انفجار)</span>
+          <div class="bar-track"><div class="bar-fill" id="barFill1" style="background:var(--z1-color)"></div></div>
+          <span id="barVal1" style="color:var(--z1-color);font-weight:800;text-align:left;">—</span>
+        </div>
+        <div class="bar-row">
+          <span style="color:var(--z2-color);font-weight:700;">۲. فروریزی کامل ساختمان‌ها</span>
+          <div class="bar-track"><div class="bar-fill" id="barFill2" style="background:var(--z2-color)"></div></div>
+          <span id="barVal2" style="color:var(--z2-color);font-weight:800;text-align:left;">—</span>
+        </div>
+        <div class="bar-row">
+          <span style="color:var(--z3-color);font-weight:700;">۳. خرابی شدید و آتش‌سوزی</span>
+          <div class="bar-track"><div class="bar-fill" id="barFill3" style="background:var(--z3-color)"></div></div>
+          <span id="barVal3" style="color:var(--z3-color);font-weight:800;text-align:left;">—</span>
+        </div>
+        <div class="bar-row">
+          <span style="color:var(--z4-color);font-weight:700;">۴. پرتاب ترکش و ریزش دیوارها</span>
+          <div class="bar-track"><div class="bar-fill" id="barFill4" style="background:var(--z4-color)"></div></div>
+          <span id="barVal4" style="color:var(--z4-color);font-weight:800;text-align:left;">—</span>
+        </div>
+        <div class="bar-row">
+          <span style="color:var(--z5-color);font-weight:700;">۵. موج صدا و شکستن شیشه‌ها</span>
+          <div class="bar-track"><div class="bar-fill" id="barFill5" style="background:var(--z5-color)"></div></div>
+          <span id="barVal5" style="color:var(--z5-color);font-weight:800;text-align:left;">—</span>
+        </div>
+      </div>
+
+      <div class="narrative-grid-2">
+        <div style="background:rgba(16,22,9,0.82);border:1px solid rgba(142,168,98,0.18);border-radius:12px;padding:14px 16px;">
+          <h4 style="font-size:0.84rem;font-weight:800;color:var(--accent-amber);margin-bottom:8px;">توضیحات، کاربرد و تاریخچه عملیاتی</h4>
+          <p id="dossierDescTxt" style="font-size:0.82rem;color:var(--text-main);text-align:justify;line-height:1.75;">—</p>
+        </div>
+        <div style="background:rgba(16,22,9,0.82);border:1px solid rgba(142,168,98,0.18);border-radius:12px;padding:14px 16px;">
+          <h4 style="font-size:0.84rem;font-weight:800;color:var(--accent-amber);margin-bottom:8px;">نکات کلیدی و تاریخی</h4>
+          <ul id="dossierNotesList" style="padding-right:16px;display:flex;flex-direction:column;gap:6px;font-size:0.8rem;color:var(--text-muted);"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="tab-section" id="compareSection">
+    <div class="panel-glass" style="padding:18px 22px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+        <div>
+          <h2 style="font-size:1.12rem;font-weight:900;color:#fff;">جدول مقایسه تخصصی موشک‌های کروز جهان (بر اساس گزارش پژوهشی)</h2>
+          <p style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;">مقایسه برد عملیاتی، سرعت ماخ، وزن کلاهک، سکوی پرتاب و سال ورود به خدمت — کلیک روی هر موشک = بارگذاری در شبیه‌ساز شهر</p>
+        </div>
+        <button class="btn-ui primary" id="backFromCompareBtn" type="button">بازگشت به شبیه‌ساز شهر</button>
+      </div>
+      <div style="overflow-x:auto;margin-bottom:22px;">
+        <table class="compare-table">
+          <thead>
+            <tr style="background:#0a1518;color:#4cc9f0;">
+              <th>#</th>
+              <th>نام موشک کروز</th>
+              <th>کشور سازنده</th>
+              <th>برد عملیاتی</th>
+              <th>سرعت پرواز</th>
+              <th>وزن کلاهک جنگی</th>
+              <th>سکوی پرتاب</th>
+              <th>ورود به خدمت</th>
+              <th style="color:var(--z1-color);">۱. نابودی مرکز</th>
+              <th style="color:var(--z5-color);">۵. شکستن شیشه</th>
+            </tr>
+          </thead>
+          <tbody id="cruiseCompareTableBody"></tbody>
+        </table>
+      </div>
+
+      <div style="margin-bottom:12px;padding-top:14px;border-top:1px solid var(--border-olive);">
+        <h2 style="font-size:1.08rem;font-weight:900;color:#fff;">جدول جامع مقایسه هر ۲۶ سلاح (۱۸ بمب تاریخ + ۸ موشک کروز)</h2>
+        <p style="font-size:0.76rem;color:var(--text-muted);margin-top:2px;">از بمب چدنی باروت سیاه چینی و موشک‌های کروز تا بمب ۵۰ مگاتنی تزار — روی هر ردیف کلیک کنید تا در شبیه‌ساز بارگذاری شود</p>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="compare-table">
+          <thead>
+            <tr style="background:#0c1007;color:#ffb340;">
+              <th>#</th>
+              <th>نام سلاح</th>
+              <th>دسته</th>
+              <th>سال ساخت</th>
+              <th>کشور سازنده</th>
+              <th>وزن کل</th>
+              <th>قدرت انفجار</th>
+              <th style="color:var(--z1-color);">۱. نابودی مرکز</th>
+              <th style="color:var(--z2-color);">۲. فروریزی کامل</th>
+              <th style="color:var(--z3-color);">۳. آتش‌سوزی شدید</th>
+              <th style="color:var(--z4-color);">۴. پرتاب ترکش</th>
+              <th style="color:var(--z5-color);">۵. شکستن شیشه</th>
+            </tr>
+          </thead>
+          <tbody id="fullCompareTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-section" id="deckSection">
+    <div class="panel-glass" style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;flex:1;">
+        <div>
+          <h2 style="font-size:1.1rem;font-weight:900;color:#fff;">دانشنامه جامع ۲۶ سلاح: بمب‌ها و موشک‌های کروز (همراه با مدل شماتیک)</h2>
+          <p style="font-size:0.76rem;color:var(--text-muted);">بررسی مشخصات، منطق کار موشک‌های کروز، خط زمانی جنگ‌ها، پرچم کشور سازنده و پروفایل ظاهری هر سلاح</p>
+        </div>
+        <div class="search-box-wrap" style="max-width:320px;">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="encycSearchInput" class="search-input" placeholder="جستجو در دانشنامه بمب‌ها و موشک‌ها..." />
+        </div>
+      </div>
+      <div class="filter-pills" id="encycFilterBar">
+        <button class="filter-chip active" data-ecat="all" type="button">همه سلاح‌ها (۲۶)</button>
+        <button class="filter-chip" data-ecat="cruise" type="button" style="border-color:rgba(76,201,240,0.45);color:#72d6f5;">موشک‌های کروز (۸)</button>
+        <button class="filter-chip" data-ecat="conventional" type="button">بمب متعارف و گرمافشاری</button>
+        <button class="filter-chip" data-ecat="bunker" type="button">بمب سنگرشکن و لرزه‌ای</button>
+        <button class="filter-chip" data-ecat="nuclear" type="button">بمب اتمی و گرماهسته‌ای</button>
+      </div>
+    </div>
+
+    <div class="encyc-grid" id="encycBombsGrid"></div>
+
+    <div class="panel-glass" style="padding:18px 22px;border-color:rgba(76,201,240,0.35);">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;">
+        <div>
+          <h3 style="font-size:1.04rem;color:#4cc9f0;font-weight:900;">موشک کروز چیست؟ منطق کار و تفاوت با موشک بالستیک</h3>
+          <p style="font-size:0.76rem;color:var(--text-muted);">خلاصه مستند نحوه ناوبری، پرواز ارتفاع پست رادارگریز و تاریخچه عملیاتی ۱۹۸۲ تا ۲۰۲۵</p>
+        </div>
+        <span style="padding:4px 12px;border-radius:99px;background:rgba(76,201,240,0.14);border:1px solid rgba(76,201,240,0.4);color:#72d6f5;font-size:0.74rem;font-weight:800;">پرواز ارتفاع پست ۵ تا ۱۰۰ متری • برخورد زاویه‌دار و جهت‌دار</span>
+      </div>
+      <div class="slides-grid" id="cruiseIntroGrid"></div>
+    </div>
+
+    <div class="panel-glass" style="padding:18px 22px;border-color:rgba(255,179,64,0.35);">
+      <h3 style="font-size:1rem;color:#ffb340;margin-bottom:12px;font-weight:900;">خط زمانی کاربرد موشک‌های کروز در جنگ‌ها (۱۹۸۲ تا ۲۰۲۵)</h3>
+      <div class="slides-grid" id="cruiseTimelineGrid"></div>
+    </div>
+
+    <div class="panel-glass" style="padding:18px 22px;">
+      <h3 style="font-size:1rem;color:#fff;margin-bottom:12px;font-weight:900;">سیر تکامل مواد منفجره و فیزیک موج انفجار</h3>
+      <div class="slides-grid" id="deckCardsGrid"></div>
+    </div>
+
+    <div class="panel-glass" style="padding:18px 22px;">
+      <h3 style="font-size:1rem;color:#fff;margin-bottom:12px;font-weight:900;">۶ قطب اصلی مهندسی و دکترین بمب‌سازی و موشکی در تاریخ معاصر</h3>
+      <div class="slides-grid" id="polesGridContainer"></div>
+    </div>
+  </section>
+</div>
+
+<div class="modal-backdrop" id="settingsModal">
+  <div class="settings-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-olive);">
+      <h3 style="font-size:0.95rem;color:#fff;font-weight:900;">تنظیمات برنامه و دانلود نسخه تک‌فایل</h3>
+      <button class="btn-ui" id="closeSettingsBtn" type="button">بستن</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;font-size:0.8rem;">
+      <label style="display:flex;justify-content:space-between;align-items:center;">
+        <span>سرعت اجرای انیمیشن انفجار</span>
+        <input type="range" id="speedRangeInput" min="0.25" max="2" step="0.25" value="1" style="width:170px;accent-color:var(--accent-fire);" />
+      </label>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span>بلندی صدای موج انفجار</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="range" id="volRangeInput" min="0" max="1" step="0.05" value="0.8" style="width:130px;accent-color:var(--accent-fire);" />
+          <button class="btn-ui" id="testSoundBtn" type="button">تست صدا</button>
+        </div>
+      </div>
+      <label style="display:flex;justify-content:space-between;align-items:center;">
+        <span>نمایش ستون دود و ابر قارچی</span>
+        <input type="checkbox" id="chkMushroom" checked style="width:16px;height:16px;accent-color:var(--accent-fire);" />
+      </label>
+      <label style="display:flex;justify-content:space-between;align-items:center;">
+        <span>نمایش پرتاب ذرات و جرقه‌های انفجار</span>
+        <input type="checkbox" id="chkParticles" checked style="width:16px;height:16px;accent-color:var(--accent-fire);" />
+      </label>
+      <label style="display:flex;justify-content:space-between;align-items:center;">
+        <span>نمایش خودروها و عابران متحرک در شهر</span>
+        <input type="checkbox" id="chkTraffic" checked style="width:16px;height:16px;accent-color:var(--accent-fire);" />
+      </label>
+      <label style="display:flex;justify-content:space-between;align-items:center;">
+        <span>پیش‌نمایش زنده حلقه‌های تخریب روی نقشه</span>
+        <input type="checkbox" id="chkGhost" checked style="width:16px;height:16px;accent-color:var(--accent-fire);" />
+      </label>
+
+      <div style="margin-top:8px;padding-top:14px;border-top:1px solid var(--border-olive);display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:0.78rem;color:var(--text-muted);">
+          ذخیره کامل شبیه‌ساز، دانشنامه، صداها و تمامی عکس‌ها و ویدیوهای اضافه‌شده در یک فایل HTML مستقل و قابل اجرا به صورت آفلاین:
+        </div>
+        <button class="btn-ui primary" id="exportSelfHtmlBtn" type="button" style="width:100%;justify-content:center;padding:10px 14px;font-size:0.82rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>دانلود تک‌فایل HTML کامل (همراه عکس‌ها و ویدیوها)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="preloadedMediaScript">
+window.__PRELOADED_BOMB_MEDIA__ = window.__PRELOADED_BOMB_MEDIA__ || {};
+</script>
+
+<script>
+(() => {
+const FLAGS = {
+  cn: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="36" height="24" fill="#de2910"/><polygon points="7,4 8.2,7.5 11.8,7.5 8.9,9.6 10,13 7,10.9 4,13 5.1,9.6 2.2,7.5 5.8,7.5" fill="#ffde00"/></svg>`,
+  us: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="36" height="24" fill="#b22234"/><path d="M0 3.7h36M0 7.4h36M0 11.1h36M0 14.8h36M0 18.5h36M0 22.2h36" stroke="#fff" stroke-width="1.85"/><rect width="15" height="13" fill="#3c3b6e"/></svg>`,
+  ru: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="36" height="8" fill="#fff"/><rect y="8" width="36" height="8" fill="#0039a6"/><rect y="16" width="36" height="8" fill="#d52b1e"/></svg>`,
+  su: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="36" height="24" fill="#cc0000"/><circle cx="8" cy="7" r="3.2" fill="none" stroke="#ffd700" stroke-width="1.3"/></svg>`,
+  uk: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="36" height="24" fill="#012169"/><path d="M0 0L36 24M36 0L0 24" stroke="#fff" stroke-width="4"/><path d="M18 0V24M0 12H36" stroke="#fff" stroke-width="6"/><path d="M18 0V24M0 12H36" stroke="#c8102e" stroke-width="3.6"/></svg>`,
+  de: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="36" height="8" fill="#000"/><rect y="8" width="36" height="8" fill="#dd0000"/><rect y="16" width="36" height="8" fill="#ffce00"/></svg>`,
+  fr: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="12" height="24" fill="#002395"/><rect x="12" width="12" height="24" fill="#fff"/><rect x="24" width="12" height="24" fill="#ed2939"/></svg>`,
+  ir: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="36" height="8" fill="#239f40"/><rect y="8" width="36" height="8" fill="#fff"/><rect y="16" width="36" height="8" fill="#da0000"/><circle cx="18" cy="12" r="2.6" fill="none" stroke="#da0000" stroke-width="1.2"/></svg>`,
+  in: `<svg viewBox="0 0 36 24" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="36" height="8" fill="#ff9933"/><rect y="8" width="36" height="8" fill="#fff"/><rect y="16" width="36" height="8" fill="#138808"/><circle cx="18" cy="12" r="2.8" fill="none" stroke="#000080" stroke-width="1.1"/></svg>`
+};
+
+const SILHOUETTES = {
+  sphere: `<svg viewBox="0 0 90 32" width="100%" height="100%"><circle cx="45" cy="18" r="11" fill="currentColor"/><rect x="42" y="4" width="6" height="4" fill="currentColor"/><path d="M45 4 Q53 0 58 5" stroke="#ffb340" stroke-width="2" fill="none"/></svg>`,
+  slick: `<svg viewBox="0 0 90 32" width="100%" height="100%"><path d="M12 16 Q26 9 62 11 L78 6 L78 26 L62 21 Q26 23 12 16 Z" fill="currentColor"/><line x1="36" y1="11" x2="36" y2="21" stroke="#0b0e06" stroke-width="2"/></svg>`,
+  bunker: `<svg viewBox="0 0 90 32" width="100%" height="100%"><polygon points="6,16 22,12 72,12 84,7 84,25 72,20 22,20" fill="currentColor"/><rect x="26" y="12" width="5" height="8" fill="#0b0e06"/></svg>`,
+  tallboy: `<svg viewBox="0 0 90 32" width="100%" height="100%"><path d="M8 16 C18 7, 52 8, 68 12 L84 6 L84 26 L68 20 C52 24, 18 25, 8 16 Z" fill="currentColor"/></svg>`,
+  fab: `<svg viewBox="0 0 90 32" width="100%" height="100%"><rect x="18" y="8" width="46" height="16" rx="5" fill="currentColor"/><polygon points="64,9 80,5 80,27 64,23" fill="currentColor"/></svg>`,
+  daisy: `<svg viewBox="0 0 90 32" width="100%" height="100%"><line x1="4" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="2.5"/><rect x="22" y="7" width="46" height="18" rx="3" fill="currentColor"/><polygon points="68,7 80,4 80,28 68,25" fill="currentColor"/></svg>`,
+  moab: `<svg viewBox="0 0 90 32" width="100%" height="100%"><path d="M8 16 Q18 7 34 7 L70 7 L82 3 L82 29 L70 25 L34 25 Q18 25 8 16 Z" fill="currentColor"/></svg>`,
+  littleboy: `<svg viewBox="0 0 90 32" width="100%" height="100%"><rect x="16" y="9" width="48" height="14" rx="7" fill="currentColor"/><polygon points="64,9 78,5 78,27 64,23" fill="currentColor"/></svg>`,
+  fatman: `<svg viewBox="0 0 90 32" width="100%" height="100%"><ellipse cx="42" cy="16" rx="22" ry="12" fill="currentColor"/><polygon points="62,8 78,4 78,28 62,24" fill="currentColor"/></svg>`,
+  thermo: `<svg viewBox="0 0 90 32" width="100%" height="100%"><path d="M10 16 C18 6, 62 6, 72 10 L84 4 L84 28 L72 22 C62 26, 18 26, 10 16 Z" fill="currentColor"/></svg>`,
+  cruise_std: `<svg viewBox="0 0 90 32" width="100%" height="100%"><path d="M5 16 Q13 12 22 12 L74 12 L78 14 L78 18 L74 20 L22 20 Q13 20 5 16 Z" fill="currentColor"/><polygon points="38,12 47,2 53,2 48,12" fill="currentColor"/><polygon points="38,20 47,30 53,30 48,20" fill="currentColor"/><polygon points="70,12 78,5 82,5 76,12" fill="currentColor"/><polygon points="70,20 78,27 82,27 76,20" fill="currentColor"/><circle cx="82" cy="16" r="2.8" fill="#ff5e1a"/></svg>`,
+  cruise_stealth: `<svg viewBox="0 0 90 32" width="100%" height="100%"><polygon points="4,16 18,11 72,11 80,14 80,18 72,21 18,21" fill="currentColor"/><polygon points="34,11 48,2 56,2 46,11" fill="currentColor"/><polygon points="34,21 48,30 56,30 46,21" fill="currentColor"/><polygon points="68,11 77,6 81,6 75,11" fill="currentColor"/><polygon points="68,21 77,26 81,26 75,21" fill="currentColor"/><circle cx="83" cy="16" r="2.6" fill="#4cc9f0"/></svg>`,
+  cruise_supersonic: `<svg viewBox="0 0 90 32" width="100%" height="100%"><polygon points="3,16 18,11.5 74,11.5 80,10 80,22 74,20.5 18,20.5" fill="currentColor"/><polygon points="42,11.5 52,3 59,3 53,11.5" fill="currentColor"/><polygon points="42,20.5 52,29 59,29 53,20.5" fill="currentColor"/><polygon points="80,13 88,10 86,16 88,22 80,19" fill="#ff5e1a"/></svg>`
+};
+
+const BOMBS = [
+  { id: 'blackpowder', rank: 1, nameFa: 'بمب چدنی باروت سیاه (ژن‌تیان‌لی)', nameEn: 'Zhentianlei Cast-Iron Bomb', countryFa: 'چین (سلسله جین و سونگ)', flag: 'cn', year: '۱۲۳۲ میلادی', category: 'conventional', categoryFa: 'باروت سیاه اولیه', weightKg: 8, fillerKg: 2.5, fillerType: 'باروت سیاه (شوره + گوگرد + زغال)', yieldTons: 0.001, yieldText: '۱ کیلوگرم TNT', guidance: 'پرتاب با منجنیق و فتیله دستی', r1: 2.5, r2: 6, r3: 13, r4: 32, r5: 75, tier: 1, sil: 'sphere', desc: 'نخستین بمب واقعی تاریخ بشر که با پوسته چدنی ضخیم و باروت سیاه پر می‌شد. در محاصره شهر کایفنگ علیه لشکر مغول به کار رفت و صدای مهیب آن به «تندر لرزاننده آسمان» شهرت یافت.', notes: ['نخستین کاربرد نظامی ثبت‌شده از پوسته فلزی برای تولید ترکش', 'سرعت سوختن زیرصوت باروت سیاه در مقایسه با مواد منفجره مدرن', 'جد تاریخی تمامی نارنجک‌ها و بمب‌های سقوط آزاد امروزی'] },
+  { id: 'mk82', rank: 2, nameFa: 'بمب جنرال‌پرپز ام‌کی-۸۲', nameEn: 'Mark 82 (500 lb GP Bomb)', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۵۴ تا امروز', category: 'conventional', categoryFa: 'سقوط آزاد متعارف', weightKg: 227, fillerKg: 89, fillerType: 'Tritonal (۸۰٪ تی‌ان‌تی + ۲۰٪ پودر آلومینیوم)', yieldTons: 0.105, yieldText: '۱۰۵ کیلوگرم TNT', guidance: 'سقوط آزاد / قابل ارتقا به GBU-12 و JDAM', r1: 11, r2: 28, r3: 65, r4: 185, r5: 420, tier: 1, sil: 'slick', desc: 'پرتیراژترین بمب هواپایه استاندارد ناتو با طراحی آیرودینامیک کم‌پسا. این بمب پایه اصلی بمب‌های هوشمند لیزری Paveway II و ماهواره‌ای GBU-38 محسوب می‌شود.', notes: ['تولید بیش از صدها هزار فروند از دهه ۱۹۵۰ تا امروز', 'نسبت بهینه وزن ماده منفجره (حدود ۴۰ درصد کل وزن بمب)', 'استفاده گسترده در تمامی جنگنده‌های سبک و سنگین جهان'] },
+  { id: 'blu109', rank: 3, nameFa: 'بمب نفوذگر بی‌ال‌یو-۱۰۹', nameEn: 'BLU-109/B Hard Target Penetrator', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۸۵ میلادی', category: 'bunker', categoryFa: 'سنگرشکن تاکتیکی', weightKg: 874, fillerKg: 240, fillerType: 'PBXN-109 (کم‌حساسیت در برابر ضربه)', yieldTons: 0.28, yieldText: '۲۸۰ کیلوگرم TNT', guidance: 'هسته اصلی بمب‌های هدایت لیزری GBU-24 و GBU-31', r1: 15, r2: 38, r3: 88, r4: 240, r5: 620, tier: 2, sil: 'bunker', desc: 'بمب نفوذگر ۲٬۰۰۰ پوندی با بدنه یکپارچه از فولاد آلیاژی به ضخامت ۲.۵ سانتی‌متر که قادر است پیش از انفجار فیوز تأخیری، از ۱.۸ متر بتن مسلح عبور کند.', notes: ['بدنه فولادی بسیار مقاوم که هنگام برخورد با بتن متلاشی نمی‌شود', 'ماده منفجره پلیمری PBXN-109 که در لحظه ضربه ناخواسته منفجر نمی‌شود', 'انفجار در فضای بسته زیرزمینی که اثر تخریب را چند برابر می‌کند'] },
+  { id: 'mk84', rank: 4, nameFa: 'بمب سنگین ام‌کی-۸۴ (چکش)', nameEn: 'Mark 84 (2,000 lb Hammer)', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۵۵ میلادی', category: 'conventional', categoryFa: 'بمب سنگین متعارف', weightKg: 907, fillerKg: 429, fillerType: 'Tritonal / H-6 با قدرت انفجاری بالا', yieldTons: 0.5, yieldText: '۵۰۰ کیلوگرم TNT', guidance: 'سقوط آزاد / کیت ماهواره‌ای GBU-31 JDAM', r1: 20, r2: 52, r3: 120, r4: 360, r5: 850, tier: 2, sil: 'slick', desc: 'سنگین‌ترین عضو خانواده سری Mark 80 که به دلیل قدرت ویرانگر و ایجاد گودال‌های عمیق ۱۵ متری، در میان خلبانان به «چکش» (Hammer) معروف شده است.', notes: ['ایجاد گودال به قطر ۱۵ متر و عمق ۱۱ متر در خاک معمولی', 'پرتاب ترکش‌های کشنده فولادی تا شعاع نزدیک به ۴۰۰ متر', 'ستون فقرات بمب‌های ۲٬۰۰۰ پوندی هدایت ماهواره‌ای'] },
+  { id: 'gbu28', rank: 5, nameFa: 'سنگرشکن عمیق جی‌بی‌یو-۲۸', nameEn: 'GBU-28 "Deep Throat" Bunker Buster', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۹۱ میلادی', category: 'bunker', categoryFa: 'سنگرشکن راهبردی', weightKg: 2268, fillerKg: 286, fillerType: 'Tritonal / PBXN-109', yieldTons: 0.65, yieldText: '۶۵۰ کیلوگرم TNT', guidance: 'هدایت لیزری نیمه‌فعال و اینرسی (Paveway III)', r1: 22, r2: 56, r3: 130, r4: 380, r5: 900, tier: 2, sil: 'bunker', desc: 'این بمب در جریان جنگ خلیج فارس تنها طی ۳ هفته و با تراشکاری لوله‌های توپخانه قدیمی ۲۰۳ میلی‌متری ارتش آمریکا ساخته شد تا پناهگاه‌های فوق‌مستحکم زیرزمینی را بشکافد.', notes: ['نفوذ بیش از ۶ متر در بتن مسلح و بیش از ۳۰ متر در زمین طبیعی', 'طراحی، ساخت و آزمایش عملیاتی در رکورد تاریخی کمتر از ۲۱ روز', 'انتقال تمام انرژی موج انفجار به لایه‌های زیرین سازه'] },
+  { id: 'fab3000', rank: 6, nameFa: 'بمب سنگین فاب-۳۰۰۰', nameEn: 'FAB-3000 Heavy Demolition Bomb', countryFa: 'اتحاد جماهیر شوروی / روسیه', flag: 'ru', year: '۱۹۴۶ تا امروز', category: 'conventional', categoryFa: 'تخریب سنگین', weightKg: 3067, fillerKg: 1387, fillerType: 'TGA-16 (ترکیب TNT، RDX و آلومینیوم)', yieldTons: 1.6, yieldText: '۱.۶ تن TNT', guidance: 'سقوط آزاد / کیت بالک‌پروازی هدایت‌شونده UMPK', r1: 32, r2: 82, r3: 190, r4: 480, r5: 1350, tier: 2, sil: 'fab', desc: 'یکی از مهیب‌ترین بمب‌های متعارف زرادخانه شوروی و روسیه با حلقه دماغه استوانه‌ای ویژه که برای انهدام کارخانجات صنعتی، پل‌های بزرگ و استحکامات دفاعی طراحی شده است.', notes: ['حاوی نزدیک به ۱.۴ تن ماده منفجره خالص در یک پوسته فولادی', 'ارتقای اخیر با بالک‌های پروازی UMPK برای رهاسازی از فاصله دور', 'ایجاد موج فشار سنگین که ساختمان‌های چندطبقه اطراف را فرو می‌ریزد'] },
+  { id: 'tallboy', rank: 7, nameFa: 'بمب لرزه‌ای تال‌بوی (پسر قدبلند)', nameEn: 'Bomb, Medium Capacity, 12,000 lb "Tallboy"', countryFa: 'بریتانیا', flag: 'uk', year: '۱۹۴۴ میلادی', category: 'bunker', categoryFa: 'بمب لرزه‌ای (زلزله‌ساز)', weightKg: 5443, fillerKg: 2358, fillerType: 'Torpex (۵۰٪ قوی‌تر از TNT معمولی)', yieldTons: 3.5, yieldText: '۳.۵ تن TNT', guidance: 'سقوط آزاد مافوق صوت با چرخش پایدارساز باله‌ها', r1: 42, r2: 105, r3: 240, r4: 580, r5: 1650, tier: 3, sil: 'tallboy', desc: 'شاهکار مهندسی «بارنز والیس» در جنگ جهانی دوم؛ بمبی که هنگام سقوط از بمب‌افکن لنکستر دیوار صوتی را می‌شکست، در عمق زمین فرو می‌رفت و با ایجاد زلزله مصنوعی اهداف بتنی را متلاشی می‌کرد.', notes: ['غرق کردن نبردناو غول‌پیکر تیرپیتز آلمان و انهدام تونل سومور', 'رسیدن به سرعت مافوق صوت ۱٬۲۰۰ کیلومتر بر ساعت در سقوط آزاد', 'استفاده از ماده منفجره Torpex حاوی RDX و پودر آلومینیوم'] },
+  { id: 'blu82', rank: 8, nameFa: 'بمب دیزی کاتر (چمن‌زن)', nameEn: 'BLU-82/B "Daisy Cutter"', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۷۰ میلادی', category: 'conventional', categoryFa: 'موج انفجار سطحی', weightKg: 6800, fillerKg: 5700, fillerType: 'دوغاب انفجاری GSX (نیترات آمونیوم + آلومینیوم)', yieldTons: 6.5, yieldText: '۶.۵ تن TNT', guidance: 'رهاسازی با چتر ترمزی از هواپیمای ترابری C-130', r1: 55, r2: 130, r3: 280, r4: 680, r5: 1950, tier: 3, sil: 'daisy', desc: 'بمب ۶.۸ تنی که در ابتدا برای صاف کردن فوری جنگل‌های انبوه و ایجاد باند فرود هلیکوپتر در ویتنام ساخته شد. میله ۱ متری جلوی دماغه باعث انفجار در سطح زمین بدون اتلاف انرژی در گودال می‌شود.', notes: ['تبدیل جنگل انبوه به محوطه کاملاً صاف به قطر ۱۰۰ متر در یک ثانیه', 'بیش از ۸۳ درصد کل وزن بمب را ماده منفجره تشکیل می‌دهد', 'پرتاب از رمپ عقب هواپیمای ترابری سنگین MC-130'] },
+  { id: 'grandslam', rank: 9, nameFa: 'بمب لرزه‌ای گرند اسلم', nameEn: 'Bomb, Medium Capacity, 22,000 lb "Grand Slam"', countryFa: 'بریتانیا', flag: 'uk', year: '۱۹۴۵ میلادی', category: 'bunker', categoryFa: 'سنگین‌ترین بمب لرزه‌ای تاریخ', weightKg: 9980, fillerKg: 4144, fillerType: 'Torpex D1 ریخته‌گری‌شده', yieldTons: 6.5, yieldText: '۶.۵ تن TNT', guidance: 'سقوط آزاد مافوق صوت با باله‌های زاویه‌دار چرخشی', r1: 52, r2: 125, r3: 270, r4: 660, r5: 1900, tier: 3, sil: 'tallboy', desc: 'بزرگ‌ترین بمب غیرهسته‌ای به‌کاررفته در جنگ‌های تاریخ؛ نسخه ۱۰ تنی بمب‌های زلزله‌ساز بارنز والیس که پناهگاه‌های زیردریایی آلمان با سقف‌های بتنی ۷ متری و پل‌های راه‌آهن کلیدی را فرو ریخت.', notes: ['نفوذ تا عمق ۴۰ متری زمین پیش از انفجار و ایجاد زمین‌لرزه موضعی', 'نیاز به یک ماه زمان برای خنک شدن و جامد شدن ماده منفجره مذاب پس از تولید', 'انهدام کامل پل راه‌آهن بیلفلد با ایجاد گودال عظیم زیر پایه‌های پل'] },
+  { id: 'mop', rank: 10, nameFa: 'سنگرشکن غول‌پیکر جی‌بی‌یو-۵۷ (MOP)', nameEn: 'GBU-57A/B Massive Ordnance Penetrator', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۲۰۱۱ میلادی', category: 'bunker', categoryFa: 'فوق‌سنگرشکن مدرن', weightKg: 13600, fillerKg: 2423, fillerType: 'AFX-757 و PBXN-114 با چگالی انرژی بالا', yieldTons: 3.1, yieldText: '۳.۱ تن TNT (در عمق زمین)', guidance: 'هدایت دقیق ماهواره‌ای GPS/INS با باله‌های شبکه‌ای', r1: 38, r2: 92, r3: 210, r4: 520, r5: 1500, tier: 3, sil: 'bunker', desc: 'سنگین‌ترین و پیشرفته‌ترین بمب سنگرشکن جهان به وزن ۱۳.۶ تن و طول ۶.۲ متر که منحصراً توسط بمب‌افکن رادارگریز B-2 Spirit حمل می‌شود و بیش از ۶۰ متر در بتن مسلح و صخره نفوذ می‌کند.', notes: ['بیش از ۸۰ درصد وزن بمب مربوط به آلیاژ فولاد فوق‌مستحکم Eglin است', 'مجهز به فیوز هوشمند شمارشگر طبقات زیرزمینی (LPSF)', 'تمرکز کامل موج انفجار در دالان‌های عمیق زیرزمینی'] },
+  { id: 'moab', rank: 11, nameFa: 'مادر همه بمب‌ها (MOAB)', nameEn: 'GBU-43/B Massive Ordnance Air Blast', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۲۰۰۳ میلادی', category: 'conventional', categoryFa: 'انفجار هوایی فوق‌سنگین', weightKg: 9800, fillerKg: 8500, fillerType: 'H-6 (ترکیب RDX، TNT و پودر آلومینیوم)', yieldTons: 11, yieldText: '۱۱ تن TNT', guidance: 'هدایت ماهواره‌ای GPS با باله‌های شبکه‌ای (Grid Fins)', r1: 72, r2: 165, r3: 350, r4: 600, r5: 3200, tier: 3, sil: 'moab', desc: 'معروف به «مادر همه بمب‌ها»؛ بمبی ۹.۸ تنی با پوسته نازک آلومینیومی که ۸۷٪ وزن آن را ماده منفجره H-6 تشکیل می‌دهد و برای ایجاد موج شوک وسیع در دره‌ها، غارها و میادین نبرد طراحی شده است.', notes: ['ایجاد ستون دود قارچی‌شکل تا ارتفاع ۳ کیلومتری که از ۳۰ کیلومتر دورتر دیده می‌شود', 'پرتاب با پالت و چتر کشنده از بخش بار هواپیمای MC-130', 'استفاده عملیاتی در آوریل ۲۰۱۷ علیه شبکه تونل‌های زیرزمینی در اچین افغانستان'] },
+  { id: 'foab', rank: 12, nameFa: 'پدر همه بمب‌ها (FOAB گرمافشاری)', nameEn: 'ATBIP "Father of All Bombs"', countryFa: 'فدراسیون روسیه', flag: 'ru', year: '۲۰۰۷ میلادی', category: 'conventional', categoryFa: 'گرمافشاری (خلأیی) فوق‌سنگین', weightKg: 7100, fillerKg: 6400, fillerType: 'نانوسوخت گرمافشاری اکسید اتیلن و پودر آلومینیوم', yieldTons: 44, yieldText: '۴۴ تن TNT', guidance: 'رهاسازی از بمب‌افکن راهبردی Tu-160 با چتر پایدارساز', r1: 115, r2: 260, r3: 520, r4: 1150, r5: 4800, tier: 3, sil: 'fab', desc: 'قوی‌ترین بمب غیرهسته‌ای تاریخ بشر؛ این بمب گرمافشاری ابتدا ابری از سوخت نانومتری را در هوا پخش کرده و سپس با اکسیژن محیط منفجر می‌کند و موج شوک مافوق صوت و خلأ شدید مرگباری می‌سازد.', notes: ['قدرت انفجاری ۴ برابر مادر بمب‌ها (MOAB) با وجود وزن کل کمتر', 'استفاده از اکسیژن هوای محیط به جای حمل اکسیدکننده در داخل بمب', 'ایجاد دمای مرکزی دو برابر بمب‌های متعارف و بلعیدن کامل اکسیژن منطقه'] },
+  { id: 'davy', rank: 13, nameFa: 'دیوی کراکت (کوچک‌ترین کلاهک اتمی)', nameEn: 'M-388 Davy Crockett (W54 Warhead)', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۶۱ میلادی', category: 'nuclear', categoryFa: 'هسته‌ای تاکتیکی مینیاتوری', weightKg: 34.5, fillerKg: 23, fillerType: 'هسته شکافت پلوتونیوم-۲۳۹ (کلاهک W54)', yieldTons: 20, yieldText: '۲۰ تن TNT (۰.۰۲ کیلوتن)', guidance: 'پرتاب با تفنگ بدون عقب‌نشینی ۱۲۰ و ۱۵۵ میلی‌متری', r1: 90, r2: 195, r3: 410, r4: 850, r5: 2800, tier: 4, sil: 'fatman', desc: 'کوچک‌ترین و سبک‌ترین سلاح هسته‌ای تاریخ که توسط یک تیم ۳ نفره پیاده‌نظام حمل می‌شد. با اینکه قدرت موج انفجار آن کمتر از FOAB بود، اما تابش نوترونی و گامای آن تا شعاع ۴۰۰ متری کاملاً کشنده بود.', notes: ['وزن کل کلاهک هسته‌ای W54 تنها حدود ۲۳ کیلوگرم بود', 'تولید ۲٬۱۰۰ فروند در دوران جنگ سرد برای مقابله با ستون‌های زرهی در اروپا', 'خطر بالای تشعشعات رادیواکتیو حتی برای خدمه پرتاب‌کننده در برد کوتاه'] },
+  { id: 'littleboy', rank: 14, nameFa: 'پسر کوچک (بمب اتمی هیروشیما)', nameEn: 'Little Boy (Mk-1 Gun-Type Fission Bomb)', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۴۵ میلادی', category: 'nuclear', categoryFa: 'شکافت هسته‌ای (اورانیومی)', weightKg: 4400, fillerKg: 64, fillerType: '۶۴ کیلوگرم اورانیوم غنی‌شده (U-235)', yieldTons: 15000, yieldText: '۱۵ کیلوتن (۱۵٬۰۰۰ تن TNT)', guidance: 'سقوط آزاد با فیوز راداری ارتفاع‌سنج (انفجار در ۵۸۰ متری)', r1: 260, r2: 1350, r3: 1950, r4: 3400, r5: 8500, tier: 4, sil: 'littleboy', desc: 'نخستین سلاح هسته‌ای به‌کاررفته در جنگ که در ۶ اوت ۱۹۴۵ توسط بمب‌افکن B-29 Enola Gay بر فراز هیروشیما رها شد. این بمب از مکانیسم «لوله‌تفنگی» برای شلیک دو قطعه اورانیوم-۲۳۵ به یکدیگر استفاده می‌کرد.', notes: ['تنها حدود ۱.۳۸٪ از ۶۴ کیلوگرم اورانیوم موجود در بمب دچار شکافت هسته‌ای شد', 'تبدیل حدود ۰.۷ گرم ماده به انرژی خالص طبق معادله E=mc²', 'تخریب یا آسیب دیدن بیش از ۶۹ درصد کل ساختمان‌های شهر هیروشیما'] },
+  { id: 'fatman', rank: 15, nameFa: 'مرد چاق (بمب اتمی ناکازاکی)', nameEn: 'Fat Man (Mk-3 Implosion Plutonium Bomb)', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۴۵ میلادی', category: 'nuclear', categoryFa: 'شکافت هسته‌ای (درون‌پاشی پلوتونیوم)', weightKg: 4670, fillerKg: 6.2, fillerType: '۶.۲ کیلوگرم پلوتونیوم-۲۳۹ با ۳۲ عدسی انفجاری', yieldTons: 21000, yieldText: '۲۱ کیلوتن (۲۱٬۰۰۰ تن TNT)', guidance: 'سقوط آزاد و انفجار هوایی در ارتفاع ۵۰۰ متری زمین', r1: 310, r2: 1550, r3: 2250, r4: 3900, r5: 9800, tier: 4, sil: 'fatman', desc: 'دومین سلاح هسته‌ای به‌کاررفته در جنگ جهانی دوم (۹ اوت ۱۹۴۵ در ناکازاکی). بر خلاف پسر کوچک، این بمب از مکانیسم پیچیده «درون‌پاشی متقارن» برای فشرده‌سازی گوی پلوتونیوم به اندازه یک توپ تنیس استفاده می‌کرد.', notes: ['بازدهی ۴۰ درصد بیشتر از بمب هیروشیما با یک‌دهم جرم ماده شکافت‌پذیر', 'تپه‌های اطراف دره ناکازاکی مانع از گسترش موج انفجار به تمام نقاط شهر شدند', 'مبنای طراحی نسل‌های بعدی کلاهک‌های هسته‌ای جهان'] },
+  { id: 'b83', rank: 16, nameFa: 'بمب گرماهسته‌ای راهبردی بی-۸۳', nameEn: 'B83 Strategic Thermonuclear Bomb', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۸۳ تا امروز', category: 'nuclear', categoryFa: 'گرماهسته‌ای راهبردی (هیدروژنی)', weightKg: 1090, fillerKg: 350, fillerType: 'دو مرحله‌ای شکافت-همجوشی (Teller-Ulam)', yieldTons: 1200000, yieldText: '۱.۲ مگاتن (۱٬۲۰۰٬۰۰۰ تن TNT)', guidance: 'سقوط آزاد در ارتفاع بسیار پایین با چتر ترمزی کولار', r1: 1250, r2: 4600, r3: 7800, r4: 13500, r5: 32000, tier: 5, sil: 'thermo', desc: 'قوی‌ترین بمب سقوط آزاد موجود در زرادخانه کنونی ایالات متحده با قابلیت تنظیم قدرت انفجار (Variable Yield) از چند کیلوتن تا ۱.۲ مگاتن که برای انهدام پناهگاه‌های فرماندهی عمیق طراحی شده است.', notes: ['قدرت انفجاری ۸۰ برابر بمب اتمی هیروشیما در بدنه‌ای بسیار باریک و مدرن', 'مجهز به چتر ترمزی ۱۴ متری برای فرار ایمن بمب‌افکن B-2 پیش از انفجار', 'مقاوم در برابر ضربه برخورد مستقیم به زمین با سرعت بالا'] },
+  { id: 'castlebravo', rank: 17, nameFa: 'کسل براوو (بزرگ‌ترین آزمایش آمریکا)', nameEn: 'Castle Bravo Thermonuclear Device (TX-21)', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۵۴ میلادی', category: 'nuclear', categoryFa: 'گرماهسته‌ای با سوخت جامد لیتیوم', weightKg: 10700, fillerKg: 4500, fillerType: 'همجوشی دوترید لیتیوم جامد (Li-6 و Li-7)', yieldTons: 15000000, yieldText: '۱۵ مگاتن (۱۵٬۰۰۰٬۰۰۰ تن TNT)', guidance: 'آزمایش در جزیره مرجانی بیکینی (بمب هواپایه Mk-21)', r1: 3100, r2: 10800, r3: 18500, r4: 29000, r5: 68000, tier: 5, sil: 'thermo', desc: 'قوی‌ترین سلاح هسته‌ای آزمایش‌شده توسط آمریکا در ۱ مارس ۱۹۵۴. به دلیل واکنش پیش‌بینی‌نشده ایزوتوپ لیتیوم-۷، قدرت انفجار ۲.۵ برابر بیشتر از محاسبات دانشمندان (۱۵ مگاتن به جای ۶ مگاتن) شد.', notes: ['ایجاد گوی آتشین به قطر ۷ کیلومتر در عرض یک ثانیه', 'حفر گودالی به قطر ۲ کیلومتر و عمق ۷۶ متر در بستر مرجانی اقیانوس', 'هزار برابر قوی‌تر از بمب اتمی هیروشیما'] },
+  { id: 'tsar', rank: 18, nameFa: 'بمب تزار (ایوان بزرگ - AN602)', nameEn: 'Tsar Bomba (RDS-220 / AN602)', countryFa: 'اتحاد جماهیر شوروی', flag: 'su', year: '۱۹۶۱ میلادی', category: 'nuclear', categoryFa: 'ابربمب گرماهسته‌ای (سه‌مرحله‌ای)', weightKg: 27000, fillerKg: 16000, fillerType: 'همجوشی هیدروژنی سه‌مرحله‌ای با تمپر سربی', yieldTons: 50000000, yieldText: '۵۰ مگاتن (۵۰٬۰۰۰٬۰۰۰ تن TNT)', guidance: 'پرتاب از بمب‌افکن Tu-95V با چتر غول‌پیکر ۸۰۰ کیلوگرمی', r1: 4600, r2: 18500, r3: 32000, r4: 52000, r5: 120000, tier: 5, sil: 'thermo', desc: 'قدرتمندترین سلاح ساخته‌شده در کل تاریخ بشر (۳٬۳۰۰ برابر بمب هیروشیما). در ۳۰ اکتبر ۱۹۶۱ بر فراز مجمع‌الجزایر نوایا زملیا منفجر شد و موج شوک آن سه بار کل کره زمین را دور زد.', notes: ['ارتفاع ابر قارچی به ۶۷ کیلومتر (بیش از ۷ برابر قله اورست) رسید', 'نور انفجار از فاصله ۱٬۰۰۰ کیلومتری دیده شد و شیشه‌ها تا ۹۰۰ کیلومتر شکستند', 'در طرح اولیه ۱۰۰ مگاتن بود که برای زنده ماندن خلبانان به ۵۰ مگاتن کاهش یافت'] },
+  { id: 'exocet', rank: 19, isCruise: true, mach: 0.93, flightDurMs: 440, strikeAngleDeg: 20, approachVx: -280, approachVy: -102, strikeProfileFa: 'سطح‌خزنده ۲۰ درجه از سمت غرب', whistleStartHz: 1780, whistleEndHz: 520, engineStartHz: 680, engineEndHz: 260, whistleModHz: 14, nameFa: 'موشک کروز ضدکشتی اگزوسه (Exocet)', nameEn: 'MBDA Exocet MM40 Block 3 / AM39', countryFa: 'فرانسه', flag: 'fr', year: '۱۹۷۹ میلادی', category: 'cruise', categoryFa: 'موشک کروز ضدکشتی سطح‌خزنده', weightKg: 780, fillerKg: 165, fillerType: 'کلاهک ۱۶۵ کیلوگرمی نیمه‌زرهپوش تأخیری', yieldTons: 0.22, yieldText: '۲۲۰ کیلوگرم TNT', cruiseRange: '~۱۸۰ کیلومتر (MM40 بلوک ۳)', cruiseSpeed: '~۰.۹۳ ماخ (نزدیک صوت)', cruisePlatform: 'کشتی (MM)، جنگنده (AM)، زیردریایی (SM)، ساحل', guidance: 'اینرسی + پرواز چندمتری بالای موج + رادار فعال پایانی', r1: 14, r2: 35, r3: 80, r4: 220, r5: 550, tier: 2, sil: 'cruise_std', desc: 'اگزوسه («ماهی پرنده» به زبان فرانسوی) ساخته شرکت ام‌بی‌دی‌ای، نماد کلاسیک موشک کروز ضدکشتی است. ویژگی حیاتی آن پرواز «سطح‌خزنده» تنها چند متر بالای امواج دریا است که کشف راداری آن را تقریباً ناممکن می‌سازد. در جنگ فالکلند ۱۹۸۲ ناوشکن بریتانیایی «اچ‌ام‌اس شفیلد» و «آتلانتیک کانویور» را غرق کرد و در ۱۷ مه ۱۹۸۷ نیز ناوچه آمریکایی «یواس‌اس استارک» با دو تیر اگزوسه هدف قرار گرفت.', notes: ['پرواز در ارتفاع ۲ تا ۵ متری سطح آب با زاویه برخورد کم‌ارتفاع ۲۰ درجه به بدنه شناور', 'غرق کردن ناوشکن مدرن اچ‌ام‌اس شفیلد در جنگ فالکلند ۱۹۸۲ تنها با یک اصابت', 'عرضه در چهار نسخه کشتی‌پرتاب (MM)، هواپرتاب (AM)، زیردریایی‌پرتاب (SM) و ساحلی'] },
+  { id: 'qader', rank: 20, isCruise: true, mach: 0.85, flightDurMs: 480, strikeAngleDeg: 26, approachVx: -260, approachVy: -127, strikeProfileFa: 'کم‌ارتفاع ۲۶ درجه از غرب-جنوب‌غربی', whistleStartHz: 1520, whistleEndHz: 430, engineStartHz: 590, engineEndHz: 210, whistleModHz: 11, nameFa: 'موشک کروز دریایی قدیر (خانواده نور)', nameEn: 'Qader Anti-Ship Cruise Missile', countryFa: 'ایران', flag: 'ir', year: '۲۰۱۱ میلادی', category: 'cruise', categoryFa: 'موشک کروز ضدکشتی ساحل‌به‌دریا', weightKg: 740, fillerKg: 165, fillerType: 'کلاهک ۱۶۵ کیلوگرمی شدیدالانفجار ضدناو', yieldTons: 0.23, yieldText: '۲۳۰ کیلوگرم TNT', cruiseRange: '~۲۰۰ تا ۳۰۰ کیلومتر', cruiseSpeed: '~۰.۸۵ ماخ (زیرصوت ارتفاع پست)', cruisePlatform: 'سکوهای متحرک ساحلی و شناورهای تندرو', guidance: 'ناوبری اینرسی، ارتفاع‌سنج راداری دقیق و رادار فعال پایانی', r1: 15, r2: 37, r3: 84, r4: 230, r5: 580, tier: 2, sil: 'cruise_std', desc: 'قدیر فرزند ارتقایافته خانواده موشک‌های کروز ایرانی «نور» (برگرفته از C-802) است که در سال ۲۰۱۱ با موتور توربوجت پرقدرت‌تر و سامانه ناوبری دیجیتال رونمایی شد. این خانواده در جنگ ۳۳روزه لبنان ۲۰۰۶ با اصابت به ناوشکن «هانیت» و سپس از ۲۰۱۶ در تنگه باب‌المندب و دریای سرخ علیه شناورهای «سوییفت-۲» و «یواس‌اس میسون» خبرساز شد و مسیر آن با موشک‌های «قدر-۳۸۰» و «ابوماهر» ادامه یافت.', notes: ['مجهز به موتور توربوجت طلوع با برد ۲۰۰ تا ۳۰۰ کیلومتر و پرواز بسیار پایین روی آب', 'نخستین ضربه عملیاتی این خانواده به یک ناو جنگی مدرن در جنگ ۲۰۰۶ لبنان', 'شلیک از پرتابگرهای متحرک ساحلی و شناورهای تندرو با زمان آماده‌سازی کوتاه'] },
+  { id: 'brahmos', rank: 21, isCruise: true, mach: 2.9, flightDurMs: 235, strikeAngleDeg: 38, approachVx: 255, approachVy: -199, strikeProfileFa: 'مافوق صوت ۳۸ درجه از شمال‌شرقی (۳ ماخ)', whistleStartHz: 2650, whistleEndHz: 680, engineStartHz: 1120, engineEndHz: 340, whistleModHz: 28, nameFa: 'موشک کروز مافوق صوت براهموس (BrahMos)', nameEn: 'BrahMos PJ-10 Supersonic Cruise Missile', countryFa: 'هند و روسیه', flag: 'in', year: '۲۰۰۶ میلادی', category: 'cruise', categoryFa: 'موشک کروز مافوق صوت رم‌جت', weightKg: 3000, fillerKg: 300, fillerType: 'کلاهک ۳۰۰ کیلوگرمی نفوذگر + انرژی جنبشی ۳ ماخ', yieldTons: 0.62, yieldText: '۶۲۰ کیلوگرم TNT (با ضربه جنبشی)', cruiseRange: '۲۹۰ تا ۵۰۰+ کیلومتر', cruiseSpeed: '۲.۸ تا ۳.۰ ماخ (مافوق صوت)', cruisePlatform: 'ناوشکن، زیردریایی، جنگنده Su-30MKI و پرتابگر ساحلی', guidance: 'ناوبری ماهواره‌ای INS/GPS + رادار فعال پایانی با مانور S شکل', r1: 23, r2: 58, r3: 135, r4: 370, r5: 920, tier: 2, sil: 'cruise_supersonic', desc: 'براهموس سریع‌ترین موشک کروز رم‌جت عملیاتی جهان محصول مشترک هند و دفتر طراحی ماشینوстроение روسیه است. به لطف پیشران رم‌جت با سرعت ۳ برابر صوت، انرژی جنبشی لحظه برخورد زاویه‌دار آن به قدری بالاست که بدنه ناوها و سنگرهای بتنی را پیش از انفجار کلاهک به دو نیم می‌کند.', notes: ['سرعت ۳ ماخ (حدود ۱ کیلومتر در ثانیه) که زمان واکنش پدافند را به چند ثانیه می‌رساند', 'انرژی جنبشی ۹ برابر بیشتر از موشک‌های کروز زیرصوت هم‌وزن', 'قابلیت شیرجه نهایی با زاویه تند ۳۸ درجه بر سر اهداف زمینی و دریایی'] },
+  { id: 'stormshadow', rank: 22, isCruise: true, mach: 0.95, flightDurMs: 430, strikeAngleDeg: 55, approachVx: -175, approachVy: -250, strikeProfileFa: 'شیرجه نفوذی ۵۵ درجه از شمال‌غربی', whistleStartHz: 1890, whistleEndHz: 490, engineStartHz: 720, engineEndHz: 240, whistleModHz: 16, nameFa: 'موشک کروز استورم شادو / اسکالپ', nameEn: 'Storm Shadow / SCALP-EG Stealth Cruise Missile', countryFa: 'بریتانیا و فرانسه', flag: 'uk', year: '۲۰۰۲–۲۰۰۳ میلادی', category: 'cruise', categoryFa: 'موشک کروز رادارگریز سنگرشکن هواپایه', weightKg: 1300, fillerKg: 450, fillerType: 'کلاهک ۴۵۰ کیلوگرمی دوجزئی بُروچ (BROACH)', yieldTons: 0.68, yieldText: '۶۸۰ کیلوگرم TNT (نفوذگر بُروچ)', cruiseRange: '۲۹۰+ کیلومتر (تا ۵۶۰ کیلومتر)', cruiseSpeed: '~۰.۹۵ ماخ (زیرصوت رادارگریز)', cruisePlatform: 'جنگنده‌های تایفون، رافال، تورنادو و سوخو-۲۴/میراژ', guidance: 'اینرسی، GPS، تطبیق عوارض زمین (TERPROM) و تصویربرداری فروسرخ پایانی', r1: 24, r2: 60, r3: 142, r4: 395, r5: 960, tier: 2, sil: 'cruise_stealth', desc: 'حاصل پروژه مشترک بریتانیا و فرانسه در شرکت MBDA که با بدنه پهن رادارگریز و پوشش جاذب رادار ساخته شده است. کلاهک دوجزئی «بُروچ» آن ابتدا با خرج گود اول دیوار بتنی پناهگاه یا پل را می‌شکافد و سپس کلاهک اصلی در عمق سازه منفجر می‌شود. در عراق ۲۰۰۳، لیبی ۲۰۱۱، سوریه ۲۰۱۸ و از ۲۰۲۳ علیه پل کرچ و ستاد ناوگان دریای سیاه در سواستوپول به کار رفت.', notes: ['کلاهک دو مرحله‌ای BROACH مخصوص شکافتن پناهگاه‌های زیرزمینی و پل‌های بتنی', 'اوج‌گیری و شیرجه زاویه‌دار ۵۵ درجه پایانی پس از باز کردن درپوش دماغه و قفل دوربین فروسرخ روی هدف', 'کاربرد گسترده در جنگ اوکراین (۲۰۲۳–۲۰۲۵) علیه مراکز فرماندهی در کریمه و سواستوپول'] },
+  { id: 'tomahawk', rank: 23, isCruise: true, mach: 0.74, flightDurMs: 520, strikeAngleDeg: 32, approachVx: -255, approachVy: -159, strikeProfileFa: 'تپه‌پیمای ۳۲ درجه از شمال‌غربی', whistleStartHz: 1420, whistleEndHz: 390, engineStartHz: 540, engineEndHz: 195, whistleModHz: 9, nameFa: 'موشک کروز راهبردی تاماهوک (BGM-109)', nameEn: 'BGM-109 Tomahawk Block IV / V', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۱۹۸۳ تا امروز', category: 'cruise', categoryFa: 'موشک کروز دوربرد حمله به زمین', weightKg: 1590, fillerKg: 450, fillerType: 'کلاهک ۴۵۰ کیلوگرمی WDU-36/B تیتانیومی', yieldTons: 0.65, yieldText: '۶۵۰ کیلوگرم TNT', cruiseRange: '~۱٬۶۰۰ کیلومتر (بلوک ۴ و ۵)', cruiseSpeed: '۰.۷۴ ماخ (~۸۹۰ کیلومتر بر ساعت)', cruisePlatform: 'ناوشکن (سيلوی عمودی VLS)، زیردریایی و سکوی ساحلی تایفون', guidance: 'اینرسی + TERCOM + DSMAC + ناوبری ماهواره‌ای GPS ضدجمینگ', r1: 23, r2: 58, r3: 138, r4: 385, r5: 940, tier: 2, sil: 'cruise_std', desc: 'پرکاربردترین موشک کروز حمله به زمین در تاریخ نظامی که توسط جنرال داینامیکس و ریتیون ساخته شد. در شب ۱۷ ژانویه ۱۹۹۱ با شلیک حدود ۳۰۰ فروند در جنگ خلیج فارس به نماد جنگ مدرن بدل شد و سپس در بوسنی، عراق ۱۹۹۸، کوزوو ۱۹۹۹، افغانستان ۲۰۰۱، عراق ۲۰۰۳، لیبی ۲۰۱۱، پایگاه شعیرات سوریه (۲۰۱۷ و ۲۰۱۸) و دریای سرخ ۲۰۲۴ به کار رفت.', notes: ['قابلیت تغییر هدف در میانه پرواز، گشت‌زنی بالای هدف و ارسال تصویر در نسخه بلوک ۴ و ۵', 'پرواز تپه‌پیما در ارتفاع ۳۰ تا ۵۰ متری از میان کوه‌ها و دره‌ها با سامانه TERCOM و DSMAC', 'بیش از ۲٬۳۰۰ شلیک عملیاتی در نبردهای واقعی از سال ۱۹۹۱ تا ۲۰۲۵'] },
+  { id: 'kalibr', rank: 24, isCruise: true, mach: 1.45, flightDurMs: 375, strikeAngleDeg: 48, approachVx: 205, approachVy: -228, strikeProfileFa: 'شیرجه پرشتاب ۴۸ درجه از شمال‌شرقی', whistleStartHz: 2120, whistleEndHz: 560, engineStartHz: 840, engineEndHz: 290, whistleModHz: 21, nameFa: 'موشک کروز دوربرد کالیبر (3M-14 Kalibr)', nameEn: '3M-14 / 3M-54 Kalibr Cruise Missile Family', countryFa: 'فدراسیون روسیه', flag: 'ru', year: '۲۰۱۲–۲۰۱۵ میلادی', category: 'cruise', categoryFa: 'موشک کروز راهبردی دریاپایه', weightKg: 1770, fillerKg: 450, fillerType: 'کلاهک ۴۵۰ کیلوگرمی شدیدالانفجار / نفوذگر', yieldTons: 0.66, yieldText: '۶۶۰ کیلوگرم TNT', cruiseRange: '۱٬۵۰۰ تا ۲٬۵۰۰ کیلومتر', cruiseSpeed: '~۰.۸ ماخ (و ۲.۹ ماخ پایانی در 3M-54)', cruisePlatform: 'ناوچه‌های سبک (بویان-ام)، ناوشکن‌ها و زیردریایی‌های کلاس کیلو/یاسن', guidance: 'اینرسی + GLONASS + ارتفاع‌سنج راداری و رادار فعال پایانی', r1: 24, r2: 59, r3: 140, r4: 390, r5: 950, tier: 2, sil: 'cruise_std', desc: 'خانواده کالیبر ساخته دفتر طراحی «نوواتور» روسیه پاسخ مسکو به تاماهوک است. ویژگی شاخص آن امکان شلیک از ناوچه‌های کوچک چندصد تنی (مانند کلاس بویان-ام) در دریای خزر و دریای سیاه است. نخستین بار در ۷ اکتبر ۲۰۱۵ چهار ناو روسی از دریای خزر اهدافی را در فاصله ۱٬۵۰۰ کیلومتری در سوریه هدف گرفتند و از فوریه ۲۰۲۲ به ستون اصلی حملات دوربرد روسیه در جنگ اوکراین تبدیل شد.', notes: ['شلیک تاریخی از دریای خزر به عمق سوریه از فاصله ۱٬۵۰۰ کیلومتری در اکتبر ۲۰۱۵', 'تلفیق پرواز کروز زیرصوت در میانه مسیر با شتاب‌گیری مافوق صوت پایانی در نسخه ضدکشتی 3M-54', 'پرکاربردترین موشک کروز دریاپایه روسیه در جنگ اوکراین از سال ۲۰۲۲ تا ۲۰۲۵'] },
+  { id: 'jassm', rank: 25, isCruise: true, mach: 0.85, flightDurMs: 465, strikeAngleDeg: 42, approachVx: 225, approachVy: -203, strikeProfileFa: 'شیرجه رادارگریز ۴۲ درجه از شمال‌شرقی', whistleStartHz: 1660, whistleEndHz: 460, engineStartHz: 620, engineEndHz: 225, whistleModHz: 13, nameFa: 'موشک کروز رادارگریز جاسم (AGM-158 JASSM-ER)', nameEn: 'AGM-158B JASSM-ER Stealth Standoff Missile', countryFa: 'ایالات متحده آمریکا', flag: 'us', year: '۲۰۰۹ / ۲۰۱۴ میلادی', category: 'cruise', categoryFa: 'موشک کروز پنهان‌کار دوربرد هواپایه', weightKg: 1020, fillerKg: 450, fillerType: 'کلاهک ۴۵۰ کیلوگرمی نفوذگر WDU-42/B (AFX-757)', yieldTons: 0.7, yieldText: '۷۰۰ کیلوگرم TNT', cruiseRange: '۹۲۵ تا ۱٬۰۰۰+ کیلومتر', cruiseSpeed: '~۰.۸۵ ماخ (زیرصوت پنهان‌کار)', cruisePlatform: 'بمب‌افکن‌های B-1B، B-2، B-52 و جنگنده‌های F-15E، F-16 و F-35', guidance: 'GPS مقاوم در برابر اخلال + جستجوگر تصویربرداری فروسرخ هوشمند (IIR)', r1: 25, r2: 62, r3: 145, r4: 405, r5: 980, tier: 2, sil: 'cruise_stealth', desc: 'پیشرفته‌ترین موشک کروز رادارگریز هواپایه آمریکا ساخته لاکهید مارتین که برای عبور از متراکم‌ترین شبکه‌های پدافند هوایی مدرن طراحی شده است. بدنه چندوجهی کامپوزیتی آن بازتاب راداری در حد یک پرنده کوچک دارد و با کلاهک نفوذگر WDU-42 با زاویه ۴۲ درجه از جناح شمال‌شرقی به قلب اهداف مستحکم شیرجه می‌زند.', notes: ['سطح مقطع راداری فوق‌العاده پایین به لطف طراحی چندوجهی و ورودی هوای مخفی', 'استفاده عملیاتی در آوریل ۲۰۱۸ توسط بمب‌افکن‌های B-1B علیه مراکز تحقیقاتی در سوریه', 'قابلیت تشخیص خودکار هندسه سه بعدی هدف با دوربین فروسرخ در فاز شیرجه نهایی'] },
+  { id: 'zircon', rank: 26, isCruise: true, mach: 8.5, flightDurMs: 165, strikeAngleDeg: 62, approachVx: -145, approachVy: -273, strikeProfileFa: 'هایپرسونیک ۶۲ درجه از شمال‌غربی (۹ ماخ)', whistleStartHz: 3400, whistleEndHz: 820, engineStartHz: 1480, engineEndHz: 420, whistleModHz: 42, nameFa: 'موشک کروز هایپرسونیک زیرکون (3M22 Zircon)', nameEn: '3M22 Zircon Hypersonic Scramjet Cruise Missile', countryFa: 'فدراسیون روسیه', flag: 'ru', year: '۲۰۲۳ میلادی', category: 'cruise', categoryFa: 'موشک کروز هایپرسونیک اسکرم‌جت', weightKg: 3500, fillerKg: 350, fillerType: 'کلاهک ۳۵۰ کیلوگرمی + انرژی جنبشی سرعت ۹ ماخ', yieldTons: 0.85, yieldText: '۸۵۰ کیلوگرم TNT (انفجار + جنبشی هایپرسونیک)', cruiseRange: '~۱٬۰۰۰ کیلومتر', cruiseSpeed: '۸ تا ۹ ماخ (~۱۱٬۰۰۰ کیلومتر بر ساعت)', cruisePlatform: 'ناوچه‌های کلاس آدمیرال گورشکوف و زیردریایی‌های اتمی یاسن', guidance: 'ناوبری اینرسی، ماهواره‌ای و رادار فعال در ابر پلاسما', r1: 28, r2: 70, r3: 162, r4: 440, r5: 1120, tier: 2, sil: 'cruise_supersonic', desc: 'نخستین موشک کروز هایپرسونیک (ابرفراصوت) عملیاتی جهان با موتور اسکرم‌جت تنفس هوایی که با سرعتی تا ۹ برابر سرعت صوت پرواز می‌کند. در حین پرواز، لایه‌ای از پلاسمای داغ اطراف دماغه تشکیل می‌شود که امواج رادار را جذب کرده و در فاز نهایی با شیرجه پرسرعت ۶۲ درجه به هدف برخورد می‌کند.', notes: ['سرعت پرواز ۸ تا ۹ ماخ که رهگیری آن را برای سامانه‌های پدافندی کنونی بسیار دشوار می‌سازد', 'استفاده از همان سیلوهای عمودی استاندارد UKSK مشترک با موشک‌های کالیبر', 'ترکیب موج انفجار کلاهک با موج ضربه‌ای مهیب حاصل از برخورد جسمی با سرعت ۳ کیلومتر بر ثانیه'] }
+];
+
+const CRUISE_INTRO_CARDS = [
+  { badge: 'منطق کار موشک کروز', title: 'هواپیمای بی‌سرنشین یک‌بارمصرف با پرواز ارتفاع پست', body: 'برخلاف موشک‌های بالستیک که پروازی قوسی دارند و به بیرون از جو زمین صعود می‌کنند، موشک کروز با موتور جت‌توربینه خود در طول کل مسیر در ارتفاع بسیار پایین (۵ تا ۱۰۰ متری سطح زمین یا دریا) پرواز می‌کند و بال‌های تاشوی کوچکی آن را در هوا نگه می‌دارند تا زیر افق رادارهای دشمن سر بخورد.' },
+  { badge: 'چهار لایه ناوبری دقیق', title: 'ترکیب اینرسی، TERCOM، DSMAC و ناوبری ماهواره‌ای', body: 'دقت چندمتری موشک‌های کروز ناشی از تلفیق ۴ سامانه است: ۱) ناوبری اینرسی (سنجش شتاب و چرخش)، ۲) تطبیق پروفایل ارتفاعی زمین (TERCOM)، ۳) مقایسه تصویر لحظه‌ای با عکس ماهواره‌ای ذخیره‌شده (DSMAC) و ۴) ناوبری ماهواره‌ای GPS/GLONASS و جستجوگر فروسرخ یا راداری در شیرجه زاویه‌دار پایانی.' },
+  { badge: 'تفاوت بنیادی با موشک بالستیک و بمب', title: 'مقایسه سرعت، رادارگریزی و زاویه برخورد', body: 'بمب‌های سقوط آزاد از بالای هدف رها شده و عمودی فرود می‌آیند؛ موشک بالستیک پروازی قوسی با سرعت چند برابر صوت دارد اما در میانه مسیر در ارتفاع بالا قابل شناسایی راداری است؛ در مقابل، موشک کروز از فاصله ۲۰۰ تا ۲٬۵۰۰ کیلومتری در ارتفاع پست و پنهان از رادار نزدیک شده و بسته به ماموریت با زاویه ۲۰ تا ۶۲ درجه به نقطه ضعف سازه برخورد می‌کند.' }
+];
+
+const CRUISE_TIMELINE = [
+  { year: '۱۹۸۲', title: 'جنگ فالکلند (اگزوسه AM39)', body: 'آرژانتین با چند فروند موشک کروز اگزوسه، ناوشکن مدرن بریتانیایی «اچ‌ام‌اس شفیلد» (۴ مه) و کشتی لجستیک «آتلانتیک کانویور» (۲۵ مه) را غرق کرد؛ نخستین نمایش قدرت موشک کروز ضدکشتی در جنگ مدرن.' },
+  { year: '۱۹۸۰–۱۹۸۸', title: 'جنگ نفتکش‌ها و اصابت به یواس‌اس استارک', body: 'استفاده گسترده از اگزوسه در خلیج فارس؛ در ۱۷ مه ۱۹۸۷ یک جنگنده میراژ با شلیک دو موشک اگزوسه ناوچه آمریکایی «یواس‌اس استارک» را هدف قرار داد (۳۷ ملوان کشته).' },
+  { year: '۱۹۹۱', title: 'جنگ خلیج فارس (تولد جنگ کروزی با تاماهوک)', body: 'در شب ۱۷ ژانویه ۱۹۹۱ حدود ۳۰۰ موشک کروز تاماهوک از ناوها و زیردریایی‌های آمریکا به سمت مراکز فرماندهی، رادارها و پدافند عراق شلیک شد و تاماهوک به نماد ضربه نخست تبدیل گردید.' },
+  { year: '۱۹۹۹–۲۰۰۳', title: 'کوزوو، افغانستان و عراق (ورود استورم شادو)', body: 'تاماهوک ستون اصلی آغاز عملیات هوایی ناتو و آمریکا بود و در سال ۲۰۰۳ جنگنده‌های تورنادو بریتانیا برای نخستین بار موشک کروز رادارگریز «استورم شادو» را علیه پناهگاه‌های بغداد به کار بردند.' },
+  { year: '۲۰۰۶', title: 'جنگ ۳۳روزه لبنان (خانواده نور / C-802)', body: 'اصابت موشک کروز ساحل‌به‌دریا از خانواده C-802/نور به ناوشکن مدرن «ساعر ۵ هانیت» در سواحل بیروت؛ نخستین ضربه موشک کروز به یک ناو جنگی غربی پس از پایان جنگ سرد.' },
+  { year: '۲۰۱۱ و ۲۰۱۵', title: 'مداخله لیبی و شلیک تاریخی کالیبر از دریای خزر', body: 'در ۲۰۱۱ تاماهوک و استورم شادو/اسکالپ پدافند لیبی را از کار انداختند. در ۷ اکتبر ۲۰۱۵ چهار ناو روسی از دریای خزر با موشک‌های کروز «کالیبر» اهدافی را در فاصله ۱٬۵۰۰ کیلومتری در سوریه منهدم کردند.' },
+  { year: '۲۰۱۶–۲۰۱۸', title: 'دریای سرخ و حملات به پایگاه شعیرات سوریه', body: 'از ۲۰۱۶ نسخههای خانواده قدیر/C-802 در باب‌المندب علیه شناور سوییفت-۲ و اطراف ناو میسون به کار رفتند. در آوریل ۲۰۱۷ و ۲۰۱۸ آمریکا، بریتانیا و فرانسه با ۵۹ تاماهوک، استورم شادو و جاسم پایگاه‌های سوریه را هدف گرفتند.' },
+  { year: '۲۰۲۲–۲۰۲۵', title: 'جنگ اوکراین و نبرد دریایی دریای سرخ', body: 'روسیه با شلیک گسترده کالیبر و زیرکون زیرساخت‌های اوکراین را هدف قرار داد و اوکراین از ۲۰۲۳ با استورم شادو/اسکالپ پل کرچ و ستاد ناوگان دریای سیاه در سواستوپول را زد. در ۲۰۲۴–۲۰۲۵ نیز تاماهوک در نبردهای دریای سرخ به کار رفت.' }
+];
+
+const SIX_POLES = [
+  { country: 'ایالات متحده آمریکا', flag: 'us', corps: 'USAF & US Navy Ordnance', sig: 'Tomahawk, JASSM-ER, GBU-57, MOAB', desc: 'پیشگام موشک‌های کروز دوربرد تاماهوک، کروز رادارگریز جاسم، سری Mk-80 و بمب‌های فوق‌سنگرشکن.' },
+  { country: 'شوروی و روسیه', flag: 'ru', corps: 'VKS & Novator / Bazalt', sig: 'Kalibr 3M-14, Zircon, FOAB, Tsar', desc: 'طراح خانواده موشک‌های کروز دریاپایه کالیبر، کروز هایپرسونیک ۹ ماخی زیرکون، بمب‌های FAB و تزار.' },
+  { country: 'بریتانیا و فرانسه', flag: 'uk', corps: 'RAF, Marine Nationale & MBDA', sig: 'Storm Shadow / SCALP, Exocet, Tallboy', desc: 'قطب اروپایی موشک کروز ضدکشتی سطح‌خزنده اگزوسه، کروز رادارگریز استورم شادو/اسکالپ و بمب‌های لرزه‌ای.' },
+  { country: 'ایران', flag: 'ir', corps: 'صنایع موشکی و دریایی', sig: 'نور، قدیر، قدر-۳۸۰، ابوماهر، پاوه', desc: 'توسعه خانواده موشک‌های کروز ضدکشتی ساحل‌پرتاب و شناورپرتاب ارتفاع پست با موتورهای توربوجت بومی.' },
+  { country: 'چین و هند', flag: 'cn', corps: 'PLAAF, DRDO & BrahMos Aerospace', sig: 'Zhentianlei, C-802, CJ-10, BrahMos', desc: 'از اختراع نخستین بمب باروت سیاه تاریخ در چین تا ساخت سریع‌ترین موشک کروز رم‌جت ۳ ماخی جهان (براهموس).' },
+  { country: 'آلمان', flag: 'de', corps: 'Luftwaffe, Rheinmetall & Taurus', sig: 'V-1 Flying Bomb, Fritz X, Taurus KEPD 350', desc: 'سازنده نخستین بمب پرنده کروز تاریخ (V-1 در ۱۹۴۴) و موشک کروز سنگرشکن مدرن توروس.' }
+];
+
+const DECK_ARTICLES = [
+  { badge: 'بخش اول • تولد باروت سیاه', title: 'کشف تصادفی کیمیاگران چینی (قرن ۹ و ۱۰ میلادی)', body: 'کیمیاگران سلسله تانگ و سونگ هنگام جستجوی اکسیر جاودانگی، ترکیب نیترات پتاسیم (شوره)، گوگرد و زغال چوب را کشف کردند. این ترکیب که «داروی آتشین» نام گرفت، نخستین بار در قالب بمب‌های چدنی «ژن‌تیان‌لی» با منجنیق به سمت خطوط دشمن پرتاب شد.' },
+  { badge: 'بخش دوم • انقلاب شیمی', title: 'گذار از سوختن کند به انفجار مافوق صوت (TNT و RDX)', body: 'باروت سیاه با سرعت زیرصوت می‌سوزد، اما کشف نیتروگلیسیرین، تری‌نیتروتولوئن (TNT) در ۱۸۶۳ و سپس RDX و Tritonal در قرن بیستم، سرعت موج انفجار را به بیش از ۷٬۰۰۰ متر بر ثانیه رساند که فشار شوک ویرانگری ایجاد می‌کند.' },
+  { badge: 'بخش سوم • جنگ جهانی دوم و بمب‌های لرزه‌ای', title: 'از بمب‌های ۵ تنی Tallboy تا بمباران اتمی ۱۹۴۵', body: 'طراحی بمب‌های لرزه‌ای توسط بارنز والیس در بریتانیا (Tallboy و Grand Slam) نشان داد که نفوذ در زمین و ایجاد زلزله موضعی، سازه‌های بتنی ضخیم را بهتر از انفجار سطحی تخریب می‌کند. در اوت ۱۹۴۵، بمب‌های Little Boy و Fat Man عصر هسته‌ای را آغاز کردند.' },
+  { badge: 'بخش چهارم • انقلاب موشک‌های کروز', title: 'از اگزوسه در فالکلند تا تاماهوک، کالیبر، قدیر و استورم شادو', body: 'از غرق کردن «اچ‌ام‌اس شفیلد» در ۱۹۸۲ تا هدف گرفتن ستاد ناوگان دریای سیاه در سواستوپول، موشک کروز در چهار دهه گذشته نشان داد که کارآمدترین مسیر برای «ضربه دقیق در عمق دشمن» بدون به خطر انداختن خلبان است.' },
+  { badge: 'بخش پنجم • بمب‌های گرمافشاری و مادر بمب‌ها', title: 'مقایسه MOAB آمریکا و FOAB روسیه', body: 'بمب GBU-43/B MOAB با ۱۱ تن قدرت انفجار در بالای سطح زمین منفجر می‌شود تا موج فشار حداکثری ایجاد کند. در مقابل، روسیه بمب گرمافشاری ATBIP (پدر همه بمب‌ها) را توسعه داد که با مصرف اکسیژن هوا، دمایی دو برابر و قدرتی معادل ۴۴ تن TNT تولید می‌کند.' },
+  { badge: 'بخش ششم • فیزیک ۵ حلقه تخریب', title: 'قانون مقیاس‌بندی ریشه سوم (Hopkinson-Cranz)', body: 'در فیزیک انفجار، شعاع تخریب با ریشه سوم وزن ماده منفجره رابطه مستقیم دارد؛ یعنی برای دو برابر شدن شعاع فروریزی ساختمان‌ها، قدرت کلاهک باید ۸ برابر شود! در موشک‌های کروز مافوق صوت، انرژی جنبشی برخورد ۴۵ درجه نیز به قدرت تخریب کلاهک افزوده می‌شود.' }
+];
+
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+const toFa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const fmtDist = m => m >= 1000 ? toFa(m / 1000 >= 10 ? Math.round(m / 1000) : +(m / 1000).toFixed(1)) + ' کیلومتر' : toFa(m >= 10 ? Math.round(m) : +m.toFixed(1)) + ' متر';
+const fmtKg = kg => kg >= 1000 ? toFa(+(kg / 1000).toFixed(2)) + ' تن (' + toFa(kg.toLocaleString('en-US')) + ' کیلوگرم)' : toFa(Math.round(kg * 10) / 10) + ' کیلوگرم';
+
+const GRID_N = 30;
+const TW = 28;
+const TH = 14;
+const ORIGIN_X = 560;
+const ORIGIN_Y = 58;
+
+const metersToCityTiles = m => 0.26 * Math.pow(Math.max(1, m), 0.355);
+const iso = (i, j) => [ORIGIN_X + (i - j) * (TW / 2), ORIGIN_Y + (i + j) * (TH / 2)];
+const unIso = (x, y) => {
+  const dx = (x - ORIGIN_X) / (TW / 2);
+  const dy = (y - ORIGIN_Y) / (TH / 2);
+  return [(dy + dx) / 2, (dy - dx) / 2];
+};
+const polyPts = pts => pts.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+const isRoad = (i, j) => (i > 0 && i < GRID_N - 1 && i % 6 === 0) || (j > 0 && j < GRID_N - 1 && j % 6 === 0);
+
+const GLOBAL_MIN_R = 1.6;
+const GLOBAL_MAX_R = 120000;
+
+function calcGlobalBarPercent(radiusMeters) {
+  const clamped = Math.max(GLOBAL_MIN_R, Math.min(GLOBAL_MAX_R, radiusMeters));
+  const pct = (Math.log10(clamped / GLOBAL_MIN_R) / Math.log10(GLOBAL_MAX_R / GLOBAL_MIN_R)) * 100;
+  return Math.max(5, Math.min(100, pct));
+}
+
+const state = {
+  selectedId: 'blackpowder',
+  filterCat: 'all',
+  searchQuery: '',
+  encycCat: 'all',
+  encycSearch: '',
+  hasDetonated: false,
+  animSpeed: 1.0,
+  volume: 0.8,
+  muted: false,
+  showMushroom: true,
+  showParticles: true,
+  showTraffic: true,
+  showGhost: true,
+  cameraZoom: 1.0,
+  cameraPan: { x: 0, y: 0 },
+  target: { i: 15, j: 15 },
+  hoverTile: { i: 15, j: 15, inside: false },
+  buildings: [],
+  bldDamageMap: new Map(),
+  trafficAgents: [],
+  rafId: null,
+  audioCtx: null,
+  mediaList: [],
+  mediaIndex: 0
+};
+
+const currentBomb = () => BOMBS.find(b => b.id === state.selectedId) || BOMBS[0];
+
+function openMediaDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open('BombsMediaArchiveDB', 1);
+    req.onupgradeneeded = e => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains('media')) {
+        const store = db.createObjectStore('media', { keyPath: 'id', autoIncrement: true });
+        store.createIndex('bombId', 'bombId', { unique: false });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function loadMediaForBomb(bombId) {
+  const preloaded = (window.__PRELOADED_BOMB_MEDIA__ && window.__PRELOADED_BOMB_MEDIA__[bombId]) || [];
+  let dbItems = [];
+  try {
+    const db = await openMediaDB();
+    dbItems = await new Promise(resolve => {
+      const tx = db.transaction('media', 'readonly');
+      const idx = tx.objectStore('media').index('bombId');
+      const req = idx.getAll(IDBKeyRange.only(bombId));
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => resolve([]);
+    });
+  } catch {}
+  return [...preloaded, ...dbItems];
+}
+
+async function saveMediaFiles(bombId, files) {
+  const db = await openMediaDB();
+  for (const file of files) {
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) continue;
+    await new Promise(resolve => {
+      const tx = db.transaction('media', 'readwrite');
+      tx.objectStore('media').add({
+        bombId,
+        name: file.name || 'رسانه پیوست‌شده',
+        mimeType: file.type,
+        blob: file,
+        createdAt: Date.now()
+      });
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => resolve(false);
+    });
+  }
+  await refreshMediaGallery();
+}
+
+async function deleteMediaItem(item) {
+  if (item.isPreloaded && window.__PRELOADED_BOMB_MEDIA__ && window.__PRELOADED_BOMB_MEDIA__[item.bombId]) {
+    window.__PRELOADED_BOMB_MEDIA__[item.bombId] = window.__PRELOADED_BOMB_MEDIA__[item.bombId].filter(x => x.id !== item.id);
+  } else if (item.id != null) {
+    const db = await openMediaDB();
+    await new Promise(resolve => {
+      const tx = db.transaction('media', 'readwrite');
+      tx.objectStore('media').delete(item.id);
+      tx.oncomplete = () => resolve(true);
+    });
+  }
+  await refreshMediaGallery();
+}
+
+async function refreshMediaGallery() {
+  const b = currentBomb();
+  $('#mediaBombTitle').textContent = b.nameFa;
+  const items = await loadMediaForBomb(b.id);
+  state.mediaList.forEach(m => { if (m.url && !m.isDataUrl) URL.revokeObjectURL(m.url); });
+  state.mediaList = items.map(it => {
+    const mimeType = it.mimeType || (it.type === 'video' ? 'video/mp4' : 'image/png');
+    if (it.dataUrl) {
+      return { ...it, mimeType, url: it.dataUrl, isDataUrl: true, isPreloaded: true };
+    }
+    return { ...it, mimeType, url: URL.createObjectURL(it.blob) };
+  });
+  if (state.mediaIndex >= state.mediaList.length) {
+    state.mediaIndex = Math.max(0, state.mediaList.length - 1);
+  }
+  renderMediaStage();
+}
+
+function renderMediaStage() {
+  const stage = $('#mediaStage');
+  const thumbs = $('#mediaThumbStrip');
+  const delBtn = $('#deleteMediaBtn');
+  const fsBtn = $('#fullscreenMediaBtn');
+  const b = currentBomb();
+
+  if (!state.mediaList.length) {
+    delBtn.style.display = 'none';
+    fsBtn.style.display = 'none';
+    $('#slideCounterTxt').textContent = '0 / 0';
+    thumbs.innerHTML = `<div style="font-size:0.72rem;color:var(--text-muted);margin:auto;">No media slides yet — Click "+ افزودن عکس یا ویدیو" or Drag & Drop files</div>`;
+    stage.innerHTML = `
+      <div class="media-frame-16-9">
+        <div style="text-align:center;padding:18px;max-width:460px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <div style="width:140px;height:50px;border-radius:12px;background:#12180a;border:1px solid rgba(255,179,64,0.35);padding:6px 12px;color:#ffb340;">
+            ${SILHOUETTES[b.sil] || SILHOUETTES.slick}
+          </div>
+          <div style="font-size:0.88rem;font-weight:800;color:#ffb340;">شماتیک فنی ۱۶:۹ «${b.nameFa}»</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;font-size:0.72rem;color:#d7e3ba;">
+            <span style="background:#141b0b;padding:3px 9px;border-radius:6px;border:1px solid var(--border-olive);">قدرت: ${b.yieldText}</span>
+            <span style="background:#141b0b;padding:3px 9px;border-radius:6px;border:1px solid var(--border-olive);">وزن: ${fmtKg(b.weightKg)}</span>
+          </div>
+          <p style="font-size:0.72rem;color:var(--text-muted);line-height:1.55;">
+            برای افزودن عکس یا ویدیو با ابعاد ۱۶:۹، روی دکمه <b>«+ افزودن عکس یا ویدیو»</b> کلیک کنید، فایل‌ها را بکشید (Drag & Drop) یا با <b>Ctrl+V</b> بچسبانید.
+          </p>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const cur = state.mediaList[state.mediaIndex];
+  delBtn.style.display = 'inline-flex';
+  fsBtn.style.display = 'inline-flex';
+  $('#slideCounterTxt').textContent = `${state.mediaIndex + 1} / ${state.mediaList.length}`;
+
+  const isVideo = (cur.mimeType && cur.mimeType.startsWith('video/')) || cur.type === 'video';
+  const mediaElHtml = isVideo
+    ? `<video id="activeStageVideo" src="${cur.url}" controls playsinline></video>`
+    : `<img src="${cur.url}" alt="${cur.name || ''}" />`;
+
+  const fsExitBtnHtml = `<button class="btn-ui stage-exit-fs-btn" id="stageExitFsBtn" type="button">خروج از تمام‌صفحه (Esc)</button>`;
+
+  stage.innerHTML = `
+    <div class="media-frame-16-9">
+      ${fsExitBtnHtml}
+      <button class="stage-nav-arrow" id="stagePrevArrow" style="left:12px;" type="button" title="Previous">❮</button>
+      ${mediaElHtml}
+      <button class="stage-nav-arrow" id="stageNextArrow" style="right:12px;" type="button" title="Next">❯</button>
+    </div>
+  `;
+
+  const exitFsBtn = $('#stageExitFsBtn');
+  if (exitFsBtn) {
+    exitFsBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleStageFullscreen(false);
+    });
+  }
+
+  $('#stagePrevArrow').addEventListener('click', e => {
+    e.stopPropagation();
+    state.mediaIndex = (state.mediaIndex - 1 + state.mediaList.length) % state.mediaList.length;
+    renderMediaStage();
+  });
+  $('#stageNextArrow').addEventListener('click', e => {
+    e.stopPropagation();
+    state.mediaIndex = (state.mediaIndex + 1) % state.mediaList.length;
+    renderMediaStage();
+  });
+
+  thumbs.innerHTML = state.mediaList.map((m, idx) => {
+    const mIsVid = (m.mimeType && m.mimeType.startsWith('video/')) || m.type === 'video';
+    return `
+      <div class="ltr-thumb-card ${idx === state.mediaIndex ? 'active' : ''}" data-idx="${idx}">
+        ${mIsVid
+          ? `<span style="font-size:0.7rem;color:#ffb340;font-weight:800;">▶ VIDEO</span>`
+          : `<img src="${m.url}" style="width:100%;height:100%;object-fit:cover;" />`}
+        <span class="ltr-thumb-badge">#${idx + 1}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function getMasterAudioBus() {
+  if (!state.audioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) state.audioCtx = new Ctx();
+  }
+  const ctx = state.audioCtx;
+  if (!ctx) return null;
+  if (ctx.state === 'suspended') ctx.resume();
+
+  if (!state.masterLimiter) {
+    const shaper = ctx.createWaveShaper();
+    const curve = new Float32Array(2048);
+    for (let i = 0; i < 2048; i++) {
+      const x = (i * 2) / 2047 - 1;
+      curve[i] = Math.tanh(x * 1.25) * 0.86;
+    }
+    shaper.curve = curve;
+    shaper.oversample = '2x';
+
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.setValueAtTime(-10, ctx.currentTime);
+    comp.knee.setValueAtTime(8, ctx.currentTime);
+    comp.ratio.setValueAtTime(14, ctx.currentTime);
+    comp.attack.setValueAtTime(0.002, ctx.currentTime);
+    comp.release.setValueAtTime(0.18, ctx.currentTime);
+
+    const safetyCeiling = ctx.createGain();
+    safetyCeiling.gain.setValueAtTime(0.78, ctx.currentTime);
+
+    shaper.connect(comp);
+    comp.connect(safetyCeiling);
+    safetyCeiling.connect(ctx.destination);
+    state.masterLimiter = shaper;
+  }
+  return { ctx, out: state.masterLimiter };
+}
+
+function playBombDropSound(bomb, dropDurationMs) {
+  if (state.muted || state.volume <= 0) return;
+  try {
+    const bus = getMasterAudioBus();
+    if (!bus) return;
+    const { ctx, out } = bus;
+    const now = ctx.currentTime;
+    const dur = Math.max(0.16, dropDurationMs / 1000);
+
+    const weightNorm = Math.min(1, Math.max(0, Math.log10(Math.max(8, bomb.weightKg) / 8) / Math.log10(27000 / 8)));
+    const uniqueShift = ((bomb.rank * 17) % 13) - 6;
+    const startHz = Math.max(320, 1080 - weightNorm * 540 + uniqueShift * 12);
+    const endHz = Math.max(120, startHz * 0.42);
+    const dropGainVal = Math.min(0.28, (0.06 + weightNorm * 0.16) * state.volume);
+
+    const osc = ctx.createOscillator();
+    osc.type = bomb.category === 'bunker' ? 'triangle' : 'sine';
+    osc.frequency.setValueAtTime(startHz, now);
+    osc.frequency.exponentialRampToValueAtTime(endHz, now + dur);
+
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.004, now);
+    g.gain.linearRampToValueAtTime(dropGainVal, now + dur * 0.65);
+    g.gain.exponentialRampToValueAtTime(0.004, now + dur);
+
+    osc.connect(g);
+    g.connect(out);
+    osc.start(now);
+    osc.stop(now + dur);
+  } catch {}
+}
+
+function playCruiseFlightSound(bomb, flightDurationMs) {
+  if (state.muted || state.volume <= 0) return;
+  try {
+    const bus = getMasterAudioBus();
+    if (!bus) return;
+    const { ctx, out } = bus;
+
+    const now = ctx.currentTime;
+    const dur = Math.max(0.15, flightDurationMs / 1000);
+    const mach = bomb.mach || 0.85;
+    const speedFactor = Math.min(1, Math.max(0, (mach - 0.7) / 7.8));
+    const gainLevel = Math.min(0.58, state.volume * (0.34 + speedFactor * 0.18));
+
+    const eStart = bomb.engineStartHz || 640;
+    const eEnd = bomb.engineEndHz || 220;
+    const wStart = bomb.whistleStartHz || 1650;
+    const wEnd = bomb.whistleEndHz || 420;
+    const modRate = bomb.whistleModHz || 14;
+
+    const jetOsc = ctx.createOscillator();
+    jetOsc.type = mach >= 2 ? 'sawtooth' : 'triangle';
+    jetOsc.frequency.setValueAtTime(eStart, now);
+    jetOsc.frequency.exponentialRampToValueAtTime(eEnd, now + dur);
+
+    const whistleOsc = ctx.createOscillator();
+    whistleOsc.type = 'sine';
+    whistleOsc.frequency.setValueAtTime(wStart, now);
+    whistleOsc.frequency.exponentialRampToValueAtTime(wEnd, now + dur);
+
+    const lfo = ctx.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.setValueAtTime(modRate, now);
+    const lfoGain = ctx.createGain();
+    lfoGain.gain.setValueAtTime(45 + speedFactor * 110, now);
+    lfo.connect(lfoGain);
+    lfoGain.connect(whistleOsc.frequency);
+
+    const bandFilter = ctx.createBiquadFilter();
+    bandFilter.type = 'bandpass';
+    bandFilter.frequency.setValueAtTime(Math.min(4200, wStart * 0.78), now);
+    bandFilter.frequency.exponentialRampToValueAtTime(Math.max(240, eEnd * 1.4), now + dur);
+    bandFilter.Q.setValueAtTime(2.2 + speedFactor * 2.4, now);
+
+    const bufSize = Math.max(128, Math.floor(ctx.sampleRate * dur));
+    const noiseBuf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+    const ch = noiseBuf.getChannelData(0);
+    for (let i = 0; i < bufSize; i++) {
+      const env = Math.sin((i / bufSize) * Math.PI);
+      ch[i] = (Math.random() * 2 - 1) * Math.pow(env, 0.75);
+    }
+    const whooshNoise = ctx.createBufferSource();
+    whooshNoise.buffer = noiseBuf;
+
+    const flightGain = ctx.createGain();
+    flightGain.gain.setValueAtTime(0.008, now);
+    flightGain.gain.linearRampToValueAtTime(gainLevel, now + dur * 0.42);
+    flightGain.gain.exponentialRampToValueAtTime(0.01, now + dur);
+
+    const whistleGain = ctx.createGain();
+    whistleGain.gain.setValueAtTime(0.005, now);
+    whistleGain.gain.linearRampToValueAtTime(gainLevel * 0.56, now + dur * 0.52);
+    whistleGain.gain.exponentialRampToValueAtTime(0.005, now + dur);
+
+    jetOsc.connect(bandFilter);
+    whooshNoise.connect(bandFilter);
+    bandFilter.connect(flightGain);
+    flightGain.connect(out);
+
+    whistleOsc.connect(whistleGain);
+    whistleGain.connect(out);
+
+    jetOsc.start(now);
+    whistleOsc.start(now);
+    lfo.start(now);
+    whooshNoise.start(now);
+
+    jetOsc.stop(now + dur);
+    whistleOsc.stop(now + dur);
+    lfo.stop(now + dur);
+    whooshNoise.stop(now + dur);
+
+    if (mach >= 1.35) {
+      const boomTime = now + dur * 0.25;
+      const boomOsc = ctx.createOscillator();
+      boomOsc.type = 'sawtooth';
+      boomOsc.frequency.setValueAtTime(420 + speedFactor * 280, boomTime);
+      boomOsc.frequency.exponentialRampToValueAtTime(48, boomTime + 0.14);
+      const boomGain = ctx.createGain();
+      boomGain.gain.setValueAtTime(gainLevel * 0.85, boomTime);
+      boomGain.gain.exponentialRampToValueAtTime(0.002, boomTime + 0.15);
+      boomOsc.connect(boomGain);
+      boomGain.connect(out);
+      boomOsc.start(boomTime);
+      boomOsc.stop(boomTime + 0.15);
+    }
+  } catch {}
+}
+
+function playExplosionSound(bombOrTier, isCruiseFlag) {
+  if (state.muted || state.volume <= 0) return;
+  try {
+    const bus = getMasterAudioBus();
+    if (!bus) return;
+    const { ctx, out } = bus;
+
+    const bomb = typeof bombOrTier === 'object' && bombOrTier !== null ? bombOrTier : currentBomb();
+    const isCruise = typeof isCruiseFlag === 'boolean' ? isCruiseFlag : Boolean(bomb.isCruise || bomb.category === 'cruise');
+    const now = ctx.currentTime;
+    const speedFactor = 1 / Math.max(0.35, Math.min(2, state.animSpeed));
+
+    const weightNorm = Math.min(1, Math.max(0, Math.log10(Math.max(8, bomb.weightKg) / 8) / Math.log10(27000 / 8)));
+    const fillerNorm = Math.min(1, Math.max(0, Math.log10(Math.max(2, bomb.fillerKg) / 2) / Math.log10(16000 / 2)));
+    const yieldNorm = Math.min(1, Math.max(0, Math.log10(Math.max(0.001, bomb.yieldTons) / 0.001) / Math.log10(50000000 / 0.001)));
+    const sizeFactor = Math.min(1, 0.48 * weightNorm + 0.24 * fillerNorm + 0.28 * yieldNorm);
+
+    const dur = (0.72 + weightNorm * 1.35 + yieldNorm * 1.45) * speedFactor;
+    const rawLoudness = 0.17 + sizeFactor * 0.59;
+    const gainLevel = Math.min(0.76, rawLoudness * state.volume);
+
+    const uniqueOffset = ((bomb.rank * 7) % 11) - 5;
+    const basePitchHz = isCruise
+      ? Math.max(48, 138 - weightNorm * 58 + uniqueOffset * 2.6 + (bomb.mach || 0.85) * 4.5)
+      : Math.max(24, 156 - weightNorm * 86 - yieldNorm * 40 + uniqueOffset * 2.1);
+    const subStartHz = Math.max(22, basePitchHz * 0.62);
+    const subEndHz = Math.max(16, 30 - weightNorm * 12);
+
+    const bassShelf = ctx.createBiquadFilter();
+    bassShelf.type = 'lowshelf';
+    bassShelf.frequency.setValueAtTime(90, now);
+    bassShelf.gain.setValueAtTime(weightNorm * 10.5 + yieldNorm * 3.5, now);
+    bassShelf.connect(out);
+
+    if (isCruise || bomb.id === 'blackpowder' || bomb.category === 'bunker') {
+      const crackOsc = ctx.createOscillator();
+      crackOsc.type = isCruise ? 'triangle' : 'square';
+      const crackStart = isCruise ? 460 + (bomb.mach || 0.85) * 65 : (bomb.id === 'blackpowder' ? 620 : 280);
+      crackOsc.frequency.setValueAtTime(crackStart, now);
+      crackOsc.frequency.exponentialRampToValueAtTime(34, now + 0.19);
+      const crackGain = ctx.createGain();
+      crackGain.gain.setValueAtTime(gainLevel * 0.82, now);
+      crackGain.gain.exponentialRampToValueAtTime(0.001, now + 0.21);
+      crackOsc.connect(crackGain);
+      crackGain.connect(bassShelf);
+      crackOsc.start(now);
+      crackOsc.stop(now + 0.21);
+    }
+
+    const bufSize = Math.max(256, Math.floor(ctx.sampleRate * dur));
+    const buffer = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    let last = 0;
+    const smoothing = 0.025 + (1 - weightNorm) * 0.055;
+    const decayExp = 1.85 - sizeFactor * 0.65;
+    for (let i = 0; i < bufSize; i++) {
+      const white = Math.random() * 2 - 1;
+      last = (last + smoothing * white) / (1 + smoothing);
+      const tNorm = i / bufSize;
+      const tremor = bomb.category === 'bunker' ? (1 + 0.22 * Math.sin(tNorm * dur * 48)) : 1;
+      data[i] = last * 2.8 * Math.pow(1 - tNorm, decayExp) * tremor;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    const lpStart = isCruise
+      ? 1450 + (bomb.mach || 0.85) * 120
+      : Math.max(260, 1750 - weightNorm * 1050 - (bomb.category === 'bunker' ? 240 : 0) + uniqueOffset * 18);
+    filter.frequency.setValueAtTime(lpStart, now);
+    filter.frequency.exponentialRampToValueAtTime(Math.max(32, 72 - weightNorm * 38), now + dur);
+
+    const nGain = ctx.createGain();
+    nGain.gain.setValueAtTime(0.008, now);
+    nGain.gain.linearRampToValueAtTime(gainLevel, now + 0.018 + weightNorm * 0.022);
+    nGain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+    noise.connect(filter);
+    filter.connect(nGain);
+    nGain.connect(bassShelf);
+    noise.start(now);
+    noise.stop(now + dur);
+
+    const bodyOsc = ctx.createOscillator();
+    bodyOsc.type = weightNorm > 0.65 ? 'triangle' : 'sine';
+    bodyOsc.frequency.setValueAtTime(basePitchHz, now);
+    bodyOsc.frequency.exponentialRampToValueAtTime(subEndHz + 4, now + dur * 0.82);
+
+    const bodyGain = ctx.createGain();
+    bodyGain.gain.setValueAtTime(0.002, now);
+    bodyGain.gain.linearRampToValueAtTime(gainLevel * (0.55 + weightNorm * 0.35), now + 0.028);
+    bodyGain.gain.exponentialRampToValueAtTime(0.001, now + dur * 0.85);
+
+    bodyOsc.connect(bodyGain);
+    bodyGain.connect(bassShelf);
+    bodyOsc.start(now);
+    bodyOsc.stop(now + dur * 0.85);
+
+    const subOsc = ctx.createOscillator();
+    subOsc.type = 'sine';
+    subOsc.frequency.setValueAtTime(subStartHz, now);
+    subOsc.frequency.exponentialRampToValueAtTime(subEndHz, now + dur * 0.94);
+
+    const subGain = ctx.createGain();
+    const subAmp = gainLevel * (0.24 + weightNorm * 0.68 + yieldNorm * 0.22);
+    subGain.gain.setValueAtTime(0.001, now);
+    subGain.gain.linearRampToValueAtTime(Math.min(0.75, subAmp), now + 0.04 + weightNorm * 0.03);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + dur * 0.95);
+
+    subOsc.connect(subGain);
+    subGain.connect(bassShelf);
+    subOsc.start(now);
+    subOsc.stop(now + dur * 0.95);
+  } catch {}
+}
+
+function initTraffic() {
+  const roadIndices = [6.5, 12.5, 18.5, 24.5];
+  state.trafficAgents = [];
+  for (let c = 0; c < 36; c++) {
+    if (c % 2 === 0) {
+      const r = roadIndices[c % roadIndices.length];
+      state.trafficAgents.push({
+        type: 'car', i: Math.random() * GRID_N, j: r + (c % 4 === 0 ? 0.18 : -0.18),
+        vx: (c % 4 === 0 ? 1 : -1) * (0.025 + Math.random() * 0.02), vy: 0, alive: true,
+        color: c % 3 === 0 ? '#ffd166' : c % 2 === 0 ? '#f8f9fa' : '#ff6b6b'
+      });
+    } else {
+      const col = roadIndices[c % roadIndices.length];
+      state.trafficAgents.push({
+        type: 'car', i: col + (c % 4 === 1 ? 0.18 : -0.18), j: Math.random() * GRID_N,
+        vx: 0, vy: (c % 4 === 1 ? 1 : -1) * (0.025 + Math.random() * 0.02), alive: true,
+        color: c % 3 === 0 ? '#4cc9f0' : '#ffe66d'
+      });
+    }
+  }
+  for (let p = 0; p < 28; p++) {
+    state.trafficAgents.push({
+      type: 'ped', i: 1 + Math.random() * (GRID_N - 2), j: 1 + Math.random() * (GRID_N - 2),
+      vx: (Math.random() - 0.5) * 0.015, vy: (Math.random() - 0.5) * 0.015, alive: true, color: '#d9f99d'
+    });
+  }
+}
+
+function stepTrafficLoop() {
+  const layer = $('#trafficLayer');
+  if (layer) {
+    if (!state.showTraffic) {
+      layer.innerHTML = '';
+    } else {
+      let svg = '';
+      for (const ag of state.trafficAgents) {
+        if (!ag.alive) continue;
+        ag.i += ag.vx * state.animSpeed;
+        ag.j += ag.vy * state.animSpeed;
+        if (ag.i < 0) ag.i = GRID_N;
+        if (ag.i > GRID_N) ag.i = 0;
+        if (ag.j < 0) ag.j = GRID_N;
+        if (ag.j > GRID_N) ag.j = 0;
+        const [x, y] = iso(ag.i, ag.j);
+        if (ag.type === 'car') {
+          svg += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="2.3" ry="1.3" fill="${ag.color}" />`;
+        } else {
+          svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.1" fill="${ag.color}" opacity="0.88" />`;
+        }
+      }
+      layer.innerHTML = svg;
+    }
+  }
+  requestAnimationFrame(stepTrafficLoop);
+}
+
+function buildCity() {
+  const topPt = iso(0, 0), rightPt = iso(GRID_N, 0), bottomPt = iso(GRID_N, GRID_N), leftPt = iso(0, GRID_N);
+  $('#boardClipPoly').setAttribute('points', polyPts([topPt, rightPt, bottomPt, leftPt]));
+  $('#slabShadowPoly').setAttribute('points', polyPts([[topPt[0], topPt[1] + 15], [rightPt[0], rightPt[1] + 15], [bottomPt[0], bottomPt[1] + 15], [leftPt[0], leftPt[1] + 15]]));
+  $('#slabLeftPoly').setAttribute('points', polyPts([leftPt, bottomPt, [bottomPt[0], bottomPt[1] + 14], [leftPt[0], leftPt[1] + 14]]));
+  $('#slabRightPoly').setAttribute('points', polyPts([rightPt, bottomPt, [bottomPt[0], bottomPt[1] + 14], [rightPt[0], rightPt[1] + 14]]));
+
+  const groundLayer = $('#groundLayer');
+  const buildingsLayer = $('#buildingsLayer');
+  state.buildings = [];
+  state.bldDamageMap.clear();
+
+  let gHtml = '';
+  for (let i = 0; i < GRID_N; i++) {
+    for (let j = 0; j < GRID_N; j++) {
+      const road = isRoad(i, j);
+      const park = (i + j * 3) % 19 === 0 && !road;
+      const river = j === 23;
+      const p = [iso(i, j), iso(i + 1, j), iso(i + 1, j + 1), iso(i, j + 1)];
+      let fill = (i + j) % 2 ? '#1e2610' : '#1a210d';
+      if (road) fill = '#252b16';
+      else if (park) fill = '#283b18';
+      else if (river) fill = '#163238';
+      gHtml += `<polygon points="${polyPts(p)}" fill="${fill}" stroke="rgba(0,0,0,0.22)" stroke-width="0.38"/>`;
+      if (park) {
+        const c = iso(i + 0.5, j + 0.5);
+        gHtml += `<ellipse cx="${(c[0] - 3.5).toFixed(1)}" cy="${(c[1] - 1.2).toFixed(1)}" rx="2.8" ry="1.6" fill="#436423"/>`;
+      }
+    }
+  }
+  for (let k = 6; k < GRID_N - 1; k += 6) {
+    const a1 = iso(k + 0.5, 0), b1 = iso(k + 0.5, GRID_N), a2 = iso(0, k + 0.5), b2 = iso(GRID_N, k + 0.5);
+    gHtml += `<line x1="${a1[0]}" y1="${a1[1]}" x2="${b1[0]}" y2="${b1[1]}" stroke="#48522b" stroke-width="0.9" stroke-dasharray="4 5"/>`;
+    gHtml += `<line x1="${a2[0]}" y1="${a2[1]}" x2="${b2[0]}" y2="${b2[1]}" stroke="#48522b" stroke-width="0.9" stroke-dasharray="4 5"/>`;
+  }
+  groundLayer.innerHTML = gHtml;
+
+  const blds = [];
+  for (let i = 0; i < GRID_N; i++) {
+    for (let j = 0; j < GRID_N; j++) {
+      if (isRoad(i, j) || j === 23 || (i + j * 3) % 19 === 0) continue;
+      const pseudo = Math.sin((i + 1) * 19.7 + (j + 1) * 37.3) * 10000;
+      const r0 = pseudo - Math.floor(pseudo);
+      if (r0 < 0.08) continue;
+      const w = 0.56 + r0 * 0.22;
+      const d = 0.56 + ((r0 * 7) % 1) * 0.22;
+      const i0 = i + (1 - w) / 2;
+      const j0 = j + (1 - d) / 2;
+      const distCenter = Math.hypot(i - GRID_N / 2, j - GRID_N / 2);
+      const h = (distCenter < 6.5 ? 22 + ((r0 * 13) % 1) * 32 : distCenter < 11.5 ? 12 + ((r0 * 17) % 1) * 18 : 7 + ((r0 * 19) % 1) * 11) * 0.85;
+      blds.push({ id: `b-${i}-${j}`, x: i0 + w / 2, y: j0 + d / 2, i0, j0, i1: i0 + w, j1: j0 + d, h, seed: r0 });
+    }
+  }
+  blds.sort((a, b) => (a.x + a.y) - (b.x + b.y));
+
+  let bHtml = '';
+  blds.forEach((b, idx) => {
+    const A = iso(b.i0, b.j0), B = iso(b.i1, b.j0), C = iso(b.i1, b.j1), D = iso(b.i0, b.j1);
+    const h = b.h;
+    const hue = 70 + Math.round(b.seed * 18);
+    const sat = 15 + Math.round(b.seed * 12);
+    const lum = Math.min(44, 24 + h * 0.22);
+    const roof = `hsl(${hue} ${sat}% ${Math.round(lum + 9)}%)`;
+    const wallR = `hsl(${hue} ${sat + 4}% ${Math.round(lum - 4)}%)`;
+    const wallL = `hsl(${hue} ${sat}% ${Math.round(lum - 11)}%)`;
+    bHtml += `<g id="bld-${idx}" style="transform-box:fill-box;transform-origin:50% 100%;transition:transform 0.5s cubic-bezier(.22,.75,.25,1);">
+      <polygon class="wall-l" points="${D[0].toFixed(1)},${(D[1]-h).toFixed(1)} ${C[0].toFixed(1)},${(C[1]-h).toFixed(1)} ${C[0].toFixed(1)},${C[1].toFixed(1)} ${D[0].toFixed(1)},${D[1].toFixed(1)}" fill="${wallL}"/>
+      <polygon class="wall-r" points="${B[0].toFixed(1)},${(B[1]-h).toFixed(1)} ${C[0].toFixed(1)},${(C[1]-h).toFixed(1)} ${C[0].toFixed(1)},${C[1].toFixed(1)} ${B[0].toFixed(1)},${B[1].toFixed(1)}" fill="${wallR}"/>
+      <polygon class="roof-p" points="${A[0].toFixed(1)},${(A[1]-h).toFixed(1)} ${B[0].toFixed(1)},${(B[1]-h).toFixed(1)} ${C[0].toFixed(1)},${(C[1]-h).toFixed(1)} ${D[0].toFixed(1)},${(D[1]-h).toFixed(1)}" fill="${roof}" stroke="rgba(0,0,0,0.26)" stroke-width="0.4"/>
+    </g>`;
+  });
+  buildingsLayer.innerHTML = bHtml;
+  state.buildings = blds.map((b, idx) => ({ ...b, el: document.getElementById(`bld-${idx}`) }));
+  initTraffic();
+}
+
+const ZONE_SEVERITY = { z1: 5, z2: 4, z3: 3, z4: 2, z5: 1 };
+const ZONE_PALETTE = {
+  z1: { roof: '#ff3b5c', wallR: '#d90429', wallL: '#9b001a', stroke: '#ff8fa3', scaleY: 'scaleY(0.38)' },
+  z2: { roof: '#ff7b3d', wallR: '#e04809', wallL: '#a83200', stroke: '#ffb68c', scaleY: 'scaleY(0.58)' },
+  z3: { roof: '#ffc466', wallR: '#e09119', wallL: '#a86805', stroke: '#ffe0a3', scaleY: 'scaleY(0.76) skewX(2deg)' },
+  z4: { roof: '#d4f26b', wallR: '#9ec227', wallL: '#728f14', stroke: '#eafab3', scaleY: 'scaleY(0.9)' },
+  z5: { roof: '#72d6f5', wallR: '#26a9d1', wallL: '#167c9c', stroke: '#b8ecfc', scaleY: 'scaleY(0.98)' }
+};
+
+function applyBuildingZoneColor(b, zoneKey) {
+  if (!b.el) return;
+  const prev = state.bldDamageMap.get(b.id);
+  if (prev && ZONE_SEVERITY[prev] >= ZONE_SEVERITY[zoneKey]) return;
+  state.bldDamageMap.set(b.id, zoneKey);
+  const pal = ZONE_PALETTE[zoneKey];
+  const roofEl = b.el.querySelector('.roof-p');
+  roofEl.setAttribute('fill', pal.roof);
+  roofEl.setAttribute('stroke', pal.stroke);
+  roofEl.setAttribute('stroke-width', '0.7');
+  b.el.querySelector('.wall-r').setAttribute('fill', pal.wallR);
+  b.el.querySelector('.wall-l').setAttribute('fill', pal.wallL);
+  b.el.style.transform = pal.scaleY;
+}
+
+function renderGhostRings() {
+  const layer = $('#ghostRingsLayer');
+  if (!layer) return;
+  if (!state.showGhost) {
+    layer.innerHTML = '';
+    return;
+  }
+  const bomb = currentBomb();
+  const gi = state.hoverTile.inside ? state.hoverTile.i : state.target.i;
+  const gj = state.hoverTile.inside ? state.hoverTile.j : state.target.j;
+  const [cx, cy] = iso(gi, gj);
+  const KX = (TW / 2) * Math.SQRT2;
+  const KY = (TH / 2) * Math.SQRT2;
+  const zRadii = [bomb.r1, bomb.r2, bomb.r3, bomb.r4, bomb.r5];
+  const zColors = ['#ff1e42', '#ff5e1a', '#ffb340', '#c5e84c', '#4cc9f0'];
+  let html = '';
+  for (let idx = 4; idx >= 0; idx--) {
+    const rt = metersToCityTiles(zRadii[idx]);
+    const rx = Math.max(2.5, rt * KX);
+    const ry = Math.max(1.2, rt * KY);
+    html += `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="${zColors[idx]}" fill-opacity="0.04" stroke="${zColors[idx]}" stroke-width="1.2" stroke-dasharray="5 4" opacity="0.78"/>`;
+  }
+  layer.innerHTML = html;
+}
+
+function updateTopSummaryBars() {
+  const bomb = currentBomb();
+  const zNames = ['۱. نابودی مرکز', '۲. فروریزی کامل', '۳. آتش‌سوزی شدید', '۴. پرتاب ترکش', '۵. شکستن شیشه'];
+  const zColors = ['#ff1e42', '#ff5e1a', '#ffb340', '#c5e84c', '#4cc9f0'];
+  const zVals = [bomb.r1, bomb.r2, bomb.r3, bomb.r4, bomb.r5];
+
+  $('#topSummaryZones').innerHTML = zVals.map((r, i) => {
+    const pct = state.hasDetonated ? calcGlobalBarPercent(r) : 0;
+    const valTxt = state.hasDetonated ? fmtDist(r) : '۰ متر';
+    return `<div class="mini-zone-pill">
+      <div style="display:flex;justify-content:space-between;font-size:0.68rem;">
+        <span style="color:var(--text-muted)">${zNames[i]}</span>
+        <strong style="color:${zColors[i]}">${valTxt}</strong>
+      </div>
+      <div class="mini-zone-bar"><div class="mini-zone-fill" style="width:${pct.toFixed(1)}%;background:${zColors[i]}"></div></div>
+    </div>`;
+  }).join('');
+
+  zVals.forEach((r, i) => {
+    const pct = state.hasDetonated ? calcGlobalBarPercent(r) : 0;
+    $('#barVal' + (i + 1)).textContent = fmtDist(r);
+    $('#barFill' + (i + 1)).style.width = pct.toFixed(1) + '%';
+  });
+}
+
+function resetCityAll() {
+  if (state.rafId) cancelAnimationFrame(state.rafId);
+  $('#craterLayer').innerHTML = '';
+  $('#ringsLayer').innerHTML = '';
+  $('#firesLayer').innerHTML = '';
+  $('#projectileLayer').innerHTML = '';
+  $('#mushroomLayer').innerHTML = '';
+  $('#particlesLayer').innerHTML = '';
+  state.hasDetonated = false;
+  buildCity();
+  renderGhostRings();
+  updateTopSummaryBars();
+}
+
+function triggerDetonation() {
+  const bomb = currentBomb();
+  if (state.rafId) cancelAnimationFrame(state.rafId);
+
+  const craterLayer = $('#craterLayer');
+  const ringsLayer = $('#ringsLayer');
+  const firesLayer = $('#firesLayer');
+  const projLayer = $('#projectileLayer');
+  const mushLayer = $('#mushroomLayer');
+  const partLayer = $('#particlesLayer');
+
+  ringsLayer.innerHTML = '';
+  projLayer.innerHTML = '';
+  mushLayer.innerHTML = '';
+  partLayer.innerHTML = '';
+
+  const [cx, cy] = iso(state.target.i, state.target.j);
+  const KX = (TW / 2) * Math.SQRT2;
+  const KY = (TH / 2) * Math.SQRT2;
+
+  const zRadii = [bomb.r1, bomb.r2, bomb.r3, bomb.r4, bomb.r5];
+  const zTiles = zRadii.map(r => metersToCityTiles(r));
+  const zColors = ['#ff1e42', '#ff5e1a', '#ffb340', '#c5e84c', '#4cc9f0'];
+
+  const isCruise = Boolean(bomb.isCruise || bomb.category === 'cruise');
+  const baseDropMs = isCruise ? (bomb.flightDurMs || 460) : (230 + Math.min(130, Math.log10(Math.max(8, bomb.weightKg)) * 32));
+  const dropDur = baseDropMs / state.animSpeed;
+  const blastDur = 1400 / state.animSpeed;
+  const startTime = performance.now();
+  let exploded = false;
+
+  if (isCruise) {
+    playCruiseFlightSound(bomb, dropDur);
+  } else {
+    playBombDropSound(bomb, dropDur);
+  }
+
+  const particles = Array.from({ length: 24 }, (_, idx) => {
+    const ang = (idx / 24) * Math.PI * 2 + Math.random() * 0.25;
+    const dist = Math.min(240, Math.max(20, zTiles[2] * KX)) * (0.4 + Math.random() * 0.7);
+    return {
+      dx: Math.cos(ang) * dist,
+      dy: Math.sin(ang) * dist * 0.55 - (12 + Math.random() * 38),
+      r: 1.6 + Math.random() * 2.6,
+      c: idx % 2 === 0 ? '#ffea9f' : '#ff5e1a'
+    };
+  });
+
+  function frame(now) {
+    const elapsed = now - startTime;
+    if (elapsed < dropDur) {
+      const p = elapsed / dropDur;
+      if (isCruise) {
+        const offX = bomb.approachVx !== undefined ? bomb.approachVx : -240;
+        const offY = bomb.approachVy !== undefined ? bomb.approachVy : -180;
+        const startX = cx + offX;
+        const startY = cy + offY;
+        const mach = bomb.mach || 0.85;
+        const easeP = mach >= 2 ? (0.4 * p + 0.6 * (p * p)) : (0.25 * p + 0.75 * (p * p));
+        const bx = startX - offX * easeP;
+        const by = startY - offY * easeP;
+        const headingDeg = Math.atan2(-offY, -offX) * (180 / Math.PI);
+        const flameLen = (mach >= 2 ? 22 : 14) + Math.sin(now * 0.08) * 5;
+        const trailColor = mach >= 5 ? '#ff7b3d' : (mach >= 2 ? '#ffb340' : '#4cc9f0');
+        const shockConeHtml = mach >= 2
+          ? `<path d="M12,0 L-6,-13 M12,0 L-6,13" stroke="${mach >= 5 ? '#ff5e1a' : '#72d6f5'}" stroke-width="1.3" stroke-dasharray="3 2" opacity="0.82"/>`
+          : '';
+        projLayer.innerHTML = `
+          <line x1="${startX.toFixed(1)}" y1="${startY.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}" stroke="rgba(220,235,245,0.45)" stroke-width="3.2" stroke-linecap="round"/>
+          <line x1="${startX.toFixed(1)}" y1="${startY.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}" stroke="${trailColor}" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.9"/>
+          <g transform="translate(${bx.toFixed(1)}, ${by.toFixed(1)}) rotate(${headingDeg.toFixed(1)})">
+            ${shockConeHtml}
+            <polygon points="${(-16 - flameLen).toFixed(1)},0 -14,-3.6 -14,3.6" fill="#ff5e1a" opacity="0.95"/>
+            <polygon points="${(-11 - flameLen * 0.55).toFixed(1)},0 -14,-1.8 -14,1.8" fill="#fffdf0"/>
+            <path d="M-14,-2.6 L4,-2.6 L11,0 L4,2.6 L-14,2.6 Z" fill="#f2f7fa" stroke="#0d1b22" stroke-width="0.9"/>
+            <polygon points="-4,-2.6 -8,-11 -3,-11 1,-2.6" fill="${trailColor}" stroke="#0d1b22" stroke-width="0.6"/>
+            <polygon points="-4,2.6 -8,11 -3,11 1,2.6" fill="${trailColor}" stroke="#0d1b22" stroke-width="0.6"/>
+            <polygon points="-12,-2.6 -15,-6.5 -11,-6.5 -9,-2.6" fill="#ffb340"/>
+            <polygon points="-12,2.6 -15,6.5 -11,6.5 -9,2.6" fill="#ffb340"/>
+          </g>`;
+      } else {
+        const by = (cy - 210) + 210 * (p * p);
+        projLayer.innerHTML = `
+          <line x1="${cx}" y1="${cy - 210}" x2="${cx}" y2="${by}" stroke="#ffb340" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.75"/>
+          <g transform="translate(${cx}, ${by})">
+            <path d="M-3.5,-13 L3.5,-13 L4.5,-3 L0,5 L-4.5,-3 Z" fill="#f3f6e8" stroke="#ff5e1a" stroke-width="1.1"/>
+          </g>`;
+      }
+      state.rafId = requestAnimationFrame(frame);
+      return;
+    }
+
+    if (!exploded) {
+      exploded = true;
+      projLayer.innerHTML = '';
+      state.hasDetonated = true;
+      updateTopSummaryBars();
+      playExplosionSound(bomb, isCruise);
+
+      if (bomb.tier >= 4) {
+        const flash = $('#screenFlash');
+        flash.style.opacity = '0.68';
+        setTimeout(() => { flash.style.opacity = '0'; }, 350);
+      }
+
+      const simCard = $('#simBoxCard');
+      simCard.classList.remove('shake-1', 'shake-2');
+      void simCard.offsetWidth;
+      simCard.classList.add(bomb.tier >= 4 ? 'shake-2' : 'shake-1');
+
+      const cRx = Math.max(3, zTiles[0] * KX);
+      const cRy = Math.max(1.5, zTiles[0] * KY);
+      craterLayer.innerHTML = `
+        <ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${(cRx * 1.1).toFixed(1)}" ry="${(cRy * 1.1).toFixed(1)}" fill="#070904" opacity="0.88" stroke="#2d2014" stroke-width="1.3"/>
+        <ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${(cRx * 0.65).toFixed(1)}" ry="${(cRy * 0.65).toFixed(1)}" fill="#ff4800" opacity="0.25"/>
+      `;
+      firesLayer.innerHTML = '';
+
+      let fireSpots = 0;
+      state.buildings.forEach(b => {
+        const dTiles = Math.hypot(b.x - state.target.i, b.y - state.target.j);
+        if (dTiles <= zTiles[0]) { applyBuildingZoneColor(b, 'z1'); }
+        else if (dTiles <= zTiles[1]) {
+          applyBuildingZoneColor(b, 'z2');
+          if (fireSpots < 20) {
+            fireSpots++;
+            const [fx, fy] = iso(b.x, b.y);
+            firesLayer.insertAdjacentHTML('beforeend', `<circle cx="${fx.toFixed(1)}" cy="${(fy - 4).toFixed(1)}" r="2.8" fill="#ff5e1a" opacity="0.88"/>`);
+          }
+        }
+        else if (dTiles <= zTiles[2]) { applyBuildingZoneColor(b, 'z3'); }
+        else if (dTiles <= zTiles[3]) { applyBuildingZoneColor(b, 'z4'); }
+        else if (dTiles <= zTiles[4]) { applyBuildingZoneColor(b, 'z5'); }
+      });
+
+      for (const ag of state.trafficAgents) {
+        if (!ag.alive) continue;
+        const d = Math.hypot(ag.i - state.target.i, ag.j - state.target.j);
+        if (d <= zTiles[2]) ag.alive = false;
+      }
+    }
+
+    const bp = Math.min(1, (elapsed - dropDur) / blastDur);
+    const easeOut = 1 - Math.pow(1 - bp, 3);
+
+    let rHtml = '';
+    for (let idx = 4; idx >= 0; idx--) {
+      const delay = idx * 0.06;
+      const lp = Math.max(0, Math.min(1, (bp - delay) / (1 - delay)));
+      if (lp <= 0) continue;
+      const e = 1 - Math.pow(1 - lp, 2.6);
+      const rx = Math.max(2.5, zTiles[idx] * KX * e);
+      const ry = Math.max(1.2, zTiles[idx] * KY * e);
+      const fillOp = (0.21 - idx * 0.03) * (1 - lp * 0.35);
+      rHtml += `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="${zColors[idx]}" fill-opacity="${fillOp.toFixed(3)}" stroke="${zColors[idx]}" stroke-width="${idx === 4 ? 1.4 : 1.8}" ${idx >= 3 ? 'stroke-dasharray="5 4"' : ''}/>`;
+    }
+
+    const fbP = Math.min(1, bp * 1.8);
+    if (fbP < 1) {
+      const fbR = Math.max(12, Math.min(165, zTiles[1] * KX)) * Math.sin(fbP * Math.PI);
+      rHtml += `<ellipse cx="${cx.toFixed(1)}" cy="${(cy - fbR * 0.22).toFixed(1)}" rx="${fbR.toFixed(1)}" ry="${(fbR * 0.65).toFixed(1)}" fill="url(#fireballGrad)" opacity="${(1 - fbP * 0.5).toFixed(2)}"/>`;
+    }
+    ringsLayer.innerHTML = rHtml;
+
+    if (state.showMushroom && bomb.tier >= 2) {
+      const mScale = (0.38 + bomb.tier * 0.22) * easeOut;
+      const mOp = bp < 0.8 ? 0.9 : 0.9 * (1 - (bp - 0.8) * 2.2);
+      const stemH = 90 * mScale, capRx = 48 * mScale, capRy = 24 * mScale;
+      mushLayer.innerHTML = `<g opacity="${Math.max(0.18, mOp).toFixed(2)}">
+        <path d="M${cx - 11 * mScale},${cy} Q${cx - 6 * mScale},${cy - stemH * 0.5} ${cx - 15 * mScale},${cy - stemH} L${cx + 15 * mScale},${cy - stemH} Q${cx + 6 * mScale},${cy - stemH * 0.5} ${cx + 11 * mScale},${cy} Z" fill="#3a2318" opacity="0.88"/>
+        <ellipse cx="${cx}" cy="${cy - stemH}" rx="${capRx}" ry="${capRy}" fill="url(#mushroomCapGrad)"/>
+      </g>`;
+    }
+
+    if (state.showParticles && bp < 0.92) {
+      const pp = Math.min(1, bp * 1.3);
+      const pOp = 1 - pp;
+      partLayer.innerHTML = particles.map(pt => {
+        const px = cx + pt.dx * pp;
+        const py = cy + pt.dy * pp + 22 * pp * pp;
+        return `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${pt.r.toFixed(1)}" fill="${pt.c}" opacity="${pOp.toFixed(2)}"/>`;
+      }).join('');
+    } else {
+      partLayer.innerHTML = '';
+    }
+
+    if (bp < 1) state.rafId = requestAnimationFrame(frame);
+  }
+  state.rafId = requestAnimationFrame(frame);
+}
+
+function renderFullCompareTable() {
+  const cruiseList = BOMBS.filter(b => b.isCruise || b.category === 'cruise');
+  const cruiseBodyEl = $('#cruiseCompareTableBody');
+  if (cruiseBodyEl) {
+    cruiseBodyEl.innerHTML = cruiseList.map((b, idx) => `
+      <tr class="${b.id === state.selectedId ? 'active-row' : ''}" data-row-id="${b.id}">
+        <td style="font-weight:900;color:#4cc9f0;">#${toFa(idx + 1)}</td>
+        <td>
+          <strong style="color:#fff;font-weight:900;">${b.nameFa}</strong>
+          <div style="font-size:0.68rem;color:var(--text-muted);font-family:monospace;">${b.nameEn}</div>
+        </td>
+        <td>${b.countryFa}</td>
+        <td style="color:#4cc9f0;font-weight:900;">${b.cruiseRange || '—'}</td>
+        <td style="color:#ffb340;font-weight:800;">${b.cruiseSpeed || '—'}</td>
+        <td style="font-weight:800;color:#fff;">${fmtKg(b.fillerKg)}</td>
+        <td style="font-size:0.74rem;color:var(--text-main);">${b.cruisePlatform || b.guidance}</td>
+        <td><strong style="color:#ffb340;font-weight:900;">${b.year}</strong></td>
+        <td style="color:#ff1e42;font-weight:700;">${fmtDist(b.r1)}</td>
+        <td style="color:#4cc9f0;font-weight:700;">${fmtDist(b.r5)}</td>
+      </tr>
+    `).join('');
+  }
+
+  $('#fullCompareTableBody').innerHTML = BOMBS.map(b => {
+    const isCr = Boolean(b.isCruise || b.category === 'cruise');
+    const typeBadge = isCr
+      ? `<span style="padding:2px 7px;border-radius:6px;background:rgba(76,201,240,0.16);border:1px solid rgba(76,201,240,0.4);color:#72d6f5;font-size:0.68rem;font-weight:800;">موشک کروز</span>`
+      : `<span style="padding:2px 7px;border-radius:6px;background:rgba(255,179,64,0.14);border:1px solid rgba(255,179,64,0.3);color:#ffb340;font-size:0.68rem;font-weight:800;">${b.categoryFa}</span>`;
+    return `
+    <tr class="${b.id === state.selectedId ? 'active-row' : ''}" data-row-id="${b.id}">
+      <td style="font-weight:900;color:${isCr ? '#4cc9f0' : '#ffb340'};">#${toFa(b.rank)}</td>
+      <td>
+        <strong style="color:#fff;font-weight:900;">${b.nameFa}</strong>
+        <div style="font-size:0.68rem;color:var(--text-muted);font-family:monospace;">${b.nameEn}</div>
+      </td>
+      <td>${typeBadge}</td>
+      <td><strong style="color:#ffb340;font-weight:900;">${b.year}</strong></td>
+      <td>${b.countryFa}</td>
+      <td>${fmtKg(b.weightKg)}</td>
+      <td style="color:#ffb340;font-weight:800;">${b.yieldText}</td>
+      <td style="color:#ff1e42;font-weight:700;">${fmtDist(b.r1)}</td>
+      <td style="color:#ff5e1a;font-weight:700;">${fmtDist(b.r2)}</td>
+      <td style="color:#ffb340;font-weight:700;">${fmtDist(b.r3)}</td>
+      <td style="color:#c5e84c;font-weight:700;">${fmtDist(b.r4)}</td>
+      <td style="color:#4cc9f0;font-weight:700;">${fmtDist(b.r5)}</td>
+    </tr>
+  `;
+  }).join('');
+}
+
+function renderEncyclopediaBombs() {
+  const q = state.encycSearch.trim().toLowerCase();
+  const list = BOMBS.filter(b => {
+    const matchCat = state.encycCat === 'all' || b.category === state.encycCat;
+    const matchQ = !q || b.nameFa.includes(q) || b.nameEn.toLowerCase().includes(q) || b.countryFa.includes(q) || b.year.includes(q);
+    return matchCat && matchQ;
+  });
+
+  $('#encycBombsGrid').innerHTML = list.map(b => {
+    const isCr = Boolean(b.isCruise || b.category === 'cruise');
+    const isLong = b.nameFa.length > 26;
+    const titleHtml = isLong
+      ? `<div class="ticker-box"><span class="ticker-loop">${b.nameFa} &nbsp; • &nbsp; ${b.nameFa} &nbsp; • &nbsp;</span></div>`
+      : `<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.nameFa}</div>`;
+
+    const badgeStyle = isCr
+      ? 'padding:2px 8px;border-radius:6px;background:rgba(76,201,240,0.18);border:1px solid rgba(76,201,240,0.5);color:#72d6f5;font-weight:900;'
+      : 'padding:2px 8px;border-radius:6px;background:rgba(255,94,26,0.2);border:1px solid rgba(255,94,26,0.45);color:#ffb340;font-weight:900;';
+
+    const badgeText = isCr ? `موشک کروز • #${toFa(b.rank)}` : `بمب • رتبه #${toFa(b.rank)}`;
+
+    const extraCruiseRow = isCr
+      ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.71rem;">
+          <div style="background:rgba(12,24,28,0.82);padding:6px 9px;border-radius:8px;border:1px solid rgba(76,201,240,0.28);">
+            <span style="color:#72d6f5;display:block;">برد عملیاتی:</span>
+            <strong style="color:#fff;font-weight:900;">${b.cruiseRange}</strong>
+          </div>
+          <div style="background:rgba(12,24,28,0.82);padding:6px 9px;border-radius:8px;border:1px solid rgba(76,201,240,0.28);">
+            <span style="color:#72d6f5;display:block;">سرعت کروز:</span>
+            <strong style="color:#ffb340;font-weight:900;">${b.cruiseSpeed}</strong>
+          </div>
+        </div>`
+      : '';
+
+    return `
+      <div class="encyc-card" style="${isCr ? 'border-color:rgba(76,201,240,0.35);' : ''}">
+        <div class="encyc-flag-bg">${FLAGS[b.flag] || ''}</div>
+        <div class="encyc-card-body">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:0.75rem;">
+              <span style="${badgeStyle}">${badgeText}</span>
+              <span style="color:var(--text-muted);">${b.countryFa} · <strong style="color:#ffb340;font-weight:900;">${b.year}</strong></span>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div style="min-width:0;flex:1;">
+                <div style="font-size:0.98rem;font-weight:900;color:#fff;">${titleHtml}</div>
+                <div style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.nameEn}</div>
+              </div>
+              <div style="width:92px;height:40px;border-radius:10px;background:rgba(10,14,6,0.88);border:1px solid ${isCr ? 'rgba(76,201,240,0.45)' : 'rgba(255,179,64,0.35)'};padding:5px 8px;color:${isCr ? '#4cc9f0' : '#ffb340'};flex-shrink:0;display:grid;place-items:center;" title="مدل شماتیک اولیه">
+                ${SILHOUETTES[b.sil] || SILHOUETTES.slick}
+              </div>
+            </div>
+
+            <p style="font-size:0.78rem;color:var(--text-main);line-height:1.68;text-align:justify;">${b.desc}</p>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:1px solid rgba(142,168,98,0.2);">
+            ${extraCruiseRow}
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.72rem;">
+              <div style="background:rgba(10,14,6,0.82);padding:7px 9px;border-radius:8px;border:1px solid rgba(142,168,98,0.18);">
+                <span style="color:var(--text-muted);display:block;">قدرت انفجار:</span>
+                <strong style="color:#ffb340;font-weight:900;">${b.yieldText}</strong>
+              </div>
+              <div style="background:rgba(10,14,6,0.82);padding:7px 9px;border-radius:8px;border:1px solid rgba(142,168,98,0.18);">
+                <span style="color:var(--text-muted);display:block;">شعاع نهایی موج:</span>
+                <strong style="color:#4cc9f0;font-weight:900;">${fmtDist(b.r5)}</strong>
+              </div>
+            </div>
+            <button type="button" class="btn-ui accent-outline" data-load-bomb="${b.id}" style="width:100%;justify-content:center;padding:8px;">
+              ${isCr ? 'بارگذاری موشک کروز در شبیه‌ساز شهر' : 'بارگذاری در شبیه‌ساز شهر و گالری'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderAll() {
+  const bomb = currentBomb();
+  const isCruise = Boolean(bomb.isCruise || bomb.category === 'cruise');
+  const q = state.searchQuery.trim().toLowerCase();
+  const filtered = BOMBS.filter(b => {
+    const matchCat = state.filterCat === 'all' || b.category === state.filterCat;
+    const matchQ = !q || b.nameFa.includes(q) || b.nameEn.toLowerCase().includes(q) || b.countryFa.includes(q) || b.year.includes(q);
+    return matchCat && matchQ;
+  });
+
+  $('#rosterCountTxt').textContent = toFa(filtered.length) + (state.filterCat === 'cruise' ? ' موشک کروز' : ' سلاح');
+
+  $('#bombListContainer').innerHTML = filtered.map(b => {
+    const isAct = b.id === state.selectedId;
+    const isCr = Boolean(b.isCruise || b.category === 'cruise');
+    const isLong = b.nameFa.length > 20;
+    const titleHtml = isLong
+      ? `<div class="ticker-box"><span class="ticker-loop">${b.nameFa} &nbsp; • &nbsp; ${b.nameFa} &nbsp; • &nbsp;</span></div>`
+      : `<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.nameFa}</div>`;
+    const badgeBg = isAct ? '#ff5e1a' : (isCr ? 'rgba(12,32,38,0.92)' : 'rgba(11,14,6,0.9)');
+    const badgeColor = isAct ? '#fff' : (isCr ? '#4cc9f0' : '#ffb340');
+    const rankTxt = isCr ? `کروز #${toFa(b.rank)}` : `#${toFa(b.rank)}`;
+    return `<div class="bomb-chip ${isAct ? 'active' : ''}" data-id="${b.id}" style="${!isAct && isCr ? 'border-color:rgba(76,201,240,0.38);' : ''}">
+      <div class="bomb-chip-flag-bg">${FLAGS[b.flag] || ''}</div>
+      <div class="bomb-chip-content">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+          <span style="padding:1px 6px;border-radius:5px;background:${badgeBg};color:${badgeColor};font-size:0.68rem;font-weight:900;flex-shrink:0;">${rankTxt}</span>
+          <strong style="font-size:0.75rem;font-weight:900;color:#ffb340;text-shadow:0 1px 4px rgba(0,0,0,0.9);">${b.year}</strong>
+        </div>
+        <div style="font-size:0.8rem;font-weight:900;color:#fff;min-width:0;text-shadow:0 1px 4px rgba(0,0,0,0.9);">${titleHtml}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  $('#hudBombName').textContent = bomb.nameFa + (isCruise ? ` (زاویه ${toFa(bomb.strikeAngleDeg || 35)}°)` : '');
+  $('#detonateBtn').textContent = isCruise ? 'شلیک موشک کروز به مرکز' : 'پرتاب بمب در مرکز';
+  $('#scrollBannerBombName').textContent = bomb.nameFa;
+  $('#dossierTitleFa').textContent = `${bomb.nameFa} (${bomb.nameEn})`;
+  $('#dossierCountryTxt').textContent = bomb.countryFa;
+  $('#dossierYearTxt').textContent = bomb.year;
+  $('#dossierTypeChip').textContent = bomb.categoryFa;
+  $('#dossierFlagBox').innerHTML = FLAGS[bomb.flag] || '';
+  $('#dossierSilBox').innerHTML = SILHOUETTES[bomb.sil] || SILHOUETTES.slick;
+  $('#specYieldTxt').textContent = bomb.yieldText;
+  $('#specWeightTxt').textContent = fmtKg(bomb.weightKg);
+  $('#specFillTxt').textContent = `${fmtKg(bomb.fillerKg)} (${bomb.fillerType})`;
+  $('#specGuidanceTxt').textContent = bomb.guidance;
+
+  const cruiseRowEl = $('#cruiseExtraSpecsRow');
+  if (cruiseRowEl) {
+    if (isCruise) {
+      cruiseRowEl.style.display = 'grid';
+      $('#cruiseRangeTxt').textContent = bomb.cruiseRange || '—';
+      $('#cruiseSpeedTxt').textContent = bomb.cruiseSpeed || '—';
+      $('#cruisePlatformTxt').textContent = bomb.cruisePlatform || '—';
+      const strikeProfEl = $('#cruiseStrikeProfileTxt');
+      if (strikeProfEl) strikeProfEl.textContent = bomb.strikeProfileFa || 'شیرجه زاویه‌دار موشک کروز';
+    } else {
+      cruiseRowEl.style.display = 'none';
+    }
+  }
+
+  $('#dossierDescTxt').textContent = bomb.desc;
+  $('#dossierNotesList').innerHTML = bomb.notes.map(n => `<li>${n}</li>`).join('');
+
+  updateTopSummaryBars();
+  renderGhostRings();
+  renderFullCompareTable();
+  renderEncyclopediaBombs();
+  refreshMediaGallery();
+}
+
+function switchActiveTab(tabName) {
+  $('#simSection').classList.toggle('active', tabName === 'sim');
+  $('#compareSection').classList.toggle('active', tabName === 'compare');
+  $('#deckSection').classList.toggle('active', tabName === 'deck');
+
+  $('#tabSimBtn').classList.toggle('active', tabName === 'sim');
+  $('#tabCompareBtn').classList.toggle('active', tabName === 'compare');
+  $('#tabDeckBtn').classList.toggle('active', tabName === 'deck');
+}
+
+const bombTrackEl = $('#bombListContainer');
+let isDraggingTrack = false, trackMoved = false, trackStartX = 0, trackScrollLeft = 0;
+
+bombTrackEl.addEventListener('wheel', e => {
+  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+    e.preventDefault();
+    bombTrackEl.scrollLeft -= e.deltaY * 1.35;
+  }
+}, { passive: false });
+
+bombTrackEl.addEventListener('mousedown', e => {
+  isDraggingTrack = true;
+  trackMoved = false;
+  bombTrackEl.classList.add('dragging');
+  trackStartX = e.pageX - bombTrackEl.offsetLeft;
+  trackScrollLeft = bombTrackEl.scrollLeft;
+});
+
+bombTrackEl.addEventListener('mousemove', e => {
+  if (!isDraggingTrack) return;
+  const x = e.pageX - bombTrackEl.offsetLeft;
+  const walk = (x - trackStartX) * 1.4;
+  if (Math.abs(walk) > 6) trackMoved = true;
+  bombTrackEl.scrollLeft = trackScrollLeft - walk;
+});
+
+window.addEventListener('mouseup', () => {
+  isDraggingTrack = false;
+  bombTrackEl.classList.remove('dragging');
+});
+
+bombTrackEl.addEventListener('click', e => {
+  if (trackMoved) return;
+  const card = e.target.closest('.bomb-chip');
+  if (!card) return;
+  const changed = state.selectedId !== card.dataset.id;
+  state.selectedId = card.dataset.id;
+  state.mediaIndex = 0;
+  if (changed) resetCityAll();
+  renderAll();
+});
+
+$('#scrollRightBtn').addEventListener('click', () => { $('#bombListContainer').scrollBy({ left: 320, behavior: 'smooth' }); });
+$('#scrollLeftBtn').addEventListener('click', () => { $('#bombListContainer').scrollBy({ left: -320, behavior: 'smooth' }); });
+
+$('#bombSearchInput').addEventListener('input', e => {
+  state.searchQuery = e.target.value;
+  renderAll();
+});
+
+$('#filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-chip');
+  if (!btn) return;
+  state.filterCat = btn.dataset.cat;
+  $$('#filterBar .filter-chip').forEach(c => c.classList.toggle('active', c === btn));
+  renderAll();
+});
+
+$('#encycSearchInput').addEventListener('input', e => {
+  state.encycSearch = e.target.value;
+  renderEncyclopediaBombs();
+});
+
+$('#encycFilterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-chip');
+  if (!btn) return;
+  state.encycCat = btn.dataset.ecat;
+  $$('#encycFilterBar .filter-chip').forEach(c => c.classList.toggle('active', c === btn));
+  renderEncyclopediaBombs();
+});
+
+$('#encycBombsGrid').addEventListener('click', e => {
+  const btn = e.target.closest('[data-load-bomb]');
+  if (!btn) return;
+  state.selectedId = btn.dataset.loadBomb;
+  state.mediaIndex = 0;
+  resetCityAll();
+  renderAll();
+  switchActiveTab('sim');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+$('#fullCompareTableBody').addEventListener('click', e => {
+  const row = e.target.closest('[data-row-id]');
+  if (!row) return;
+  state.selectedId = row.dataset.rowId;
+  state.mediaIndex = 0;
+  resetCityAll();
+  renderAll();
+  switchActiveTab('sim');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+$('#scrollToDossierBtn').addEventListener('click', () => {
+  $('#dossierSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+$('#mediaFileInput').addEventListener('change', e => {
+  if (e.target.files && e.target.files.length) {
+    saveMediaFiles(state.selectedId, Array.from(e.target.files));
+    e.target.value = '';
+  }
+});
+
+const mStage = $('#mediaStage');
+mStage.addEventListener('dragover', e => { e.preventDefault(); mStage.classList.add('drag-over'); });
+mStage.addEventListener('dragleave', () => mStage.classList.remove('drag-over'));
+mStage.addEventListener('drop', e => {
+  e.preventDefault();
+  mStage.classList.remove('drag-over');
+  if (e.dataTransfer.files && e.dataTransfer.files.length) {
+    saveMediaFiles(state.selectedId, Array.from(e.dataTransfer.files));
+  }
+});
+
+window.addEventListener('paste', e => {
+  if (e.clipboardData && e.clipboardData.files && e.clipboardData.files.length) {
+    saveMediaFiles(state.selectedId, Array.from(e.clipboardData.files));
+  }
+});
+
+function toggleStageFullscreen(forceState) {
+  const isNowFs = typeof forceState === 'boolean' ? forceState : !mStage.classList.contains('fullscreen-active');
+  if (isNowFs) {
+    mStage.classList.add('fullscreen-active');
+    if (mStage.requestFullscreen) {
+      mStage.requestFullscreen().catch(() => {});
+    }
+  } else {
+    mStage.classList.remove('fullscreen-active');
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+}
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    mStage.classList.remove('fullscreen-active');
+  }
+});
+
+window.addEventListener('keydown', e => {
+  if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+  if (e.key === 'Escape' && mStage.classList.contains('fullscreen-active')) {
+    toggleStageFullscreen(false);
+    return;
+  }
+  if (!state.mediaList.length) return;
+  if (e.key === 'ArrowRight') {
+    state.mediaIndex = (state.mediaIndex + 1) % state.mediaList.length;
+    renderMediaStage();
+  } else if (e.key === 'ArrowLeft') {
+    state.mediaIndex = (state.mediaIndex - 1 + state.mediaList.length) % state.mediaList.length;
+    renderMediaStage();
+  }
+});
+
+$('#mediaThumbStrip').addEventListener('click', e => {
+  const th = e.target.closest('.ltr-thumb-card');
+  if (!th) return;
+  state.mediaIndex = +th.dataset.idx;
+  renderMediaStage();
+});
+
+$('#galLeftBtn').addEventListener('click', () => {
+  if (!state.mediaList.length) return;
+  state.mediaIndex = (state.mediaIndex - 1 + state.mediaList.length) % state.mediaList.length;
+  renderMediaStage();
+});
+$('#galRightBtn').addEventListener('click', () => {
+  if (!state.mediaList.length) return;
+  state.mediaIndex = (state.mediaIndex + 1) % state.mediaList.length;
+  renderMediaStage();
+});
+$('#deleteMediaBtn').addEventListener('click', () => {
+  const cur = state.mediaList[state.mediaIndex];
+  if (cur) deleteMediaItem(cur);
+});
+
+$('#fullscreenMediaBtn').addEventListener('click', () => {
+  if (!state.mediaList.length) return;
+  toggleStageFullscreen();
+});
+
+function blobToDataUrl(blob) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
+
+$('#exportSelfHtmlBtn').addEventListener('click', async () => {
+  const allMediaByBomb = { ...(window.__PRELOADED_BOMB_MEDIA__ || {}) };
+  try {
+    const db = await openMediaDB();
+    const allDbItems = await new Promise(resolve => {
+      const tx = db.transaction('media', 'readonly');
+      const req = tx.objectStore('media').getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => resolve([]);
+    });
+    for (const item of allDbItems) {
+      if (!item.blob && !item.dataUrl) continue;
+      const dataUrl = item.dataUrl || (await blobToDataUrl(item.blob));
+      if (!allMediaByBomb[item.bombId]) allMediaByBomb[item.bombId] = [];
+      allMediaByBomb[item.bombId].push({
+        id: 'pre-' + item.id + '-' + Date.now(),
+        bombId: item.bombId,
+        name: item.name,
+        mimeType: item.mimeType || (item.type === 'video' ? 'video/mp4' : 'image/png'),
+        dataUrl
+      });
+    }
+  } catch {}
+
+  let docHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const scriptContent = `window.__PRELOADED_BOMB_MEDIA__ = ${JSON.stringify(allMediaByBomb)};`;
+  docHtml = docHtml.replace(/<script id="preloadedMediaScript">[\s\S]*?<\/script>/, `<script id="preloadedMediaScript">\n${scriptContent}\n<\/script>`);
+  const outBlob = new Blob([docHtml], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(outBlob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'bombs-simulator-complete.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+const wrapEl = $('#isoCanvasWrap');
+let pMode = null, sx = 0, sy = 0, spx = 0, spy = 0, sz = 1, mDist = 0;
+
+function updateCam() {
+  $('#cameraGroup').setAttribute('transform', `translate(${(560 + state.cameraPan.x).toFixed(1)}, ${(290 + state.cameraPan.y).toFixed(1)}) scale(${state.cameraZoom.toFixed(3)}) translate(-560, -290)`);
+  $('#zoomValueTxt').textContent = toFa(Math.round(state.cameraZoom * 100)) + '٪';
+}
+
+function screenToWorld(clientX, clientY) {
+  const rect = $('#citySvg').getBoundingClientRect();
+  const rx = ((clientX - rect.left) / rect.width) * 1120;
+  const ry = ((clientY - rect.top) / rect.height) * 580;
+  return [(rx - 560 - state.cameraPan.x) / state.cameraZoom + 560, (ry - 290 - state.cameraPan.y) / state.cameraZoom + 290];
+}
+
+wrapEl.addEventListener('contextmenu', e => e.preventDefault());
+wrapEl.addEventListener('pointerdown', e => {
+  if (e.target.closest('button') || e.target.closest('.sim-hud-bar')) return;
+  sx = e.clientX; sy = e.clientY; mDist = 0;
+  if (e.button === 2) { pMode = 'zoom'; sz = state.cameraZoom; wrapEl.classList.add('zooming'); wrapEl.setPointerCapture(e.pointerId); }
+  else if (e.button === 0) { pMode = 'pan'; spx = state.cameraPan.x; spy = state.cameraPan.y; wrapEl.setPointerCapture(e.pointerId); }
+});
+wrapEl.addEventListener('pointermove', e => {
+  const [wx, wy] = screenToWorld(e.clientX, e.clientY);
+  const [ti, tj] = unIso(wx, wy);
+  if (ti >= 0.5 && ti <= GRID_N - 0.5 && tj >= 0.5 && tj <= GRID_N - 0.5) {
+    state.hoverTile = { i: ti, j: tj, inside: true };
+  } else {
+    state.hoverTile.inside = false;
+  }
+  renderGhostRings();
+
+  if (!pMode) return;
+  const dx = e.clientX - sx, dy = e.clientY - sy;
+  mDist = Math.hypot(dx, dy);
+  if (pMode === 'pan' && mDist > 5) {
+    wrapEl.classList.add('panning');
+    const rect = wrapEl.getBoundingClientRect();
+    state.cameraPan.x = spx + dx * (1120 / rect.width);
+    state.cameraPan.y = spy + dy * (580 / rect.height);
+    updateCam();
+  } else if (pMode === 'zoom') {
+    state.cameraZoom = Math.max(0.35, Math.min(4.0, sz * Math.exp(-dy * 0.0065)));
+    updateCam();
+  }
+});
+wrapEl.addEventListener('pointerup', e => {
+  if (!pMode) return;
+  if (pMode === 'pan' && mDist <= 5 && e.button === 0) {
+    const [wx, wy] = screenToWorld(e.clientX, e.clientY);
+    const [i, j] = unIso(wx, wy);
+    state.target.i = Math.max(1, Math.min(GRID_N - 1, i));
+    state.target.j = Math.max(1, Math.min(GRID_N - 1, j));
+    const [rx, ry] = iso(state.target.i, state.target.j);
+    $('#targetReticle').setAttribute('transform', `translate(${rx.toFixed(1)}, ${ry.toFixed(1)})`);
+    triggerDetonation();
+  }
+  pMode = null;
+  wrapEl.classList.remove('panning', 'zooming');
+});
+wrapEl.addEventListener('pointerleave', () => { state.hoverTile.inside = false; renderGhostRings(); });
+wrapEl.addEventListener('wheel', e => {
+  e.preventDefault();
+  state.cameraZoom = Math.max(0.35, Math.min(4.0, state.cameraZoom * (e.deltaY < 0 ? 1.12 : 0.89)));
+  updateCam();
+}, { passive: false });
+
+$('#toggleGhostBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  state.showGhost = !state.showGhost;
+  $('#toggleGhostBtn').textContent = state.showGhost ? 'پیش‌نمایش: روشن' : 'پیش‌نمایش: خاموش';
+  $('#toggleGhostBtn').style.opacity = state.showGhost ? '1' : '0.6';
+  $('#chkGhost').checked = state.showGhost;
+  renderGhostRings();
+});
+$('#zoomInBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  state.cameraZoom = Math.min(4.0, +(state.cameraZoom + 0.25).toFixed(2));
+  updateCam();
+});
+$('#zoomOutBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  state.cameraZoom = Math.max(0.35, +(state.cameraZoom - 0.25).toFixed(2));
+  updateCam();
+});
+$('#resetCamBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  state.cameraZoom = 1.0;
+  state.cameraPan = { x: 0, y: 0 };
+  updateCam();
+});
+
+$('#detonateBtn').addEventListener('click', () => {
+  state.target = { i: 15, j: 15 };
+  const [rx, ry] = iso(state.target.i, state.target.j);
+  $('#targetReticle').setAttribute('transform', `translate(${rx.toFixed(1)}, ${ry.toFixed(1)})`);
+  triggerDetonation();
+});
+$('#rebuildCityBtn').addEventListener('click', resetCityAll);
+$('#prevBombBtn').addEventListener('click', () => {
+  const idx = BOMBS.findIndex(b => b.id === state.selectedId);
+  state.selectedId = BOMBS[(idx - 1 + BOMBS.length) % BOMBS.length].id;
+  resetCityAll();
+  renderAll();
+});
+$('#nextBombBtn').addEventListener('click', () => {
+  const idx = BOMBS.findIndex(b => b.id === state.selectedId);
+  state.selectedId = BOMBS[(idx + 1) % BOMBS.length].id;
+  resetCityAll();
+  renderAll();
+});
+
+$('#quickSpeedBtn').addEventListener('click', () => {
+  const steps = [0.25, 0.5, 1, 1.5, 2];
+  state.animSpeed = steps[(steps.indexOf(state.animSpeed) + 1) % steps.length];
+  $('#quickSpeedBtn').textContent = 'سرعت: ' + toFa(state.animSpeed) + '×';
+});
+$('#quickMuteBtn').addEventListener('click', () => {
+  state.muted = !state.muted;
+  $('#quickMuteBtn').textContent = state.muted ? 'صدا: خاموش' : 'صدا: روشن';
+});
+
+$('#openSettingsBtn').addEventListener('click', () => $('#settingsModal').classList.add('open'));
+$('#closeSettingsBtn').addEventListener('click', () => $('#settingsModal').classList.remove('open'));
+
+$('#speedRangeInput').addEventListener('input', e => {
+  state.animSpeed = +e.target.value;
+  $('#quickSpeedBtn').textContent = 'سرعت: ' + toFa(state.animSpeed) + '×';
+});
+$('#volRangeInput').addEventListener('input', e => {
+  state.volume = +e.target.value;
+  state.muted = false;
+  $('#quickMuteBtn').textContent = 'صدا: روشن';
+});
+$('#testSoundBtn').addEventListener('click', () => {
+  state.muted = false;
+  const b = currentBomb();
+  const isCr = Boolean(b.isCruise || b.category === 'cruise');
+  if (isCr) {
+    const fDur = b.flightDurMs || 440;
+    playCruiseFlightSound(b, fDur);
+    setTimeout(() => playExplosionSound(b, true), Math.max(120, fDur - 15));
+  } else {
+    playBombDropSound(b, 240);
+    setTimeout(() => playExplosionSound(b, false), 230);
+  }
+});
+$('#chkMushroom').addEventListener('change', e => state.showMushroom = e.target.checked);
+$('#chkParticles').addEventListener('change', e => state.showParticles = e.target.checked);
+$('#chkTraffic').addEventListener('change', e => state.showTraffic = e.target.checked);
+$('#chkGhost').addEventListener('change', e => {
+  state.showGhost = e.target.checked;
+  $('#toggleGhostBtn').textContent = state.showGhost ? 'پیش‌نمایش: روشن' : 'پیش‌نمایش: خاموش';
+  $('#toggleGhostBtn').style.opacity = state.showGhost ? '1' : '0.6';
+  renderGhostRings();
+});
+
+$('#tabSimBtn').addEventListener('click', () => switchActiveTab('sim'));
+$('#tabCompareBtn').addEventListener('click', () => switchActiveTab('compare'));
+$('#tabDeckBtn').addEventListener('click', () => switchActiveTab('deck'));
+$('#backFromCompareBtn').addEventListener('click', () => switchActiveTab('sim'));
+
+const cruiseCompareBody = $('#cruiseCompareTableBody');
+if (cruiseCompareBody) {
+  cruiseCompareBody.addEventListener('click', e => {
+    const row = e.target.closest('[data-row-id]');
+    if (!row) return;
+    state.selectedId = row.dataset.rowId;
+    state.mediaIndex = 0;
+    resetCityAll();
+    renderAll();
+    switchActiveTab('sim');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+const cruiseIntroEl = $('#cruiseIntroGrid');
+if (cruiseIntroEl) {
+  cruiseIntroEl.innerHTML = CRUISE_INTRO_CARDS.map(c => `
+    <article class="panel-glass" style="padding:16px;display:flex;flex-direction:column;gap:8px;background:rgba(12,22,26,0.75);border-color:rgba(76,201,240,0.3);">
+      <span style="padding:3px 10px;border-radius:99px;background:rgba(76,201,240,0.16);border:1px solid rgba(76,201,240,0.4);color:#72d6f5;font-size:0.72rem;font-weight:800;width:fit-content;">${c.badge}</span>
+      <h4 style="font-size:0.94rem;color:#fff;font-weight:800;">${c.title}</h4>
+      <p style="font-size:0.78rem;color:var(--text-main);text-align:justify;line-height:1.7;">${c.body}</p>
+    </article>
+  `).join('');
+}
+
+const cruiseTimelineEl = $('#cruiseTimelineGrid');
+if (cruiseTimelineEl) {
+  cruiseTimelineEl.innerHTML = CRUISE_TIMELINE.map(t => `
+    <article class="panel-glass" style="padding:15px;display:flex;flex-direction:column;gap:6px;background:rgba(18,24,10,0.85);">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <span style="padding:2px 10px;border-radius:6px;background:rgba(255,94,26,0.2);border:1px solid rgba(255,94,26,0.45);color:#ffb340;font-size:0.76rem;font-weight:900;">${t.year}</span>
+        <strong style="font-size:0.86rem;color:#fff;font-weight:900;">${t.title}</strong>
+      </div>
+      <p style="font-size:0.76rem;color:var(--text-muted);text-align:justify;line-height:1.68;">${t.body}</p>
+    </article>
+  `).join('');
+}
+
+$('#deckCardsGrid').innerHTML = DECK_ARTICLES.map(s => `
+  <article class="panel-glass" style="padding:18px;display:flex;flex-direction:column;gap:8px;">
+    <span style="padding:3px 10px;border-radius:99px;background:rgba(255,94,26,0.15);border:1px solid rgba(255,94,26,0.35);color:#ffb340;font-size:0.72rem;font-weight:800;width:fit-content;">${s.badge}</span>
+    <h3 style="font-size:0.96rem;color:#fff;font-weight:800;">${s.title}</h3>
+    <p style="font-size:0.78rem;color:var(--text-muted);text-align:justify;line-height:1.7;">${s.body}</p>
+  </article>
+`).join('');
+
+$('#polesGridContainer').innerHTML = SIX_POLES.map(p => `
+  <div style="background:#141b0b;border:1px solid var(--border-olive);border-radius:12px;padding:14px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+      <span style="width:26px;height:17px;border-radius:3px;overflow:hidden;display:inline-flex;">${FLAGS[p.flag] || ''}</span>
+      <strong style="color:#fff;font-size:0.88rem;">${p.country}</strong>
+    </div>
+    <div style="font-size:0.74rem;color:#ffb340;font-weight:700;margin-bottom:4px;">${p.corps} · [${p.sig}]</div>
+    <p style="font-size:0.75rem;color:var(--text-muted);">${p.desc}</p>
+  </div>
+`).join('');
+
+buildCity();
+const [rx, ry] = iso(state.target.i, state.target.j);
+$('#targetReticle').setAttribute('transform', `translate(${rx.toFixed(1)}, ${ry.toFixed(1)})`);
+renderAll();
+stepTrafficLoop();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "بمب‌ها: از باروت سیاه تا مادر بمب‌ها",
+  "description": "شبیه‌ساز تعاملی ۲.۵بعدی و دانشنامه تاریخچه بمب‌ها از باروت سیاه تا مادر بمب‌ها",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
